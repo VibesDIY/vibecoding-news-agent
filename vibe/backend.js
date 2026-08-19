@@ -69,6 +69,7 @@ const EDITORIAL_MODEL = "~anthropic/claude-opus-latest";
 // grow its writing, and a page whose commentary arrives hours after its links
 // is a page that reads as broken.
 const BLURB_PER_TICK = 3;
+const BLURB_ATTEMPTS = 3;
 
 const DB_CORPUS = "corpus";
 const DB_FINDINGS = "findings";
@@ -642,6 +643,11 @@ async function dress(ctx, state, now) {
   // the first thing a reader sees is the last thing to get a sentence.
   const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
   const waiting = links.filter((l) => !l.blurbDraft && !l.blurb && !l.blurbError).slice(0, BLURB_PER_TICK);
+  // Three attempts before a link is written off. The gateway returns "no
+  // completion" intermittently, and the first version of this stamped a
+  // permanent error on the first failure, which quietly retired links that
+  // would have worked on the next tick. A give-up still has to exist, or a
+  // genuinely impossible link is retried until the end of time.
   if (!waiting.length) return state;
 
   let wrote = 0;
@@ -684,8 +690,15 @@ async function dress(ctx, state, now) {
       // guess (vibes.diy#4938). It also stops this link being retried every
       // tick forever while the same call keeps failing.
       const why = String((err && err.message) || err).slice(0, 300);
-      ctx.log("error", "blurb draft failed", { link: l._id, message: why });
-      await putIfChanged(ctx, { ...l, blurbError: why, blurbTriedAt: now }, DB_FINDINGS);
+      const attempts = (l.blurbAttempts || 0) + 1;
+      ctx.log("error", "blurb draft failed", { link: l._id, attempts, message: why });
+      await putIfChanged(
+        ctx,
+        attempts >= BLURB_ATTEMPTS
+          ? { ...l, blurbAttempts: attempts, blurbError: why, blurbTriedAt: now }
+          : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
+        DB_FINDINGS,
+      );
       continue;
     }
     if (!draft) continue;
@@ -694,8 +707,15 @@ async function dress(ctx, state, now) {
     // like prose somebody wrote. Ending punctuation is a crude test and it
     // catches exactly this failure.
     if (!/[.!?"'\u201d\u2019)]$/.test(draft)) {
-      ctx.log("warn", "discarded a truncated blurb", { link: l._id, chars: draft.length });
-      await putIfChanged(ctx, { ...l, blurbError: "draft came back truncated", blurbTriedAt: now }, DB_FINDINGS);
+      const attempts = (l.blurbAttempts || 0) + 1;
+      ctx.log("warn", "discarded a truncated blurb", { link: l._id, attempts, chars: draft.length });
+      await putIfChanged(
+        ctx,
+        attempts >= BLURB_ATTEMPTS
+          ? { ...l, blurbAttempts: attempts, blurbError: "draft kept coming back truncated", blurbTriedAt: now }
+          : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
+        DB_FINDINGS,
+      );
       continue;
     }
     await putIfChanged(ctx, { ...l, blurbDraft: draft.slice(0, 500), blurbDraftedAt: now }, DB_FINDINGS);

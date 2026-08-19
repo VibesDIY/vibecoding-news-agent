@@ -106,8 +106,10 @@ function Method({ report }) {
             person edits it before anything is posted anywhere.
           </p>
           <p>
-            A finding is ranked only when a query naming it came back with a count and a verification pass confirmed it.
-            Everything else is listed below as a lead, and the count of leads is on the page so you can weigh the rest.
+            A thing is ranked only when the index counted it and a verification pass confirmed it is real and distinct.
+            Everything else is listed as a lead, and the count of leads is on the page so you can weigh the rest. The
+            counts are index-wide: they say how much the subreddit discusses a tool in general, not what it said in
+            answer to the questions behind this report.
           </p>
           <p style={{ marginBottom: 0 }}>
             Think a question is leading, a source is junk, or something got graded unfairly?{" "}
@@ -154,9 +156,11 @@ export default function App() {
 
           {report.ranked && report.ranked.length ? (
             <section>
-              <h2 style={{ fontSize: 20, marginBottom: 4 }}>Confirmed, with counts</h2>
+              <h2 style={{ fontSize: 20, marginBottom: 4 }}>How much the subreddit talks about each tool</h2>
               <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-                Each of these was queried by name and checked against the raw answer.
+                Counted across the whole index and confirmed by hand. These numbers describe r/vibecoding overall. They
+                are not an answer to the questions this report asked, and reading them as one would be a mistake the
+                page is trying not to invite.
               </p>
               <ul style={{ padding: 0, margin: 0 }}>
                 {report.ranked.map((f, i) => (
@@ -176,10 +180,10 @@ export default function App() {
 
           {report.unverified && report.unverified.length ? (
             <section style={{ marginTop: 28 }}>
-              <h2 style={{ fontSize: 20, marginBottom: 4 }}>Measured, not yet checked</h2>
+              <h2 style={{ fontSize: 20, marginBottom: 4 }}>Counted, not yet checked</h2>
               <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-                The index counted these. Nobody has confirmed yet that each one is a real, distinct thing, so they are
-                listed rather than ranked.
+                Index-wide counts again, for entities nobody has confirmed yet as real and distinct. Listed rather than
+                ranked, and counted on the line above so you can see how much of the table is unchecked.
               </p>
               <ul style={{ padding: 0, margin: 0 }}>
                 {report.unverified.map((f, i) => (

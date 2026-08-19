@@ -85,13 +85,16 @@ def main():
         f"{counts.get('unverified', 0)} not yet checked, {counts.get('leads', 0)} leads "
         f"from {counts.get('sources', 0)} corpus answers.",
         "",
-        "## Confirmed, with counts",
+        "Mention counts below are index-wide. They measure how much r/vibecoding discusses each tool "
+        "overall, not how it came up in the questions behind this report.",
+        "",
+        "## Counted and confirmed",
         "",
         table(report.get("ranked") or [], [("Entity", "entity"), ("Mentions", "mentions"),
                                            ("Sentiment", "sentiment"), ("Checked", "verifiedNote")])
         or "Nothing has passed the verification gate yet.",
         "",
-        "## Measured, not yet checked",
+        "## Counted, not yet checked",
         "",
         table(report.get("unverified") or [], [("Entity", "entity"), ("Mentions", "mentions"),
                                                ("Sentiment", "sentiment")]),

@@ -107,6 +107,30 @@ async function putIfChanged(ctx, doc, db) {
   return true;
 }
 
+// Take up to `want` documents matching a filter.
+//
+// The subtlety that cost a couple of ticks here: `limit` clamps the RAW page
+// before the filter runs, so asking for one matching document actually asks
+// for one document, which is then filtered and is usually nothing. The
+// database's first document by id is a state doc that matches no content
+// filter, so a limit of one returned an empty page every time while an
+// unfiltered count in the same tick reported seven documents and three
+// matches. Pages are walked on `next` and the cap is applied here, where it
+// means what it says.
+async function readSome(ctx, db, field, key, want) {
+  const out = [];
+  let after;
+  do {
+    const page = await ctx.db.query({ db, field, key, limit: 200, after });
+    for (const doc of page) {
+      out.push(doc);
+      if (out.length >= want) return out;
+    }
+    after = page.next;
+  } while (after);
+  return out;
+}
+
 async function loadState(ctx) {
   const stored = await ctx.db.get(STATE_ID, { db: DB_FINDINGS });
   const state = stored || memState || { _id: STATE_ID, type: "state" };
@@ -291,8 +315,7 @@ const EXTRACT_PROMPT = [
 ].join("\n");
 
 async function extract(ctx, state, now) {
-  const page = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "new", limit: EXTRACT_PER_TICK });
-  const sources = Array.from(page);
+  const sources = await readSome(ctx, DB_CORPUS, "status", "new", EXTRACT_PER_TICK);
   if (!sources.length) return state;
 
   for (const source of sources) {
@@ -366,8 +389,7 @@ async function extract(ctx, state, now) {
 // measure. The scope travels on the document for that reason.
 
 async function measure(ctx, state, now) {
-  const page = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "measured", limit: 4 });
-  const sources = Array.from(page);
+  const sources = await readSome(ctx, DB_CORPUS, "status", "measured", 4);
   if (!sources.length) return state;
 
   for (const source of sources) {

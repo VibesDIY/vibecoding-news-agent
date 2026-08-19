@@ -1,0 +1,312 @@
+[
+  {
+    "_id": "finding:abandonment:bug-fixing-cost:bugs-are-disproportionately-expensive-to",
+    "type": "finding",
+    "claim": "Bugs are disproportionately expensive to fix compared to the time saved writing the code, prompting some to abandon AI-enhanced projects.",
+    "entity": "Bug fixing cost",
+    "mentions": 2,
+    "sourceId": "source:abandonment:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9i7fk3/",
+      "https://reddit.com/r/vibecoding/comments/1vo6dfr/why_people_say_that_tokenmaxxing_is_a_bad_thing/p3n8t6l/"
+    ],
+    "sourceName": "abandonment",
+    "extractedAt": "2026-08-19T20:04:53.777Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:abandonment:code-readability-issues:people-abandon-projects-when-the-code-be",
+    "type": "finding",
+    "claim": "People abandon projects when the code becomes unreadable or un-fixable as it grows beyond a certain size.",
+    "entity": "Code readability issues",
+    "mentions": 3,
+    "sourceId": "source:abandonment:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1ov5opt/whats_the_best_ai_for_vibe_coding_for_someone_who/nojmyjw/",
+      "https://reddit.com/r/vibecoding/comments/1o9lcfh/do_you_need_to_understand_the_code_ai_writes/nk4lq5p/",
+      "https://reddit.com/r/vibecoding/comments/1sm6rtj/gpt_really_looked_at_1000_lines_of_logic_and/ogefyf5/"
+    ],
+    "sourceName": "abandonment",
+    "extractedAt": "2026-08-19T20:04:53.777Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:abandonment:model-regression:loss-of-control-and-model-regressions-ca",
+    "type": "finding",
+    "claim": "Loss of control and model regressions can break previously working builds, leading to project abandonment.",
+    "entity": "Model regression",
+    "mentions": 1,
+    "sourceId": "source:abandonment:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1pyc8t7/antigravity_nano_banana_might_be_the_ultimate/nwxg5m2/"
+    ],
+    "sourceName": "abandonment",
+    "extractedAt": "2026-08-19T20:04:53.777Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:abandonment:motivational-burnout:some-projects-are-abandoned-due-to-simpl",
+    "type": "finding",
+    "claim": "Some projects are abandoned due to simple burnout or loss of the 'vibe,' unrelated to code structuring.",
+    "entity": "Motivational burnout",
+    "mentions": 3,
+    "sourceId": "source:abandonment:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1to52wh/how_is_vibecoding_even_a_thing/onyunfh/",
+      "https://reddit.com/r/vibecoding/comments/1uusi2b/how_to_unvibe_code_a_vibe_coded_website/ox5z4fh/",
+      "https://reddit.com/r/vibecoding/comments/1s61ww3/me_in_5_years/od17tpm/"
+    ],
+    "sourceName": "abandonment",
+    "extractedAt": "2026-08-19T20:04:53.777Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:abandonment:project-resurrection:some-abandoned-projects-are-eventually-r",
+    "type": "finding",
+    "claim": "Some abandoned projects are eventually resurrected rather than completely discarded.",
+    "entity": "Project resurrection",
+    "mentions": 1,
+    "sourceId": "source:abandonment:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1uy285i/i_took_my_defunct_first_vibe_coded_project_from/"
+    ],
+    "sourceName": "abandonment",
+    "extractedAt": "2026-08-19T20:04:53.777Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:abandonment:technical-debt:accumulated-technical-debt-makes-further",
+    "type": "finding",
+    "claim": "Accumulated technical debt makes further changes riskier than starting over, leading to project abandonment or rewrites.",
+    "entity": "Technical debt",
+    "mentions": 3,
+    "sourceId": "source:abandonment:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1sugf1p/vibe_coding_killed_the_cant_build_excuse_so_whats/oi1hdzw/",
+      "https://reddit.com/r/vibecoding/comments/1ufqime/is_aigenerated_code_creating_hidden_technical_debt/otu6f7a/",
+      "https://reddit.com/r/vibecoding/comments/1sbi35n/the_real_cost_of_vibe_coding_isnt_the/oe4rp1n/"
+    ],
+    "sourceName": "abandonment",
+    "extractedAt": "2026-08-19T20:04:53.777Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:anthropic:bill-shock-is-commonly-experienced-by-us",
+    "type": "finding",
+    "claim": "Bill-shock is commonly experienced by users.",
+    "entity": "Anthropic",
+    "mentions": 1,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1tqz6e2/anthropic_bill_came_in_this_morning_and_im/",
+      "https://reddit.com/r/vibecoding/comments/1swxbyz/gotta_let_the_llms_focus_on_important_things/oijm7qz/",
+      "https://reddit.com/r/vibecoding/comments/1u76m8k/guys_i_think_i_cracked_it/osafll5/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:anthropic:repricing-has-led-to-anger-among-users",
+    "type": "finding",
+    "claim": "Repricing has led to anger among users.",
+    "entity": "Anthropic",
+    "mentions": 4,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1sbukly/anthropic_just_pulled_the_plug_on_thirdparty/oe6jru5/",
+      "https://reddit.com/r/vibecoding/comments/1sy1o2e/pack_up_boyos_it_is_over/oirxijo/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:api-token-use:cost-and-usage-can-spiral-out-of-control",
+    "type": "finding",
+    "claim": "Cost and usage can spiral out of control quickly if not monitored.",
+    "entity": "API token use",
+    "mentions": 2,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "negative",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1mw66ja/most_tools_like_cursor_are_to_expensive/n9vdlrx/",
+      "https://reddit.com/r/vibecoding/comments/1uk9shn/wtf_are_you_guys_doing_thats_burning_so_many/ouu7bik/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:cost-consciousness:users-are-switching-to-cheaper-models-du",
+    "type": "finding",
+    "claim": "Users are switching to cheaper models due to price differences.",
+    "entity": "Cost-consciousness",
+    "mentions": 2,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1ts0b0i/the_price_difference_is_mad/",
+      "https://reddit.com/r/vibecoding/comments/1vftsnj/presenting_deepcraft_a_oneshot_minecraft_clone/p1sszke/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:heavy-users:spend-a-lot-but-rationalize-it-as-cost-e",
+    "type": "finding",
+    "claim": "Spend a lot but rationalize it as cost-effective for the work done.",
+    "entity": "Heavy users",
+    "mentions": 3,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "mixed",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1ubur7e/alternative_to_claude_code/osyxcmo/",
+      "https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9pbtez/",
+      "https://reddit.com/r/vibecoding/comments/1se9854/opus_has_fallen_what_now/oeo6h1e/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:monetization-culture:money-is-one-of-the-sub-s-biggest-recurr",
+    "type": "finding",
+    "claim": "Money is one of the sub's biggest recurring pain points.",
+    "entity": "Monetization Culture",
+    "mentions": 8900,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1siiokj/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:cost-surprises:usage-checking-anxiety:people-are-often-curious-or-worried-abou",
+    "type": "finding",
+    "claim": "People are often curious or worried about their token use.",
+    "entity": "Usage-checking anxiety",
+    "mentions": 1,
+    "sourceId": "source:cost-surprises:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1rwrxtq/who_is_that/ob37bl7/",
+      "https://reddit.com/r/vibecoding/comments/1v1qdak/how_many_ai_tokens_have_you_burned_building_your/oyq0xw6/"
+    ],
+    "sourceName": "cost-surprises",
+    "extractedAt": "2026-08-19T20:19:53.781Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:post-ship-failures:configuration-drift:env-config-drift-and-edge-cases-only-sur",
+    "type": "finding",
+    "claim": "Env/config drift and edge cases only surfaced with real traffic lead to diverse system behaviors and failures.",
+    "entity": "Configuration Drift",
+    "mentions": 1,
+    "sourceId": "source:post-ship-failures:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1tqyz3c/our_mvp_was_fine_in_dev_then_production_turned/"
+    ],
+    "sourceName": "post-ship-failures",
+    "extractedAt": "2026-08-19T20:34:53.785Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:post-ship-failures:infrastructure-costs:applications-without-proper-rate-limits",
+    "type": "finding",
+    "claim": "Applications without proper rate limits or quotas experience runaway API or infrastructure bills.",
+    "entity": "Infrastructure Costs",
+    "mentions": 2,
+    "sourceId": "source:post-ship-failures:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1ssc8n0/went_to_bed_with_a_10_budget_alert_woke_up_to/ohslwf4/",
+      "https://reddit.com/r/vibecoding/comments/1th9tr4/ive_been_looking_at_a_bunch_of_vibecoded_apps_5/ommmco4/",
+      "https://reddit.com/r/vibecoding/comments/1tfvv6z/make_sure_to_audit_your_users_ai_usage_before/omco2je/"
+    ],
+    "sourceName": "post-ship-failures",
+    "extractedAt": "2026-08-19T20:34:53.785Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:post-ship-failures:payment-billing-issues:stripe-webhook-bugs-cause-payment-and-bi",
+    "type": "finding",
+    "claim": "Stripe webhook bugs cause payment and billing processes to fail silently in some user cases.",
+    "entity": "Payment/Billing Issues",
+    "mentions": 2,
+    "sourceId": "source:post-ship-failures:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1vmhlzq/those_who_launched_a_vibecoded_product_what_broke/",
+      "https://reddit.com/r/vibecoding/comments/1unqbn1/auditing_silent_billing_leaks_in_aibuilt_nextjs/",
+      "https://reddit.com/r/vibecoding/comments/1spd6wm/what_security_essentials_should_i_keep_in_mind/oh82t7p/"
+    ],
+    "sourceName": "post-ship-failures",
+    "extractedAt": "2026-08-19T20:34:53.785Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:post-ship-failures:scalability-issues:concurrency-and-scale-issues-occur-when",
+    "type": "finding",
+    "claim": "Concurrency and scale issues occur when apps built and validated against a single user fail under multiple users.",
+    "entity": "Scalability Issues",
+    "mentions": 3,
+    "sourceId": "source:post-ship-failures:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1m7xv7s/i_have_vibe_coded_an_application_that_my_company/n4vy2k5/",
+      "https://reddit.com/r/vibecoding/comments/1s44gbw/paying_for_errors_feels_like_im_being_robbed/ocqlx1r/",
+      "https://reddit.com/r/vibecoding/comments/1rqi3k2/still_loyal_to_replit_or_alternatives/o9tpt0u/"
+    ],
+    "sourceName": "post-ship-failures",
+    "extractedAt": "2026-08-19T20:34:53.785Z",
+    "evidenceClass": "synthesis"
+  },
+  {
+    "_id": "finding:post-ship-failures:security-vulnerabilities:security-holes-arise-in-apps-where-datab",
+    "type": "finding",
+    "claim": "Security holes arise in apps where databases and credentials are exposed due to improper deployment practices.",
+    "entity": "Security Vulnerabilities",
+    "mentions": 3,
+    "sourceId": "source:post-ship-failures:2026-08-19",
+    "verified": false,
+    "sentiment": "neutral",
+    "permalinks": [
+      "https://reddit.com/r/vibecoding/comments/1rix0v2/this_weekend_a_vibe_coded_app_got_exposed_on_x/",
+      "https://reddit.com/r/vibecoding/comments/1sjeitv/built_a_vibe_coded_app_ill_try_to_break_it_for/ofwjaqw/"
+    ],
+    "sourceName": "post-ship-failures",
+    "extractedAt": "2026-08-19T20:34:53.785Z",
+    "evidenceClass": "synthesis"
+  }
+]

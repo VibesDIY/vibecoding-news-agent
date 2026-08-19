@@ -79,7 +79,7 @@ def main():
         "",
         f"Generated {report.get('generatedAt')} by the scheduled generator in `vibe/`.",
         "",
-        "**This is analysis, not a post.** " + report.get("proseNote", ""),
+        "**" + report.get("proseNote", "") + "**",
         "",
         f"{counts.get('entities', 0)} measured entities, {counts.get('ranked', 0)} confirmed, "
         f"{counts.get('unverified', 0)} not yet checked, {counts.get('leads', 0)} leads "

@@ -1,0 +1,500 @@
+// The generator. Everything the agent decides is in this file, and the
+// questions it asks are data you can change in a pull request.
+//
+// Three jobs, all on one tick and each on its own clock:
+//   1. collect   ask the corpus a question, poll for the cited answer
+//   2. extract   turn one raw answer into structured findings (ctx.callAI)
+//   3. measure   pull the corpus's own per-entity counts out of that answer
+//   4. assemble  gather confirmed entities and leads into a draft report
+//
+// What it deliberately does NOT do: write the published prose. The report doc
+// it produces holds analysis, counts and permalinks. Prose is a separate pass
+// with a stronger model and then a person edits it. A report written by the
+// same cheap loop that computed it is worth nothing to a reader who wants to
+// check the method.
+
+export const config = { scheduled: { interval: "15m" } };
+
+// ---------------------------------------------------------------- constants
+
+const CORPUS = "https://web-production-fe6e.up.railway.app";
+
+// The corpus rate limits at 10 requests an hour and reports that limit at
+// GET /stats. Exceeding it has taken the pipeline down for hours while the
+// health endpoint kept returning green, so the generator budgets well under
+// it and leaves room for a person running tools/vg.py by hand.
+const CORPUS_CALLS_PER_HOUR = 4;
+
+// A subreddit does not change every fifteen minutes. The tick is cheap; the
+// expensive clocks are these.
+const COLLECT_EVERY_MS = 6 * 60 * 60 * 1000; // ask one new question, at most, every 6h
+const REPORT_EVERY_MS = 24 * 60 * 60 * 1000; // assemble at most one draft a day
+const EXTRACT_PER_TICK = 1; // one ctx.callAI pass per tick, never a burst
+
+const DB_CORPUS = "corpus";
+const DB_FINDINGS = "findings";
+
+const STATE_ID = "0-collector-state";
+const BUDGET_ID = "0-corpus-budget";
+const QUESTIONS_ID = "0-questions";
+const STATUS_ID = "0-refresh-status";
+
+// The seed question set. Edit this list (or the 0-questions doc it seeds) to
+// change what the agent asks. Nothing else in the pipeline is question-aware.
+const SEED_QUESTIONS = [
+  {
+    name: "post-ship-failures",
+    question:
+      "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?",
+    lens: null,
+  },
+  {
+    name: "cost-surprises",
+    question: "What do people say about unexpected costs, token spend or API bills from AI coding tools?",
+    lens: null,
+  },
+  {
+    name: "abandonment",
+    question: "Why do people say they abandoned, rewrote or gave up on a vibe coded project?",
+    lens: null,
+  },
+];
+
+// Isolate-memory copy of the state doc. A missing state doc means "use this
+// copy", never "nothing has been done". That second reading is what turns a
+// collector into a rewrite loop.
+let memState = null;
+
+// ------------------------------------------------------------------ helpers
+
+function slug(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48);
+}
+
+function dayKey(iso) {
+  return String(iso).slice(0, 10);
+}
+
+function hourKey(iso) {
+  return String(iso).slice(0, 13);
+}
+
+// True only when every field we track already matches what is stored, so a
+// tick that changes nothing writes nothing. Byte-identical re-puts still cost
+// a revision, and revisions are not collected.
+function unchanged(existing, next) {
+  if (!existing) return false;
+  return Object.keys(next).every((k) => {
+    const a = existing[k];
+    const b = next[k];
+    if (a && b && typeof a === "object") return JSON.stringify(a) === JSON.stringify(b);
+    return a === b;
+  });
+}
+
+async function putIfChanged(ctx, doc, db) {
+  const existing = await ctx.db.get(doc._id, { db });
+  if (unchanged(existing, doc)) return false;
+  await ctx.db.put(doc, { db });
+  return true;
+}
+
+async function loadState(ctx) {
+  const stored = await ctx.db.get(STATE_ID, { db: DB_FINDINGS });
+  const state = stored || memState || { _id: STATE_ID, type: "state" };
+  memState = state;
+  return state;
+}
+
+async function saveState(ctx, state) {
+  memState = state;
+  await ctx.db.put({ ...state, _id: STATE_ID, type: "state" }, { db: DB_FINDINGS });
+}
+
+async function questions(ctx) {
+  const doc = await ctx.db.get(QUESTIONS_ID, { db: DB_CORPUS });
+  if (doc && Array.isArray(doc.questions) && doc.questions.length) return doc.questions;
+  await putIfChanged(ctx, { _id: QUESTIONS_ID, type: "config", questions: SEED_QUESTIONS }, DB_CORPUS);
+  return SEED_QUESTIONS;
+}
+
+// The corpus budget, kept as one doc read by id. Nothing is derived from a
+// scan, so it stays correct however large the database gets.
+async function spendCorpusCall(ctx, now) {
+  const key = hourKey(now);
+  const doc = (await ctx.db.get(BUDGET_ID, { db: DB_CORPUS })) || {};
+  const used = doc.hour === key ? doc.used || 0 : 0;
+  if (used >= CORPUS_CALLS_PER_HOUR) return false;
+  await ctx.db.put({ _id: BUDGET_ID, type: "budget", hour: key, used: used + 1 }, { db: DB_CORPUS });
+  return true;
+}
+
+async function noteStatus(ctx, state, message) {
+  await putIfChanged(ctx, { _id: STATUS_ID, type: "status", state, message }, DB_CORPUS);
+}
+
+// Every outbound call goes through ctx.fetch, and a denied one comes back as a
+// 403 carrying vibesEgressDenied rather than an exception.
+async function corpusFetch(ctx, path, init) {
+  const res = await ctx.fetch(CORPUS + path, init);
+  if (res.status === 403) {
+    const denied = await res
+      .clone()
+      .json()
+      .catch(() => null);
+    if (denied && denied.vibesEgressDenied === true) {
+      await noteStatus(
+        ctx,
+        "egress-denied",
+        "The platform will not call the corpus API from this vibe (gate: " +
+          (denied.gate || "unknown") +
+          "). Raw answers have to be loaded with tools/ingest.py until the corpus serves CORS or the host is on the platform's allowed list.",
+      );
+      return null;
+    }
+  }
+  return res;
+}
+
+// -------------------------------------------------------------- 1. collect
+//
+// Two phases across two ticks on purpose: ctx.fetch gives a handler 15s, and
+// the corpus takes minutes to answer. So one tick posts the question and
+// writes down the request id, and a later tick polls it. Nothing blocks.
+
+async function collect(ctx, state, now) {
+  const pending = state.pending;
+
+  if (pending) {
+    if (!(await spendCorpusCall(ctx, now))) return state;
+    const res = await corpusFetch(ctx, "/analyze/" + pending.requestId + "/status");
+    if (!res) return state; // egress denied; status doc already says so
+    if (!res.ok) {
+      ctx.log("warn", "corpus status not ok", { requestId: pending.requestId, status: res.status });
+      return state;
+    }
+    const body = await res.json().catch(() => null);
+    if (!body || body.analysis_pending || !body.answer) {
+      ctx.log("collect still pending", { requestId: pending.requestId });
+      return state;
+    }
+    await putIfChanged(
+      ctx,
+      {
+        _id: "source:" + pending.name + ":" + dayKey(pending.askedAt),
+        type: "source",
+        status: "new",
+        name: pending.name,
+        question: pending.question,
+        askedAt: pending.askedAt,
+        answeredAt: now,
+        answer: body.answer,
+        // The measured table the ranking is allowed to use, and the citation
+        // map behind the answer's inline references.
+        entitySentiment: body.entity_sentiment || {},
+        urlMappings: body.url_mappings || {},
+        requestId: pending.requestId,
+      },
+      DB_CORPUS,
+    );
+    await noteStatus(ctx, "ok", "Last answer collected " + now);
+    ctx.log("collected", { name: pending.name });
+    return { ...state, pending: null, lastCollectAt: now };
+  }
+
+  const since = state.lastCollectAt ? Date.parse(now) - Date.parse(state.lastCollectAt) : Infinity;
+  if (since < COLLECT_EVERY_MS) return state;
+
+  const list = await questions(ctx);
+  const askedToday = state.askedToday && state.askedToday.day === dayKey(now) ? state.askedToday.names : [];
+  const next = list.find((q) => !askedToday.includes(q.name));
+  if (!next) return state;
+
+  if (!(await spendCorpusCall(ctx, now))) return state;
+  const res = await corpusFetch(ctx, "/analyze", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      question: next.question,
+      max_results: 250,
+      include_comments: true,
+      analysis_type: "comprehensive",
+      lens: next.lens || null,
+    }),
+  });
+  if (!res) return state;
+  if (!res.ok) {
+    ctx.log("warn", "corpus analyze rejected", { name: next.name, status: res.status });
+    return state;
+  }
+  const body = await res.json().catch(() => null);
+  if (!body || !body.request_id) return state;
+
+  ctx.log("asked", { name: next.name, requestId: body.request_id });
+  return {
+    ...state,
+    pending: { requestId: body.request_id, name: next.name, question: next.question, askedAt: now },
+    askedToday: { day: dayKey(now), names: askedToday.concat(next.name) },
+  };
+}
+
+// -------------------------------------------------------------- 2. extract
+//
+// One raw answer becomes structured findings. The read is keyed on status, so
+// it returns exactly the unprocessed set rather than a page of the whole
+// database. That is the difference between a collector that stays correct and
+// one that goes blind at 2000 docs.
+
+const FINDING_SCHEMA = {
+  properties: {
+    findings: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          entity: { type: "string" },
+          claim: { type: "string" },
+          sentiment: { type: "string" },
+          mentions: { type: "number" },
+          permalinks: { type: "array", items: { type: "string" } },
+        },
+        required: ["entity", "claim"],
+      },
+    },
+  },
+  required: ["findings"],
+};
+
+const EXTRACT_PROMPT = [
+  "Read this synthesis of r/vibecoding discussion and pull out the separate claims it makes.",
+  "",
+  "Rules:",
+  "- One finding per claim. Name the tool, product or person the claim is about in `entity`; use the topic when no entity is named.",
+  "- `claim` states what the community said, in one sentence, without adjectives you cannot source.",
+  "- `permalinks` carries only reddit.com URLs that appear in the text. Never invent one.",
+  "- `mentions` is a count only if the text states one. Leave it out otherwise.",
+  "- Do not rank anything and do not add a conclusion of your own.",
+  "",
+  "QUESTION: ",
+].join("\n");
+
+async function extract(ctx, state, now) {
+  const page = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "new", limit: EXTRACT_PER_TICK });
+  const sources = Array.from(page);
+  if (!sources.length) return state;
+
+  for (const source of sources) {
+    let parsed = null;
+    try {
+      const raw = await ctx.callAI(
+        EXTRACT_PROMPT + source.question + "\n\nSYNTHESIS:\n" + String(source.answer).slice(0, 48000),
+        { schema: FINDING_SCHEMA, max_tokens: 2000 },
+      );
+      parsed = JSON.parse(raw);
+    } catch (err) {
+      ctx.log("error", "extract failed", { source: source._id, message: String(err && err.message) });
+      await putIfChanged(ctx, { ...source, status: "error", extractError: String(err && err.message) }, DB_CORPUS);
+      continue;
+    }
+
+    const findings = Array.isArray(parsed && parsed.findings) ? parsed.findings.slice(0, 40) : [];
+    let written = 0;
+    for (const f of findings) {
+      const id = "finding:" + source.name + ":" + slug(f.entity) + ":" + slug(String(f.claim).slice(0, 40));
+      const doc = {
+        _id: id,
+        type: "finding",
+        entity: String(f.entity || "").slice(0, 120),
+        claim: String(f.claim || "").slice(0, 600),
+        sentiment: f.sentiment ? String(f.sentiment).slice(0, 40) : null,
+        mentions: typeof f.mentions === "number" ? f.mentions : null,
+        permalinks: (Array.isArray(f.permalinks) ? f.permalinks : [])
+          .filter((u) => typeof u === "string" && u.indexOf("reddit.com") !== -1)
+          .slice(0, 6),
+        // Where this came from decides what may be done with it. A finding
+        // pulled out of a broad synthesis is a lead. Only a query that named
+        // the entity and came back with a count can carry a ranking, because
+        // the first pass of the research this repo grew out of ranked a
+        // YouTube channel first on impression, and querying that channel by
+        // name found 11 mentions at +0.12 sentiment. Impressions are not
+        // evidence, so the pipeline keeps the distinction in the data.
+        evidenceClass: "synthesis",
+        sourceId: source._id,
+        sourceName: source.name,
+        extractedAt: now,
+        verified: false,
+      };
+      if (await putIfChanged(ctx, doc, DB_FINDINGS)) written++;
+    }
+
+    await putIfChanged(ctx, { ...source, status: "measured", extractedAt: now }, DB_CORPUS);
+    ctx.log("extracted", { source: source._id, findings: findings.length, written });
+  }
+
+  return { ...state, lastExtractAt: now };
+}
+
+// -------------------------------------------------------------- 3. measure
+//
+// The corpus returns a per-entity table alongside its prose: how many times
+// each entity is mentioned across the whole index, and the sentiment of those
+// mentions. That table is the only thing here that can carry a ranking.
+//
+// This distinction is the entire reason the pipeline has two kinds of record.
+// The research this repo grew out of ranked a YouTube channel first because a
+// synthesis kept bringing him up, and querying him by name found 11 mentions
+// at +0.12 sentiment, which is neutral. A synthesis reports what it noticed.
+// A count reports what is there. Only the second one gets to rank.
+
+async function measure(ctx, state, now) {
+  const page = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "measured", limit: 4 });
+  const sources = Array.from(page);
+  if (!sources.length) return state;
+
+  for (const source of sources) {
+    const table = source.entitySentiment || {};
+    let written = 0;
+    for (const name of Object.keys(table).slice(0, 60)) {
+      const row = table[name] || {};
+      if (typeof row.mention_count !== "number") continue;
+      const id = "entity:" + slug(name);
+      const existing = await ctx.db.get(id, { db: DB_FINDINGS });
+      const doc = {
+        _id: id,
+        type: "entity",
+        entity: name,
+        mentions: row.mention_count,
+        sentiment: typeof row.avg_sentiment === "number" ? row.avg_sentiment : null,
+        positivePct: typeof row.positive_pct === "number" ? row.positive_pct : null,
+        negativePct: typeof row.negative_pct === "number" ? row.negative_pct : null,
+        evidenceClass: "measured",
+        sourceName: source.name,
+        measuredAt: now,
+        // Verification is a separate pass and it is not the generator's to
+        // grant. The flag is carried forward from whatever a verification doc
+        // last said, so a re-measure never quietly promotes an entity.
+        verified: existing ? existing.verified === true : false,
+        verifiedNote: existing ? existing.verifiedNote || null : null,
+      };
+      if (await putIfChanged(ctx, doc, DB_FINDINGS)) written++;
+    }
+    await putIfChanged(ctx, { ...source, status: "extracted" }, DB_CORPUS);
+    ctx.log("measured", { source: source._id, entities: Object.keys(table).length, written });
+  }
+  return { ...state, lastMeasureAt: now };
+}
+
+// ------------------------------------------------------------- 4. assemble
+//
+// The draft report. It carries findings, the counts behind them and the
+// permalinks, and it says out loud what it is not: written prose. Anything a
+// verification pass has not confirmed is reported as a lead and counted, never
+// silently dropped, because the count is how a reader judges the rest.
+
+async function assemble(ctx, state, now) {
+  const since = state.lastReportAt ? Date.parse(now) - Date.parse(state.lastReportAt) : Infinity;
+  if (since < REPORT_EVERY_MS) return state;
+
+  const entities = await readAll(ctx, DB_FINDINGS, "entity");
+  const leads = await readAll(ctx, DB_FINDINGS, "finding");
+  if (!entities.length && !leads.length) return state;
+
+  // Measured and confirmed is the only thing that gets ranked. Measured but
+  // unconfirmed is counted and named as such, because a reader deciding how
+  // much of this to believe needs the size of the unchecked pile.
+  const ranked = entities.filter((e) => e.verified === true).sort((a, b) => b.mentions - a.mentions);
+  const unverified = entities.filter((e) => e.verified !== true).sort((a, b) => b.mentions - a.mentions);
+
+  const day = dayKey(now);
+  const report = {
+    _id: "report:" + day,
+    type: "report",
+    day,
+    generatedAt: now,
+    // The state of this document, stated in the document, so no reader has to
+    // infer it and no later step can quietly skip one.
+    status: "analysis-draft",
+    prose: null,
+    proseNote:
+      "This is analysis, not a post. The published write-up is a separate pass with a stronger model, and a person edits it before it goes anywhere.",
+    counts: {
+      entities: entities.length,
+      ranked: ranked.length,
+      unverified: unverified.length,
+      leads: leads.length,
+      sources: new Set(leads.concat(entities).map((f) => f.sourceName)).size,
+    },
+    ranked: ranked.slice(0, 25).map(entityRow),
+    unverified: unverified.slice(0, 25).map(entityRow),
+    leads: leads.slice(0, 60).map((f) => ({
+      entity: f.entity,
+      claim: f.claim,
+      sentiment: f.sentiment,
+      permalinks: f.permalinks,
+      sourceName: f.sourceName,
+    })),
+  };
+
+  await putIfChanged(ctx, report, DB_FINDINGS);
+  ctx.log("assembled", { day, entities: entities.length, ranked: ranked.length, leads: leads.length });
+  return { ...state, lastReportAt: now };
+}
+
+function entityRow(e) {
+  return {
+    entity: e.entity,
+    mentions: e.mentions,
+    sentiment: e.sentiment,
+    positivePct: e.positivePct,
+    negativePct: e.negativePct,
+    verifiedNote: e.verifiedNote || null,
+  };
+}
+
+// Paginate on next, never on emptiness. next is computed from the raw page
+// before filtering, so a narrow filter can hand back an empty page with
+// matches still ahead of it.
+async function readAll(ctx, db, type) {
+  const out = [];
+  let after;
+  do {
+    const page = await ctx.db.query({ db, field: "type", key: type, limit: 500, after });
+    for (const doc of page) out.push(doc);
+    after = page.next;
+  } while (after);
+  return out;
+}
+
+// ---------------------------------------------------------------- the tick
+
+export async function scheduled(event, ctx) {
+  const now = event.scheduledTime || new Date().toISOString();
+  let state = await loadState(ctx);
+
+  try {
+    state = await collect(ctx, state, now);
+  } catch (err) {
+    ctx.log("error", "collect threw", { message: String(err && err.message) });
+  }
+  try {
+    state = await extract(ctx, state, now);
+  } catch (err) {
+    ctx.log("error", "extract threw", { message: String(err && err.message) });
+  }
+  try {
+    state = await measure(ctx, state, now);
+  } catch (err) {
+    ctx.log("error", "measure threw", { message: String(err && err.message) });
+  }
+  try {
+    state = await assemble(ctx, state, now);
+  } catch (err) {
+    ctx.log("error", "assemble threw", { message: String(err && err.message) });
+  }
+
+  await saveState(ctx, { ...state, lastTickAt: now });
+}

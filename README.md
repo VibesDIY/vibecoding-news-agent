@@ -1,11 +1,12 @@
 # vibecoding-news-agent
 
 An agent that reads what the vibe coding community is actually saying and
-writes up what it finds. The output is posted to r/vibecoding. The code that
-produces it is here, so you can check the method or change it.
+writes up what it finds. The reports are published as an app, and from there a
+person posts them to r/vibecoding. The code that produces them is here, so you
+can check the method or change it.
 
-**Status: early.** The repo is being set up. The analysis that seeded it is
-real, but the agent itself is not running on a schedule yet.
+**Status: early.** The generator runs and produces draft reports. Nothing has
+been published to Reddit yet, and the first post is a human step.
 
 ## Who made this, and what we get out of it
 
@@ -45,6 +46,7 @@ are different claims and both get made loosely.
 | Step | Who |
 |---|---|
 | Querying the corpus, collecting findings | agent, on a schedule |
+| Counting mentions and sentiment per entity | the corpus index, not a model |
 | Checking that named things exist and are what they claim | agent plus human review |
 | Writing the published prose | a language model, in a separate pass |
 | Editing before anything is posted | a person |
@@ -53,17 +55,44 @@ are different claims and both get made loosely.
 No report goes out without a human editing it first. Posts come from a real
 account belonging to a real person, not from a bot account.
 
+## Where the reports go
+
+Two places, and they are not the same thing.
+
+**The app.** Every report is published to
+<https://vibes.diy/vibe/jchris/vibecoding-news>, which is the generator itself.
+The page you read is served by the same code that produced it, and the raw
+answers behind it are in the same database. That is the whole point: there is
+no gap between the report and the thing that made it.
+
+**Reddit.** Reports also go to r/vibecoding, posted by a person under their own
+name, after a human edit. Right now they do not: the drafts are app only while
+the method settles and while the people whose community this is have a chance
+to say what they think of it. Nothing has been posted to Reddit yet.
+
 ## Layout
 
 ```
-tools/     query harness and analysis scripts
+vibe/      the generator, deployed as an app (backend.js, access.js, App.jsx)
+tools/     the corpus harness, the loader, and the verification gate
 reports/   published reports and the raw data behind each one
 ```
+
+`vibe/` is the agent. It is a scheduled backend that asks the corpus a
+question, extracts findings from the cited answer, pulls the corpus's own
+per-entity counts out of the same answer, and assembles a draft. See
+[vibe/README.md](vibe/README.md) for the pipeline and the rule that shapes it.
 
 `tools/vg.py` is the harness that produced the first research pass. It runs a
 list of questions against the corpus API, polls each request to its cited
 answer, and saves the full JSON per query. Raw answers are kept because the
 citations are the evidence a report rests on.
+
+`tools/ingest.py` loads those saved answers into the generator's database, and
+`tools/verify.py` is the gate every ranking has to pass: an entity's mention
+count comes from the index, but whether that entity exists and is what it
+appears to be gets checked separately, by hand, with the note recorded beside
+the number.
 
 The corpus API rate limits at 10 requests per hour, and `GET /stats` reports
 that limit directly. Exceeding it has taken the analysis pipeline down for

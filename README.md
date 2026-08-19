@@ -1,9 +1,17 @@
 # vibecoding-news-agent
 
-An agent that reads what the vibe coding community is actually saying and
-writes up what it finds. The reports are published as an app, and from there a
-person posts them to r/vibecoding. The code that produces them is here, so you
-can check the method or change it.
+An agent that reads what the vibe coding community is actually saying and puts
+the threads worth reading in one place. The output is a link round-up, dry on
+purpose: a title, a link, its score and its comment count. The round-up is
+published as an app, and from there a person posts it to r/vibecoding. The code
+that picks the links is here, so you can check the method or change it.
+
+The ordering is the opinionated part. It alternates between threads the
+subreddit voted up and threads that drew far more discussion than votes. That
+second kind is the reason to read a round-up at all: forty people replying to a
+thread sitting at 2 points means the conversation happened and most of the
+subreddit never saw it. A list of only top posts is a list you have already
+read.
 
 **Status: early.** The generator runs and produces draft reports. Nothing has
 been published to Reddit yet, and the first post is a human step.

@@ -74,16 +74,28 @@ def main():
     json.dump(findings, open(os.path.join(outdir, "findings.json"), "w"), indent=2)
 
     counts = report.get("counts", {})
+    roundup = report.get("roundup") or []
     md = [
-        f"# Draft report {report.get('day')}",
+        f"# r/vibecoding round-up {report.get('day')}",
         "",
         f"Generated {report.get('generatedAt')} by the scheduled generator in `vibe/`.",
         "",
         "**" + report.get("proseNote", "") + "**",
         "",
-        f"{counts.get('entities', 0)} measured entities, {counts.get('ranked', 0)} confirmed, "
-        f"{counts.get('unverified', 0)} not yet checked, {counts.get('leads', 0)} leads "
-        f"from {counts.get('sources', 0)} corpus answers.",
+        f"{counts.get('links', 0)} links, {counts.get('underseen', 0)} of them carrying more discussion than "
+        f"votes. Working below the round-up: {counts.get('leads', 0)} claims, {counts.get('entities', 0)} counted "
+        f"tools, {counts.get('ranked', 0)} confirmed, from {counts.get('sources', 0)} corpus answers.",
+        "",
+        "## The round-up",
+        "",
+        "Alternating between threads the subreddit voted up and threads that drew far more discussion than votes.",
+        "",
+    ]
+    for l in roundup:
+        mark = " **(more discussion than votes)**" if l.get("underseen") else ""
+        md.append(f"- [{l.get('title') or l.get('url')}]({l.get('url')}) &mdash; {l.get('score')} points, "
+                  f"{l.get('comments')} comments{mark}")
+    md += [
         "",
         "Mention counts below are index-wide. They measure how much r/vibecoding discusses each tool "
         "overall, not how it came up in the questions behind this report.",

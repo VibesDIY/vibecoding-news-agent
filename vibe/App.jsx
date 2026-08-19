@@ -25,10 +25,10 @@ function Shell({ children }) {
 function Masthead({ status }) {
   return (
     <header style={{ borderBottom: "2px solid " + C.fg, paddingBottom: 14, marginBottom: 22 }}>
-      <h1 style={{ fontSize: 30, margin: "0 0 6px", letterSpacing: "-0.01em" }}>What r/vibecoding is saying</h1>
+      <h1 style={{ fontSize: 30, margin: "0 0 6px", letterSpacing: "-0.01em" }}>r/vibecoding link round-up</h1>
       <p style={{ margin: 0, color: C.muted, fontSize: 15 }}>
-        An agent reads a semantic index of the subreddit and writes down what it finds. The code that produces this page
-        is public, and so is every answer it read.
+        Threads worth reading, picked by an agent from a semantic index of the subreddit. The code that picks them is
+        public, and so is every answer it read.
       </p>
       {status && status.state !== "ok" ? (
         <p style={{ margin: "10px 0 0", fontSize: 13, color: C.accent }}>Collector status: {status.message}</p>
@@ -70,6 +70,20 @@ function Item({ f, rank }) {
         <div style={{ fontSize: 13, color: C.muted }}>sentiment: {f.sentiment}</div>
       ) : null}
       <Links urls={f.permalinks} />
+    </li>
+  );
+}
+
+function LinkRow({ l }) {
+  return (
+    <li style={{ listStyle: "none", padding: "12px 0", borderBottom: "1px solid " + C.line }}>
+      <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.fg, fontSize: 17, textDecoration: "none" }}>
+        {l.title || l.url}
+      </a>
+      <div style={{ fontSize: 13, color: C.muted, marginTop: 2 }}>
+        {l.score} points, {l.comments} comments
+        {l.underseen ? <span style={{ color: C.accent }}> &middot; more discussion than votes</span> : null}
+      </div>
     </li>
   );
 }
@@ -143,16 +157,31 @@ export default function App() {
 
       {!report ? (
         <p style={{ fontSize: 16 }}>
-          No report has been assembled yet. The collector runs on a schedule and this page fills in when it has read
-          enough to say something.
+          No round-up has been assembled yet. The collector runs on a schedule and this page fills in when it has read
+          enough to have something to link to.
         </p>
       ) : (
         <>
           <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-            {report.day} &middot; {report.counts.entities} measured entities from {report.counts.sources} corpus
-            answers &middot; {report.counts.ranked} confirmed, {report.counts.unverified} not yet checked,{" "}
-            {report.counts.leads} leads
+            {report.day} &middot; {report.counts.links} links, {report.counts.underseen} of them with more discussion
+            than votes &middot; working below: {report.counts.leads} claims, {report.counts.entities} counted tools,{" "}
+            {report.counts.ranked} confirmed
           </p>
+
+          {report.roundup && report.roundup.length ? (
+            <section style={{ marginBottom: 30 }}>
+              <ul style={{ padding: 0, margin: 0 }}>
+                {report.roundup.map((l) => (
+                  <LinkRow key={l.url} l={l} />
+                ))}
+              </ul>
+              <p style={{ fontSize: 13, color: C.muted, marginTop: 10 }}>
+                Ordered by alternating between threads the subreddit voted up and threads that drew a lot more
+                discussion than votes. The second kind is the reason to read a round-up rather than the front page:
+                plenty of people had something to say and almost nobody saw it.
+              </p>
+            </section>
+          ) : null}
 
           {report.ranked && report.ranked.length ? (
             <section>

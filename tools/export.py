@@ -100,13 +100,13 @@ def main():
         md.append(f"### [{l.get('title') or l.get('url')}]({l.get('url')})")
         md.append("")
         md.append(f"{meta}{mark}")
-        says = l.get("says") or []
-        if says:
-            md.append("")
-            md.append(says[0])
         if l.get("excerpt"):
+            ex = l["excerpt"]
             md.append("")
-            md.append("> " + l["excerpt"] + ("…" if len(l["excerpt"]) >= 260 else ""))
+            md.append("> " + ex + ("…" if len(ex) >= 260 and not ex.endswith("...") else ""))
+        if l.get("surfacedBy"):
+            md.append("")
+            md.append(f"*Found asking: {l['surfacedBy']}*")
         md.append("")
     md += [
         "",

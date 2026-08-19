@@ -48,6 +48,12 @@ const PENDING_GIVEUP_MS = 2 * 60 * 60 * 1000;
 // follow. Both numbers travel with it so a reader can disagree with the rule.
 const UNDERSEEN_MIN_COMMENTS = 8;
 const UNDERSEEN_COMMENT_RATIO = 4;
+// And a ceiling on the score, which the first version was missing. A thread at
+// 19 points with 94 comments passes the ratio and is in no way overlooked: it
+// is a well-received thread that also got talked about. Flagging it spends the
+// badge on something everyone already saw, which is the one thing the badge is
+// supposed to be worth. Overlooked means the votes stayed near zero.
+const UNDERSEEN_MAX_SCORE = 5;
 
 const DB_CORPUS = "corpus";
 const DB_FINDINGS = "findings";
@@ -537,7 +543,10 @@ function linkRow(e, url, sourceName, now) {
     relevance: typeof e.relevance_score === "number" ? Math.round(e.relevance_score * 100) / 100 : null,
     // Discussion the votes did not follow. Kept as data rather than a label
     // so a reader who dislikes the rule can apply their own.
-    underseen: comments >= UNDERSEEN_MIN_COMMENTS && comments >= UNDERSEEN_COMMENT_RATIO * Math.max(score, 1),
+    underseen:
+      comments >= UNDERSEEN_MIN_COMMENTS &&
+      comments >= UNDERSEEN_COMMENT_RATIO * Math.max(score, 1) &&
+      score <= UNDERSEEN_MAX_SCORE,
     sourceName,
     harvestedAt: now,
   };
@@ -601,8 +610,15 @@ async function assemble(ctx, state, now) {
   // Cited posts that had no thread to link to (an image post, usually). Counted
   // and printed rather than dropped, so the round-up's size is honest about
   // what the corpus actually handed over.
-  const says = claimsByThread(leads);
   const sources = await readAll(ctx, DB_CORPUS, "source");
+  // What each link is doing here. An earlier version tried to attach the
+  // claims the corpus made, joined on the thread id, and it matched nothing:
+  // the synthesis quotes comments from threads that are not the ones it holds
+  // up as examples. Two different populations of link, and pretending
+  // otherwise produced an empty field on every entry. The question that
+  // surfaced a thread is always known, so that is what each link carries.
+  const questionOf = {};
+  for (const s2 of sources) questionOf[s2.name] = s2.question;
   const noThread = sources.reduce((n, s2) => n + (s2.linksSkipped || 0), 0);
   if (!entities.length && !leads.length && !links.length) return state;
 
@@ -646,7 +662,7 @@ async function assemble(ctx, state, now) {
       excerpt: l.excerpt || null,
       author: l.author || null,
       subreddit: l.subreddit || null,
-      says: says[threadIdOf(l.url)] || [],
+      surfacedBy: questionOf[l.sourceName] || null,
       score: l.score,
       comments: l.comments,
       underseen: l.underseen,
@@ -668,29 +684,6 @@ async function assemble(ctx, state, now) {
   await ctx.db.put({ ...body, generatedAt: now }, { db: DB_FINDINGS });
   ctx.log("assembled", { day, links: links.length, entities: entities.length, leads: leads.length });
   return { ...state, lastReportAt: now };
-}
-
-// The id inside a reddit permalink, which is the only thing a thread link and
-// a claim's citation reliably share.
-function threadIdOf(url) {
-  const m = /\/comments\/([a-z0-9]+)/.exec(String(url || ""));
-  return m ? m[1] : null;
-}
-
-// What the corpus said about each thread, attached to the thread. The claims
-// were extracted from the same answer that cited these posts, so the join is
-// free and it turns a bare link into a link with a reason.
-function claimsByThread(leads) {
-  const map = {};
-  for (const lead of leads) {
-    for (const url of lead.permalinks || []) {
-      const id = threadIdOf(url);
-      if (!id) continue;
-      if (!map[id]) map[id] = [];
-      if (map[id].length < 2 && lead.claim) map[id].push(lead.claim);
-    }
-  }
-  return map;
 }
 
 function entityRow(e) {

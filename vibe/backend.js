@@ -348,14 +348,21 @@ async function extract(ctx, state, now) {
 // -------------------------------------------------------------- 3. measure
 //
 // The corpus returns a per-entity table alongside its prose: how many times
-// each entity is mentioned across the whole index, and the sentiment of those
-// mentions. That table is the only thing here that can carry a ranking.
+// each entity is mentioned and the sentiment of those mentions. That table is
+// the only thing here that can carry a ranking, because a count reports what
+// is there and a synthesis reports what it noticed. The research this repo
+// grew out of ranked a YouTube channel first because a synthesis kept
+// bringing him up, and querying him by name found 11 mentions at +0.12
+// sentiment, which is neutral.
 //
-// This distinction is the entire reason the pipeline has two kinds of record.
-// The research this repo grew out of ranked a YouTube channel first because a
-// synthesis kept bringing him up, and querying him by name found 11 mentions
-// at +0.12 sentiment, which is neutral. A synthesis reports what it noticed.
-// A count reports what is there. Only the second one gets to rank.
+// One thing about that table decides how it may be described, and it was not
+// obvious. It is INDEX-WIDE, not an answer to the question asked. Three
+// different questions on 2026-08-19 came back with byte-identical tables:
+// the same fifteen names and the same counts. So these numbers say how much
+// the subreddit talks about each tool overall. They say nothing about the
+// question the answer above them was written for, and every surface that
+// prints them has to say so, or the report claims something it did not
+// measure. The scope travels on the document for that reason.
 
 async function measure(ctx, state, now) {
   const page = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "measured", limit: 4 });
@@ -379,6 +386,9 @@ async function measure(ctx, state, now) {
         positivePct: typeof row.positive_pct === "number" ? row.positive_pct : null,
         negativePct: typeof row.negative_pct === "number" ? row.negative_pct : null,
         evidenceClass: "measured",
+        // Index-wide. See the note above this function before writing any
+        // copy that puts these numbers next to a question.
+        scope: "whole-index",
         sourceName: source.name,
         measuredAt: now,
         // Verification is a separate pass and it is not the generator's to
@@ -417,7 +427,10 @@ async function assemble(ctx, state, now) {
 
   // Measured and confirmed is the only thing that gets ranked. Measured but
   // unconfirmed is counted and named as such, because a reader deciding how
-  // much of this to believe needs the size of the unchecked pile.
+  // much of this to believe needs the size of the unchecked pile. Both are
+  // index-wide counts and the report says so in the document itself, since a
+  // number that travels without its scope will be read as answering whatever
+  // question it is printed beneath.
   const ranked = entities.filter((e) => e.verified === true).sort((a, b) => b.mentions - a.mentions);
   const unverified = entities.filter((e) => e.verified !== true).sort((a, b) => b.mentions - a.mentions);
 
@@ -432,6 +445,8 @@ async function assemble(ctx, state, now) {
     prose: null,
     proseNote:
       "This is analysis, not a post. The published write-up is a separate pass with a stronger model, and a person edits it before it goes anywhere.",
+    countsNote:
+      "Mention counts are index-wide. They measure how much r/vibecoding discusses each tool overall, not how it came up in the questions behind this report.",
     counts: {
       entities: entities.length,
       ranked: ranked.length,

@@ -22,7 +22,12 @@ Live: <https://vibes.diy/vibe/jchris/vibecoding-news>
    cited. They are leads.
 3. **measure** takes the corpus's own per-entity table out of the same answer:
    how many times each entity appears across the whole index and the sentiment
-   of those mentions. These are numbers, not impressions.
+   of those mentions. These are numbers, not impressions, and they are
+   **index-wide**. Three different questions on 2026-08-19 returned
+   byte-identical tables, so the table describes r/vibecoding in general and
+   not the question it arrived with. Every surface that prints these numbers
+   says that, because a count printed under a question will be read as
+   answering it.
 4. **assemble** writes one draft report a day.
 
 ## The rule that shapes the data model

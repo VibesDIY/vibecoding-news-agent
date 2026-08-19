@@ -527,11 +527,16 @@ export async function scheduled(event, ctx) {
   const now = event.scheduledTime || new Date().toISOString();
   let state = await loadState(ctx);
 
-  // What the tick did, written where a person can read it. ctx.log is the
-  // right lane for this and it is the one used above, but a log you cannot
-  // read back tells you nothing, so the outcome of each step also lands in
-  // one document. It is written only when the outcome changes, so a steady
-  // state writes nothing and an error shows up the tick it happens.
+  // What the tick did, written where a person can read it.
+  //
+  // This document is a WORKAROUND and should not be copied into the next
+  // scheduled app. `ctx.log` above is the right lane and the only one a vibe
+  // backend has, since console output is forwarded nowhere. It is duplicated
+  // here because `vibes-diy app logs` returned nothing for any vibe on this
+  // account while this was being built (vibes.diy#4938), and a log you cannot
+  // read back is not diagnostics. Delete this and its two counts when that is
+  // fixed. It writes only when the outcome changes, so a steady state writes
+  // nothing.
   const steps = {};
   const run = async (name, fn) => {
     try {
@@ -544,11 +549,11 @@ export async function scheduled(event, ctx) {
     }
   };
 
-  // Two counts, because "the step did nothing" has two very different causes
-  // and one document can tell them apart: a page of the database with no
-  // filter at all, and the keyed read the extractor actually makes. If the
+  // Two counts, same workaround, same deletion. "The step did nothing" has
+  // two very different causes and these tell them apart: a page of the
+  // database with no filter, and the keyed read the extractor makes. If the
   // first is zero the backend cannot see the database; if only the second is
-  // zero the filter is wrong.
+  // zero the filter is wrong. That is how the paging bug above was found.
   try {
     const all = await ctx.db.query({ db: DB_CORPUS, limit: 50 });
     const fresh = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "new", limit: 50 });

@@ -65,13 +65,16 @@ def existing_status(doc_id, vibe):
     res = subprocess.run(cmd, text=True, capture_output=True)
     if res.returncode != 0:
         return None
-    for line in res.stdout.splitlines():
-        if line.strip().startswith("{"):
-            try:
-                return json.loads(line).get("status")
-            except ValueError:
-                return None
-    return None
+    # The CLI pretty-prints, so the document spans many lines. Parsing line by
+    # line found no JSON and quietly answered "this source is new", which
+    # re-ran the model over two sources that were already done.
+    start = res.stdout.find("{")
+    if start == -1:
+        return None
+    try:
+        return json.loads(res.stdout[start:]).get("status")
+    except ValueError:
+        return None
 
 
 def main():

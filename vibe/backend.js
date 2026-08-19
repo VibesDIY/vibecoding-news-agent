@@ -627,7 +627,7 @@ const BLURB_RULES = [
   "- Have a view: delighted, annoyed, unconvinced, quietly vindicated. A blurb with no attitude is a summary wearing a hat.",
   "- Two or three sentences. Forty words is plenty.",
   "- Quote the poster when they said it better than you would, which is most of the time.",
-  "- If the numbers are the story, say so in a clause. A thread at 2 points with 40 replies means the subreddit argued about something it never voted on.",
+  "- Do not reach for the same closing move twice. Especially not a tidy observation about the score and the comment count: that is a formula, and a formula read three times is a tell.",
   "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",
   "- No em-dashes. No rule-of-three cadence. This audience reads both as a machine's fingerprints and says so in the comments.",
   "- Invent nothing. Everything comes from the post, its numbers, or the question that surfaced it.",
@@ -662,7 +662,13 @@ async function dress(ctx, state, now) {
             " points and " +
             l.comments +
             " comments." +
-            (l.underseen ? " The discussion ran far ahead of the votes." : "") +
+            // The numbers are offered as material ONLY when the gap is the
+            // story. Handing every draft the score and the comment count
+            // produced the same closing sentence three times running, which is
+            // exactly the machine fingerprint this whole file exists to avoid.
+            (l.underseen
+              ? " The discussion ran far ahead of the votes, which is worth a clause if you can make it land."
+              : " Do not comment on the score or the comment count. Find the hook in what the post says.") +
             "\nIt opens: " +
             (l.excerpt || "(no text)"),
           { model: EDITORIAL_MODEL, max_tokens: 200 },

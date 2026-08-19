@@ -37,9 +37,13 @@ can already see from the title.
 3. **Two or three sentences. Forty words is plenty.** If it needs more, the
    thread is the article and the blurb is the sign pointing at it.
 4. **Quote when the poster said it better than you would.** They usually did.
-5. **Say when the numbers are the story.** Two points and forty replies means
-   the subreddit argued about something it never voted on. That is worth a
-   clause, not a paragraph.
+5. **The numbers are a hook once, not every time.** Two points and forty
+   replies means the subreddit argued about something it never voted on, and
+   that is worth a clause. But a tidy observation about the score and the
+   comment count at the end of every blurb is a formula, and the first three
+   drafts written under this file each reached for it. So the material is only
+   offered to the drafter when the gap is genuinely the story. Everywhere else,
+   the hook is in what the post says.
 6. **No summary verbs.** Nothing "explores", "delves into", "highlights" or
    "sheds light on". If the sentence would survive being pasted under a
    different link, delete it.

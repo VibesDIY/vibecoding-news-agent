@@ -1,0 +1,302 @@
+{
+  "name": "cost-surprises",
+  "question": "What do people say about unexpected costs, token spend or API bills from AI coding tools?",
+  "lens": null,
+  "analyze": {
+    "answer": null,
+    "request_id": "34de5c9c-6687-401e-a6c4-5bb5f2446b29",
+    "analysis_pending": true,
+    "url_mappings": {
+      "post_1": "https://www.reddit.com/r/vibecoding/comments/1uvo0o5/the_hidden_cost_of_ai_coding_tools_nobody_talks/",
+      "post_2": "https://www.reddit.com/r/vibecoding/comments/1rx9cds/how_are_you_thinking_about_ai_api_costs_if_your/",
+      "post_3": "https://www.reddit.com/r/vibecoding/comments/1u0uddq/how_are_people_managing_ai_costs/",
+      "post_4": "https://www.reddit.com/r/vibecoding/comments/1thejay/any_other_vibe_coders_accidentally_build/",
+      "post_5": "https://www.reddit.com/r/vibecoding/comments/1tpxtsg/building_an_ai_product_and_terrified_of_runaway/",
+      "post_6": "https://www.reddit.com/r/vibecoding/comments/1mlebpz/future_ai_bills_racking_up_100kyr_per_dev/",
+      "post_7": "https://www.reddit.com/r/vibecoding/comments/1sv2xz7/how_are_people_burning_thousands_of_dollars_on_ai/",
+      "post_8": "https://www.reddit.com/r/vibecoding/comments/1v1qdak/how_many_ai_tokens_have_you_burned_building_your/",
+      "post_9": "https://reddit.com/r/GithubCopilot/comments/1u6bizi/spending_hundreds_on_ai_coding_tools_what_kinds/",
+      "post_10": "https://www.reddit.com/r/vibecoding/comments/1k8uiy3/are_you_guys_seriously_spending_500_a_session/",
+      "post_11": "https://www.reddit.com/r/vibecoding/comments/1tlgphh/tokens_and_costs/",
+      "post_12": "https://www.reddit.com/r/vibecoding/comments/1nipjjz/cost/",
+      "post_13": "https://www.reddit.com/r/vibecoding/comments/1u8m483/how_are_people_spending_1000s_on_tokens/",
+      "post_14": "https://www.reddit.com/r/vibecoding/comments/1sn2x1a/ai_coding_assistants_almost_never_tell_you_what_a/",
+      "post_15": "https://www.reddit.com/r/vibecoding/comments/1t4oj4b/token_costs_are_all_over_the_place_and_they_are/",
+      "post_16": "https://www.reddit.com/r/vibecoding/comments/1n3em2l/how_much_are_you_guys_actually_paying_for_ai/",
+      "post_17": "https://www.reddit.com/r/vibecoding/comments/1uch7hd/token_usage_getting_out_of_hand_help/",
+      "post_18": "https://www.reddit.com/r/vibecoding/comments/1v14q8a/what_are_you_doing_spending_5_million_tokens_a/",
+      "post_19": "https://www.reddit.com/r/vibecoding/comments/1n7t09g/how_do_you_give_an_idea_about_spendings_on_ai/",
+      "post_20": "https://www.reddit.com/r/vibecoding/comments/1pygotx/the_biggest_wtf_moments_in_agentic_coding/",
+      "post_21": "https://www.reddit.com/r/vibecoding/comments/1ngkicv/which_ai_coding_tools_have_given_you_the_best/",
+      "post_22": "https://www.reddit.com/r/vibecoding/comments/1tk3pda/bootstrapping_an_aipowered_seo_content_ops/",
+      "post_23": "https://www.reddit.com/r/vibecoding/comments/1t208fy/what_if_they_ask_for_more_money/",
+      "post_24": "https://www.reddit.com/r/vibecoding/comments/1ns3o17/nondeveloper_here_5_hard_truths_about_ai_coding/",
+      "post_25": "https://www.reddit.com/r/vibecoding/comments/1veh18i/i_feel_super_behind_still_generating_code_via/",
+      "post_26": "https://www.reddit.com/r/vibecoding/comments/1tyauyj/hooowwww/",
+      "post_27": "https://www.reddit.com/r/vibecoding/comments/1udgtrr/cloud_ai_cost_isnt_just_about_tokens_lessons_from/",
+      "post_28": "https://www.reddit.com/r/vibecoding/comments/1vr89br/keeping_track_of_cost/",
+      "post_29": "https://www.reddit.com/r/vibecoding/comments/1tit270/autonomous_coding_agents_are_not_20month_tools/",
+      "post_30": "https://www.reddit.com/r/vibecoding/comments/1tv76uv/copilot_has_completely_fucked_up_my_perception_of/",
+      "post_31": "https://www.reddit.com/r/vibecoding/comments/1u8na4m/honestly_how_are_you_guys_paying_for_all_these/",
+      "post_32": "https://www.reddit.com/r/vibecoding/comments/1sihw3s/why_you_are_out_of_tokens_so_fast/",
+      "post_33": "https://www.reddit.com/gallery/1vfq43w",
+      "post_34": "https://www.reddit.com/r/vibecoding/comments/1t0ttyz/api_is_such_an_insane_waste_of_money/",
+      "post_35": "https://www.reddit.com/r/vibecoding/comments/1s44gbw/paying_for_errors_feels_like_im_being_robbed/",
+      "post_36": "https://www.reddit.com/r/vibecoding/comments/1tfnlnc/i_vibe_coded_an_ai_feature_and_got_a_4000_bill/",
+      "post_37": "https://i.redd.it/m9p47xbrc98h1.png",
+      "post_38": "https://www.reddit.com/r/vibecoding/comments/1s1wnjg/model_pricing_how_expensive_will_it_get/",
+      "post_39": "https://www.reddit.com/r/vibecoding/comments/1rsiuc4/i_did_the_math_on_ai_dev_tools_turns_out_free/",
+      "post_40": "https://www.reddit.com/r/vibecoding/comments/1tvez94/token_anxiety_the_hidden_cost_of_the_ai_agent_era/",
+      "post_41": "https://www.reddit.com/r/vibecoding/comments/1t3ahir/how_much_are_you_actually_spending_on_ai_tools/",
+      "post_42": "https://www.reddit.com/r/vibecoding/comments/1tss16z/anyone_else_lose_track_of_their_total_ai/",
+      "post_43": "https://www.reddit.com/r/vibecoding/comments/1t3wm1z/if_you_had_a_budget_of_20_usd_a_month_for_ai/",
+      "post_44": "https://www.reddit.com/r/vibecoding/comments/1u1ramp/far_beyond_just_cheaper_tokens_you_need_more/",
+      "post_45": "https://www.reddit.com/r/vibecoding/comments/1uy8wge/what_is_your_current_coding_ai_setup_payasyougo/",
+      "post_46": "https://www.reddit.com/r/vibecoding/comments/1tgsdf5/honestly_i_dont_think_token_cost_is_the_real/",
+      "post_47": "https://i.redd.it/fthodo1s99xg1.png",
+      "post_48": "https://www.reddit.com/r/vibecoding/comments/1rxd0jq/anyone_else_hit_a_wall_midbuild_because_of_token/",
+      "post_49": "https://www.reddit.com/r/vibecoding/comments/1unihnp/high_api_costs_and_slow_speeds_when_coding_with/",
+      "post_50": "https://hermesguide.xyz/stacks"
+    },
+    "total_posts_analyzed": 100,
+    "total_comments_analyzed": 100,
+    "relevance_score": 0.614,
+    "sentiment_distribution": {
+      "percentages": {
+        "positive": 72.7,
+        "negative": 22.8,
+        "neutral": 4.5
+      }
+    },
+    "entity_sentiment": null,
+    "common_themes": [
+      "Building: 70.0% of results",
+      "Ai Tools: 52.0% of results",
+      "Debugging: 44.0% of results",
+      "Learning: 30.0% of results",
+      "Deployment: 12.0% of results"
+    ],
+    "representative_examples": [
+      {
+        "type": "post",
+        "content": "Title: The hidden cost of AI coding tools nobody talks about (and how I fixed mine)\n\nContent: Been building my SaaS solo for 2 years. Early on I threw every AI coding tool at my workflow thinking it'd make me faster. It did !  but my monthly AI bill crept up to $327. I didn't notice until I actually...",
+        "title": "The hidden cost of AI coding tools nobody talks about (and how I fixed mine)",
+        "author": "Proper_Violinist1371",
+        "score": 0,
+        "num_comments": 8,
+        "relevance_score": 0.685,
+        "subreddit": "vibecoding",
+        "url": "https://www.reddit.com/r/vibecoding/comments/1uvo0o5/the_hidden_cost_of_ai_coding_tools_nobody_talks/"
+      },
+      {
+        "type": "post",
+        "content": "Title: How are you thinking about AI API costs if your project scales?\n\nContent: I work as a PM for SaaS startups and when new AI tools get added I don't think there is a big consideration for costs as scale occurs (or will occur, hopefully). I'm thinking along the lines of those who are shipping fa...",
+        "title": "How are you thinking about AI API costs if your project scales?",
+        "author": "NeoTree69",
+        "score": 1,
+        "num_comments": 0,
+        "relevance_score": 0.683,
+        "subreddit": "vibecoding",
+        "url": "https://www.reddit.com/r/vibecoding/comments/1rx9cds/how_are_you_thinking_about_ai_api_costs_if_your/"
+      },
+      {
+        "type": "post",
+        "content": "Title: How are people managing AI costs?\n\nContent: Just like everyone else, I've been seeing the recent news about how AI bills have been skyrocketing for companies. I've been seeing people Reddit posts / comments about how their companies have done a full 180 from \"use AI for everything\" to \"limit ...",
+        "title": "How are people managing AI costs?",
+        "author": "Excellent_Knee_7109",
+        "score": 1,
+        "num_comments": 2,
+        "relevance_score": 0.683,
+        "subreddit": "vibecoding",
+        "url": "https://www.reddit.com/r/vibecoding/comments/1u0uddq/how_are_people_managing_ai_costs/"
+      },
+      {
+        "type": "post",
+        "content": "Title: Any other vibe coders accidentally build something that works\u2026 and then get destroyed by AI costs?\n\nContent: I built a small app with OpenAI and Anthropic APIs.\n\nAt first it was just a fun project.\n\nShip fast.\n\nUse the best models.\n\nMake the UX feel magical.\n\nThen people actually started usin...",
+        "title": "Any other vibe coders accidentally build something that works\u2026 and then get destroyed by AI costs?",
+        "author": "Thonwalo",
+        "score": 0,
+        "num_comments": 6,
+        "relevance_score": 0.681,
+        "subreddit": "vibecoding",
+        "url": "https://www.reddit.com/r/vibecoding/comments/1thejay/any_other_vibe_coders_accidentally_build/"
+      },
+      {
+        "type": "post",
+        "content": "Title: Building an AI product and terrified of runaway API costs. What have you been burned by?\n\nContent: \n\nHey, early stage founder here trying to avoid expensive mistakes before I make them.  \n\n\nTalking to other devs and the one thing that keeps coming up is unexpected API bills. A retry loop here...",
+        "title": "Building an AI product and terrified of runaway API costs. What have you been burned by?",
+        "author": "thisismetrying2506",
+        "score": 6,
+        "num_comments": 4,
+        "relevance_score": 0.664,
+        "subreddit": "vibecoding",
+        "url": "https://www.reddit.com/r/vibecoding/comments/1tpxtsg/building_an_ai_product_and_terrified_of_runaway/"
+      }
+    ],
+    "metadata": {
+      "query": "What do people say about unexpected costs, token spend or API bills from AI coding tools?",
+      "processing_time": 9.81,
+      "analysis_type": "semantic_search",
+      "query_intent": "overview",
+      "intent_confidence": 0.33,
+      "time_sensitive": false,
+      "quick_response": true,
+      "timestamp": "2026-08-19T18:31:16.593834",
+      "analysis_id": "xEAF2WzaIT"
+    }
+  },
+  "status": {
+    "request_id": "34de5c9c-6687-401e-a6c4-5bb5f2446b29",
+    "analysis_pending": false,
+    "answer": "## What r/vibecoding says about unexpected costs, token spend, and API bills\n\nMoney \u2014 specifically the gap between subscription price and real usage cost \u2014 is one of the sub's biggest recurring pain points, according to the [\"Monetization Culture\"](https://reddit.com/r/vibecoding/comments/1siiokj/) brief, which draws on ~8,900 tool-spend disclosures.\n\n**Bill-shock is a recognizable genre.** A post titled *\"Anthropic bill came in this morning and I'm...\"* (369 score, May 2026) described having \"to completely split my setup this week just to stop the wallet bleeding\" \u2014 the poster started routing expensive models only to architecture work and cheaper ones to everything else [post](https://reddit.com/r/vibecoding/comments/1tqz6e2/anthropic_bill_came_in_this_morning_and_im/). Others joke about the same shock: \"You call the api and get billed by token... You cry when the invoice come[s]\" [comment](https://reddit.com/r/vibecoding/comments/1swxbyz/gotta_let_the_llms_focus_on_important_things/oijm7qz/), and a lighter riff: \"You forgot to add it to be token efficient, now it lost you $69420 in API billings\" [comment](https://reddit.com/r/vibecoding/comments/1u76m8k/guys_i_think_i_cracked_it/osafll5/).\n\n**Warnings that costs can spiral fast.** One commenter cautioned plainly: \"API token use and expense can get out of hand quickly if you don't know what you are doing\" [comment](https://reddit.com/r/vibecoding/comments/1mw66ja/most_tools_like_cursor_are_to_expensive/n9vdlrx/). Another pointed out the hidden scale behind flat-rate plans: \"A $100 max account can use equivalent of several thousand a month if you were paying by the token. This is why businesses are suddenly caring a lot\" [comment](https://reddit.com/r/vibecoding/comments/1uk9shn/wtf_are_you_guys_doing_thats_burning_so_many/ouu7bik/).\n\n**A curiosity/anxiety loop around checking usage.** People routinely ask each other \"How much are you spending on tokens?\" [comment](https://reddit.com/r/vibecoding/comments/1rwrxtq/who_is_that/ob37bl7/) and \"How many AI tokens have you burned building your [project]\" threads exist explicitly for this. One reply: \"Just checked my API dashboard out of curiosity... turns out I'm burning more tokens than my coffee budget these days\" [comment](https://reddit.com/r/vibecoding/comments/1v1qdak/how_many_ai_tokens_have_you_burned_building_your/oyq0xw6/).\n\n**Reactions to repricing amplify the anger.** The April 2026 Anthropic clampdown on third-party harnesses produced the archetypal complaint thread *\"Your Pro plan. Your Max plan.\"*, with a top comment framing it as the end of subsidized pricing: \"Free lunch ending. Time to find out how much your vibe coded slop actually costs\" [comment](https://reddit.com/r/vibecoding/comments/1sbukly/anthropic_just_pulled_the_plug_on_thirdparty/oe6jru5/). Elsewhere, users describe \"600-900% price increases. Goddamn\" [comment](https://reddit.com/r/vibecoding/comments/1sy1o2e/pack_up_boyos_it_is_over/oirxijo/) as a demoralizing but expected trend.\n\n**Cost-consciousness pushes people toward cheaper models.** A widely upvoted (915-score) thread described switching from Claude Code to DeepSeek V4: \"The price difference is mind boggling, and I haven't noticed any difference at all in output or issues\" [post](https://reddit.com/r/vibecoding/comments/1ts0b0i/the_price_difference_is_mad/). Concretely, one user reported building a Minecraft-clone project for \"120M+ tokens, $2.50 in API cost... Cheaper than I expected\" using DeepSeek v4 [comment](https://reddit.com/r/vibecoding/comments/1vftsnj/presenting_deepcraft_a_oneshot_minecraft_clone/p1sszke/), illustrating how much cheaper alternative models can feel versus flagship subscription tiers.\n\n**At the high end, heavy users normalize huge spend.** Some describe genuinely large usage as worthwhile: \"I'm spending 5.5B tokens per month for $200\" [comment](https://reddit.com/r/vibecoding/comments/1ubur7e/alternative_to_claude_code/osyxcmo/), and \"$200 can get me a literal $25,000 worth of work done in CURSOR\" [comment](https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9pbtez/) \u2014 while others counter that this spend is unsustainable relative to actual revenue: \"If you make $500-$1000 a month it's unsustainable to spend $200 on AI subscriptions\" [comment](https://reddit.com/r/vibecoding/comments/1se9854/opus_has_fallen_what_now/oeo6h1e/).\n\n**Bottom line:** the community treats unexpected API/token costs as a near-universal rite of passage \u2014 bill shock, rate-limit lockouts after paying $200/month, and jokey \"how many tokens did that cost\" questions are constant background noise. The dominant coping strategies visible in the data are (1) splitting workloads between expensive and cheap models, and (2) migrating to lower-cost alternatives like DeepSeek when subscription pricing tightens or spikes.",
+    "url_mappings": {
+      "comment_o9pbtez": "https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9pbtez/",
+      "comment_oam6hfb": "https://reddit.com/r/vibecoding/comments/1rukoak/i_vibe_coded_over_12_mobile_apps_and_games_and/oam6hfb/",
+      "comment_oamanf8": "https://reddit.com/r/vibecoding/comments/1rukoak/i_vibe_coded_over_12_mobile_apps_and_games_and/oamanf8/",
+      "comment_ob6yr8x": "https://reddit.com/r/vibecoding/comments/1rxgpwz/i_bought_200_claude_code_so_you_dont_have_to/ob6yr8x/",
+      "comment_obvs6gd": "https://reddit.com/r/vibecoding/comments/1s0svzb/how_many_of_you_actually_have_users_be_honest/obvs6gd/",
+      "comment_oe6jru5": "https://reddit.com/r/vibecoding/comments/1sbukly/anthropic_just_pulled_the_plug_on_thirdparty/oe6jru5/",
+      "comment_oeo6h1e": "https://reddit.com/r/vibecoding/comments/1se9854/opus_has_fallen_what_now/oeo6h1e/",
+      "comment_ofgpeg1": "https://reddit.com/r/vibecoding/comments/1shzytj/do_yall_even_like_this_community/ofgpeg1/",
+      "comment_ofkcnq4": "https://reddit.com/r/vibecoding/comments/1siiokj/i_pay_200month_for_claude_max_and_hit_the_limit/ofkcnq4/",
+      "comment_oirxijo": "https://reddit.com/r/vibecoding/comments/1sy1o2e/pack_up_boyos_it_is_over/oirxijo/",
+      "comment_osyxcmo": "https://reddit.com/r/vibecoding/comments/1ubur7e/alternative_to_claude_code/osyxcmo/",
+      "comment_ot2fm38": "https://reddit.com/r/vibecoding/comments/1uc7dxf/made_my_first_1000_vibecoding/ot2fm38/",
+      "comment_ougi82j": "https://reddit.com/r/vibecoding/comments/1uijnp6/18_months_ago_i_couldnt_code/ougi82j/",
+      "comment_oupbyax": "https://reddit.com/r/vibecoding/comments/1ujoae4/vibecoded_open_source_video_app_artcraft_hits_25m/oupbyax/",
+      "comment_oupd1ry": "https://reddit.com/r/vibecoding/comments/1ujoae4/vibecoded_open_source_video_app_artcraft_hits_25m/oupd1ry/",
+      "post_1rz59g4": "https://reddit.com/r/vibecoding/comments/1rz59g4/my_vibe_coded_3d_city_hit_66k_users_and_953/",
+      "post_1sbukly": "https://reddit.com/r/vibecoding/comments/1sbukly/anthropic_just_pulled_the_plug_on_thirdparty/",
+      "post_1siiokj": "https://reddit.com/r/vibecoding/comments/1siiokj/i_pay_200month_for_claude_max_and_hit_the_limit/",
+      "post_1tqz6e2": "https://reddit.com/r/vibecoding/comments/1tqz6e2/anthropic_bill_came_in_this_morning_and_im/",
+      "post_1ts0b0i": "https://reddit.com/r/vibecoding/comments/1ts0b0i/the_price_difference_is_mad/",
+      "post_1uc7dxf": "https://reddit.com/r/vibecoding/comments/1uc7dxf/made_my_first_1000_vibecoding/",
+      "comment_p1sszke": "https://reddit.com/r/vibecoding/comments/1vftsnj/presenting_deepcraft_a_oneshot_minecraft_clone/p1sszke/",
+      "comment_osafll5": "https://reddit.com/r/vibecoding/comments/1u76m8k/guys_i_think_i_cracked_it/osafll5/",
+      "comment_n9vdlrx": "https://reddit.com/r/vibecoding/comments/1mw66ja/most_tools_like_cursor_are_to_expensive/n9vdlrx/",
+      "comment_oa7xg2g": "https://reddit.com/r/vibecoding/comments/1rskhdw/stop_spending_money_on_ai_when_chipotles_support/oa7xg2g/",
+      "comment_op1y5gk": "https://reddit.com/r/vibecoding/comments/1tt3460/something_a_bit_different_vibecoding_in_68000/op1y5gk/",
+      "comment_oga599f": "https://reddit.com/r/vibecoding/comments/1slwez8/cursor_vs_claude_code_vs_codex_vs_opencode/oga599f/",
+      "comment_ovekb0w": "https://reddit.com/r/vibecoding/comments/1uml5fu/if_you_ever_feel_bad_about_vibecoding_just/ovekb0w/",
+      "comment_oy2t00c": "https://reddit.com/r/vibecoding/comments/1uywoud/we_have_mcp_for_tools_and_agent_skills_for/oy2t00c/",
+      "comment_oyq0xw6": "https://reddit.com/r/vibecoding/comments/1v1qdak/how_many_ai_tokens_have_you_burned_building_your/oyq0xw6/",
+      "comment_ove7jc6": "https://reddit.com/r/vibecoding/comments/1umn6f3/i_tried_pushing_claude_to_its_limits_and_ended_up/ove7jc6/",
+      "comment_n2qef2s": "https://reddit.com/r/vibecoding/comments/1lxzmq8/is_the_20_claude_code_plan_enough_for_you/n2qef2s/",
+      "comment_oijm7qz": "https://reddit.com/r/vibecoding/comments/1swxbyz/gotta_let_the_llms_focus_on_important_things/oijm7qz/",
+      "comment_oiug8ek": "https://reddit.com/r/vibecoding/comments/1sy5qan/vibe_coded_a_cosy_game_where_you_fly_around_a/oiug8ek/",
+      "comment_ob37bl7": "https://reddit.com/r/vibecoding/comments/1rwrxtq/who_is_that/ob37bl7/",
+      "comment_ouu7bik": "https://reddit.com/r/vibecoding/comments/1uk9shn/wtf_are_you_guys_doing_thats_burning_so_many/ouu7bik/"
+    },
+    "entity_sentiment": {
+      "claude": {
+        "mention_count": 17573,
+        "avg_sentiment": 0.25,
+        "positive_pct": 53.3,
+        "negative_pct": 17.2,
+        "neutral_pct": 29.5
+      },
+      "claude-code": {
+        "mention_count": 11275,
+        "avg_sentiment": 0.332,
+        "positive_pct": 60.0,
+        "negative_pct": 10.9,
+        "neutral_pct": 29.1
+      },
+      "cursor": {
+        "mention_count": 8322,
+        "avg_sentiment": 0.198,
+        "positive_pct": 48.0,
+        "negative_pct": 17.0,
+        "neutral_pct": 35.0
+      },
+      "codex": {
+        "mention_count": 6563,
+        "avg_sentiment": 0.264,
+        "positive_pct": 54.5,
+        "negative_pct": 11.5,
+        "neutral_pct": 34.0
+      },
+      "chatgpt": {
+        "mention_count": 4550,
+        "avg_sentiment": 0.139,
+        "positive_pct": 42.8,
+        "negative_pct": 20.5,
+        "neutral_pct": 36.7
+      },
+      "gemini": {
+        "mention_count": 4175,
+        "avg_sentiment": 0.143,
+        "positive_pct": 44.8,
+        "negative_pct": 19.1,
+        "neutral_pct": 36.1
+      },
+      "lovable": {
+        "mention_count": 3444,
+        "avg_sentiment": 0.089,
+        "positive_pct": 37.7,
+        "negative_pct": 27.9,
+        "neutral_pct": 34.4
+      },
+      "vscode": {
+        "mention_count": 2501,
+        "avg_sentiment": 0.164,
+        "positive_pct": 37.3,
+        "negative_pct": 6.4,
+        "neutral_pct": 56.3
+      },
+      "supabase": {
+        "mention_count": 2493,
+        "avg_sentiment": 0.181,
+        "positive_pct": 42.9,
+        "negative_pct": 11.9,
+        "neutral_pct": 45.2
+      },
+      "copilot": {
+        "mention_count": 2345,
+        "avg_sentiment": 0.128,
+        "positive_pct": 41.9,
+        "negative_pct": 21.2,
+        "neutral_pct": 36.9
+      },
+      "anthropic": {
+        "mention_count": 2034,
+        "avg_sentiment": -0.043,
+        "positive_pct": 23.5,
+        "negative_pct": 38.6,
+        "neutral_pct": 37.9
+      },
+      "vibe-coding": {
+        "mention_count": 1843,
+        "avg_sentiment": 0.129,
+        "positive_pct": 49.0,
+        "negative_pct": 33.7,
+        "neutral_pct": 17.3
+      },
+      "replit": {
+        "mention_count": 1775,
+        "avg_sentiment": 0.069,
+        "positive_pct": 36.5,
+        "negative_pct": 28.2,
+        "neutral_pct": 35.4
+      },
+      "github": {
+        "mention_count": 1766,
+        "avg_sentiment": 0.158,
+        "positive_pct": 37.7,
+        "negative_pct": 7.8,
+        "neutral_pct": 54.6
+      },
+      "antigravity": {
+        "mention_count": 1683,
+        "avg_sentiment": 0.175,
+        "positive_pct": 47.2,
+        "negative_pct": 19.1,
+        "neutral_pct": 33.7
+      }
+    },
+    "error": false,
+    "created_at": "2026-08-19T18:31:16.593594",
+    "completed_at": "2026-08-19T18:31:51.949726",
+    "analysis_id": "xEAF2WzaIT"
+  }
+}

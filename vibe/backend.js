@@ -28,8 +28,11 @@ const CORPUS_CALLS_PER_HOUR = 4;
 // A subreddit does not change every fifteen minutes. The tick is cheap; the
 // expensive clocks are these.
 const COLLECT_EVERY_MS = 6 * 60 * 60 * 1000; // ask one new question, at most, every 6h
-const REPORT_EVERY_MS = 24 * 60 * 60 * 1000; // assemble at most one draft a day
 const EXTRACT_PER_TICK = 1; // one ctx.callAI pass per tick, never a burst
+// A question that never comes back has to be abandoned, or the collector
+// spends a poll on it every tick until someone notices. Answers land in
+// minutes; two hours means the request is gone.
+const PENDING_GIVEUP_MS = 2 * 60 * 60 * 1000;
 
 const DB_CORPUS = "corpus";
 const DB_FINDINGS = "findings";
@@ -170,6 +173,10 @@ async function collect(ctx, state, now) {
   const pending = state.pending;
 
   if (pending) {
+    if (Date.parse(now) - Date.parse(pending.askedAt) > PENDING_GIVEUP_MS) {
+      ctx.log("warn", "abandoning a request that never answered", { name: pending.name, requestId: pending.requestId });
+      return { ...state, pending: null };
+    }
     if (!(await spendCorpusCall(ctx, now))) return state;
     const res = await corpusFetch(ctx, "/analyze/" + pending.requestId + "/status");
     if (!res) return state; // egress denied; status doc already says so
@@ -395,10 +402,15 @@ async function measure(ctx, state, now) {
 // verification pass has not confirmed is reported as a lead and counted, never
 // silently dropped, because the count is how a reader judges the rest.
 
+// Assembly runs every tick and writes only when the content moved. A clock
+// would have been the obvious guard, and it would have been wrong: the first
+// tick to see one source would have written a report and then sat on it for a
+// day while the other answers landed. What makes writing safe is that the
+// stored report is compared field by field with the one just built, and a
+// report that says the same thing is not written again. Only the timestamp
+// would have differed, so the timestamp is set after the comparison, never
+// before it.
 async function assemble(ctx, state, now) {
-  const since = state.lastReportAt ? Date.parse(now) - Date.parse(state.lastReportAt) : Infinity;
-  if (since < REPORT_EVERY_MS) return state;
-
   const entities = await readAll(ctx, DB_FINDINGS, "entity");
   const leads = await readAll(ctx, DB_FINDINGS, "finding");
   if (!entities.length && !leads.length) return state;
@@ -410,11 +422,10 @@ async function assemble(ctx, state, now) {
   const unverified = entities.filter((e) => e.verified !== true).sort((a, b) => b.mentions - a.mentions);
 
   const day = dayKey(now);
-  const report = {
+  const body = {
     _id: "report:" + day,
     type: "report",
     day,
-    generatedAt: now,
     // The state of this document, stated in the document, so no reader has to
     // infer it and no later step can quietly skip one.
     status: "analysis-draft",
@@ -439,7 +450,10 @@ async function assemble(ctx, state, now) {
     })),
   };
 
-  await putIfChanged(ctx, report, DB_FINDINGS);
+  const existing = await ctx.db.get(body._id, { db: DB_FINDINGS });
+  if (unchanged(existing, body)) return state;
+
+  await ctx.db.put({ ...body, generatedAt: now }, { db: DB_FINDINGS });
   ctx.log("assembled", { day, entities: entities.length, ranked: ranked.length, leads: leads.length });
   return { ...state, lastReportAt: now };
 }

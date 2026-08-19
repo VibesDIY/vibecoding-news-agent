@@ -1,0 +1,319 @@
+{
+  "name": "abandonment",
+  "question": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?",
+  "lens": null,
+  "analyze": {
+    "answer": null,
+    "request_id": "e5c9c2e2-9c1a-4215-b26d-12fe6c1cc1b9",
+    "analysis_pending": true,
+    "url_mappings": {
+      "post_1": "https://i.imgur.com/BEhaiC8.jpeg",
+      "post_2": "https://www.reddit.com/r/vibecoding/comments/1mpyhma/of_projects_abandoned/",
+      "post_3": "https://reddit.com/r/nocode/comments/1mx884d/why_is_a_vibe_coded_project_stuck_at_8090/",
+      "post_4": "https://reddit.com/r/webdev/comments/1vnx44m/has_anyone_actually_maintained_a_vibe_coded/",
+      "post_5": "https://i.redd.it/3k5i7e0n2eqf1.png",
+      "post_6": "https://www.reddit.com/r/vibecoding/comments/1s2jueo/why_do_people_hate_on_vibe_codes_projects_so_much/",
+      "post_7": "https://i.redd.it/hyg9h4yapswg1.png",
+      "post_8": "https://www.reddit.com/r/vibecoding/comments/1th42xd/how_many_unfinished_vibe_coding_projects_do_you/",
+      "post_9": "https://www.reddit.com/r/vibecoding/comments/1tf4se9/vibecoding_is_dead/",
+      "post_10": "https://www.reddit.com/r/vibecoding/comments/1vo0z1y/serious_question_when_the_vibe_coded_site_becomes/",
+      "post_11": "https://www.reddit.com/r/vibecoding/comments/1ufq38e/what_terrible_vibe_coded_codebases_do_you_know_of/",
+      "post_12": "https://www.reddit.com/r/vibecoding/comments/1q042rx/have_personal_project_vibe_code_or_no/",
+      "post_13": "https://www.reddit.com/r/vibecoding/comments/1ozt7z4/b2b_vibe_coded_software/",
+      "post_14": "https://www.reddit.com/r/vibecoding/comments/1rrenvl/we_can_all_vibe_code_why_bother/",
+      "post_15": "https://v.redd.it/i06yia85y9xg1",
+      "post_16": "https://www.reddit.com/r/vibecoding/comments/1t0srsq/vibecoding_is_weird/",
+      "post_17": "https://www.reddit.com/r/vibecoding/comments/1szppcf/the_vibe_coded_graveyard_is_getting_out_of_hand/",
+      "post_18": "https://www.reddit.com/r/vibecoding/comments/1v1br0u/why_do_peoole_hate_vibe_coders_so_much/",
+      "post_19": "https://www.reddit.com/r/vibecoding/comments/1ubqhrh/why_do_people_bash_vibecoding_so_much/",
+      "post_20": "https://www.reddit.com/r/vibecoding/comments/1p8x69n/vibe_coding_aint_what_it_used_to_be/",
+      "post_21": "https://www.reddit.com/r/vibecoding/comments/1tijli0/why_the_hate_for_vibecoding/",
+      "post_22": "https://www.reddit.com/r/vibecoding/comments/1nv0qs0/whats_everyone_doing_when_they_get_stuck_vibe/",
+      "post_23": "https://www.reddit.com/r/vibecoding/comments/1s61q61/whats_happening_to_all_the_vibe_coded_apps_out/",
+      "post_24": "https://www.reddit.com/r/vibecoding/comments/1s5h8f4/whats_a_project_you_abandoned_and_why/",
+      "post_25": "https://www.reddit.com/r/vibecoding/comments/1uo55li/my_vibe_coded_website_failed_and_what_i_learned/",
+      "post_26": "https://www.reddit.com/r/vibecoding/comments/1ndpr3i/why_to_vibe_code_even/",
+      "post_27": "https://www.reddit.com/r/vibecoding/comments/1vilvzi/what_vibe_coded_app_mobile_desktop_web_did_you/",
+      "post_28": "https://www.reddit.com/r/vibecoding/comments/1sz9th3/open_source_vibe_coding_projects_for_vibe_coders/",
+      "post_29": "https://www.reddit.com/r/vibecoding/comments/1p04vxo/whats_the_biggest_challenge_did_you_face_when_you/",
+      "post_30": "https://www.reddit.com/r/vibecoding/comments/1nhkm3m/when_does_it_stop_or_start_being_vibe_coding/",
+      "post_31": "https://www.reddit.com/r/vibecoding/comments/1vova04/vibe_coding_for_fun_and_profit/",
+      "post_32": "https://www.reddit.com/r/vibecoding/comments/1vad3ir/vibe_coding_vs_the_other_kind/",
+      "post_33": "https://www.reddit.com/r/vibecoding/comments/1t6c43r/when_does_vibe_coding_just_become_development/",
+      "post_34": "https://www.reddit.com/r/vibecoding/comments/1pyv5hh/when_vibe_coding_stops_feeling_fun_people_dont/",
+      "post_35": "https://www.reddit.com/r/vibecoding/comments/1t0lp9c/is_vibe_coder_a_bad_term/",
+      "post_36": "https://www.reddit.com/r/vibecoding/comments/1nccyym/confusion_about_the_term_vibe_coding/",
+      "post_37": "https://i.redd.it/opqsvxnbvoyg1.jpeg",
+      "post_38": "https://www.reddit.com/r/vibecoding/comments/1ulru4k/why_do_vibe_coders_tend_to_build_smaller_and_less/",
+      "post_39": "https://www.reddit.com/r/vibecoding/comments/1ryalqe/vibe_coding_what_is_it_what_is_it_not/",
+      "post_40": "https://i.redd.it/2rmwn6g79bgg1.jpeg",
+      "post_41": "https://www.reddit.com/r/vibecoding/comments/1mjdokd/why_do_you_vibe_code/",
+      "post_42": "https://www.reddit.com/r/vibecoding/comments/1oamq89/what_is_vibe_coding_for_you/",
+      "post_43": "https://www.reddit.com/r/vibecoding/comments/1spmxu6/my_readme_described_features_that_didnt_exist/",
+      "post_44": "https://www.reddit.com/r/vibecoding/comments/1skx3bc/how_quickly_does_your_vibe_coded_app_become/",
+      "post_45": "https://www.reddit.com/r/vibecoding/comments/1tasx3r/be_honest_why_you_vibe_coding/",
+      "post_46": "https://www.reddit.com/r/vibecoding/comments/1romxua/vibecoding_ruined_me/",
+      "post_47": "https://www.reddit.com/r/vibecoding/comments/1nu8s3y/i_tried_vibe_coding_for_4_weeks_heres_why_im/",
+      "post_48": "https://www.reddit.com/r/vibecoding/comments/1ncje66/how_can_i_tell_if_an_app_is_vibecoded/",
+      "post_49": "https://www.reddit.com/r/vibecoding/comments/1udpv82/anyone_elses_vibecoded_project_become_basically/",
+      "post_50": "https://reddit.com/r/rust/comments/1ruvtu4/silverfirnano_a_277kb_webassembly_microjit_going/"
+    },
+    "total_posts_analyzed": 100,
+    "total_comments_analyzed": 100,
+    "relevance_score": 0.561,
+    "sentiment_distribution": {
+      "percentages": {
+        "positive": 64.9,
+        "negative": 30.5,
+        "neutral": 4.6
+      }
+    },
+    "entity_sentiment": null,
+    "common_themes": [
+      "Building: 82.0% of results",
+      "Debugging: 44.0% of results",
+      "Ai Tools: 24.0% of results",
+      "Learning: 24.0% of results",
+      "Deployment: 12.0% of results"
+    ],
+    "representative_examples": [
+      {
+        "type": "post",
+        "content": "Title: Why the majority of vibe coded projects fail\n\nContent: Why the majority of vibe coded projects fail",
+        "title": "Why the majority of vibe coded projects fail",
+        "author": "Garland_Key",
+        "score": 0,
+        "num_comments": 7,
+        "relevance_score": 0.592,
+        "subreddit": "vibecoding",
+        "url": "https://i.imgur.com/BEhaiC8.jpeg"
+      },
+      {
+        "type": "post",
+        "content": "Title: % of projects abandoned?\n\nContent: I abandon around 2/3 of vibe coding projects I start due to the inability of the platform to produce a working app - I\u2019m not talking about landing pages.\n\nRoughly speaking, if it takes more than 30 mins to get the bare bones running, I start drifting onto ot...",
+        "title": "% of projects abandoned?",
+        "author": "last_barron",
+        "score": 19,
+        "num_comments": 71,
+        "relevance_score": 0.591,
+        "subreddit": "vibecoding",
+        "url": "https://www.reddit.com/r/vibecoding/comments/1mpyhma/of_projects_abandoned/"
+      },
+      {
+        "type": "post",
+        "content": "Title: Why is a vibe coded project stuck at 80-90% ?\n\nContent: Why is a vibe coded project stuck at 80-90% ?",
+        "title": "Why is a vibe coded project stuck at 80-90% ?",
+        "author": "anchit_rana",
+        "score": 2,
+        "num_comments": 0,
+        "relevance_score": 0.59,
+        "subreddit": "vibecoding",
+        "url": "/r/nocode/comments/1mx884d/why_is_a_vibe_coded_project_stuck_at_8090/"
+      },
+      {
+        "type": "post",
+        "content": "Title: Has anyone actually maintained a vibe coded code-base 12 months after launch? What did it look like?\n\nContent: It's either \"Look at them vibe coding an app that was not hand crafted like a unique Japanese tea pot, that requires a unique handjob finish.\"\n\nOr it is, \"I used to run Bitcoin scams...",
+        "title": "Has anyone actually maintained a vibe coded code-base 12 months after launch? What did it look like?",
+        "author": "prolific_user",
+        "score": 1,
+        "num_comments": 0,
+        "relevance_score": 0.58,
+        "subreddit": "vibecoding",
+        "url": "/r/webdev/comments/1vnx44m/has_anyone_actually_maintained_a_vibe_coded/"
+      },
+      {
+        "type": "post",
+        "content": "Title: Any experience with a vibe coded project that turned out to be a catastrophe?\n\nContent: Any experience with a vibe coded project that turned out to be a catastrophe?",
+        "title": "Any experience with a vibe coded project that turned out to be a catastrophe?",
+        "author": "Significant_Joke127",
+        "score": 6,
+        "num_comments": 1,
+        "relevance_score": 0.579,
+        "subreddit": "vibecoding",
+        "url": "https://i.redd.it/3k5i7e0n2eqf1.png"
+      }
+    ],
+    "metadata": {
+      "query": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?",
+      "processing_time": 13.86,
+      "analysis_type": "semantic_search",
+      "query_intent": "community",
+      "intent_confidence": 0.67,
+      "time_sensitive": false,
+      "quick_response": true,
+      "timestamp": "2026-08-19T18:34:13.214230",
+      "analysis_id": "i60NqA8mQr"
+    }
+  },
+  "status": {
+    "request_id": "e5c9c2e2-9c1a-4215-b26d-12fe6c1cc1b9",
+    "analysis_pending": false,
+    "answer": "## Why r/vibecoding projects get abandoned, rewritten, or scrapped\n\nThe community's own quote-level evidence (from `project-abandonment`, `rewrite`, `codebase-rewrite`, and semantic search) converges on a handful of recurring failure modes, distinct from the separate \"what counts as vibe coding\" identity debate:\n\n**1. The code becomes unreadable / un-fixable, so people give up on understanding it at all**\nOnce a codebase grows past a certain size, non-coders (and even coders) lose the ability to intervene:\n- \"after the 2500 line mark, AI can't really handle the whole code. Since I don't really understand code structure, I can't pinpoint specific parts of the code and delete/paste a smaller block\" [comment_nojmyjw](https://reddit.com/r/vibecoding/comments/1ov5opt/whats_the_best_ai_for_vibe_coding_for_someone_who/nojmyjw/)\n- \"The vibe coded version... Works but it's about 3-4k lines of code longer and every time I look at it I have the urgent need to nuke the thing.\" [comment_nk4lq5p](https://reddit.com/r/vibecoding/comments/1o9lcfh/do_you_need_to_understand_the_code_ai_writes/nk4lq5p/)\n- \"it was such a giant pile of shit that the ai eventually decided to scrap the trash!\" [comment_ogefyf5](https://reddit.com/r/vibecoding/comments/1sm6rtj/gpt_really_looked_at_1000_lines_of_logic_and/ogefyf5/)\n\n**2. Accumulated technical debt makes further changes riskier than starting over**\n- \"AI still creates a ton of tech debt. For larger projects this becomes a big issue... So the bottleneck now is reviewing and rewriting in a clean, scalable and performant manner. AI is not scared of duplicated code or absurd amounts of boilerplate.\" [comment_oi1hdzw](https://reddit.com/r/vibecoding/comments/1sugf1p/vibe_coding_killed_the_cant_build_excuse_so_whats/oi1hdzw/)\n- \"It seems they are producing too much poor-quality code, making AI maintenance necessary to avoid a complete rewrite in the future\" [comment_otu6f7a](https://reddit.com/r/vibecoding/comments/1ufqime/is_aigenerated_code_creating_hidden_technical_debt/otu6f7a/)\n- One person tried to have AI redo a project they'd originally hand-written: \"Had to do a 'month 3 rewrite'... Figured I'd easily crack it with AI. Boy was I wrong. Ended up doing 90% of the work myself.\" [comment_oe4rp1n](https://reddit.com/r/vibecoding/comments/1sbi35n/the_real_cost_of_vibe_coding_isnt_the/oe4rp1n/)\n\n**3. Bugs become disproportionately expensive to fix relative to the time saved writing the code**\n- \"it took 1-2 hours to ai code session management and I spent about 16-20 hours trying to fix a concurrent session/session conflict bug left in by the ai.\" This person concluded AI coding is faster upfront but \"if it takes 5x prompts to correct an issue then the saving is no longer there,\" and started hand-coding certain tasks again after 6 months of heavy AI use. [comment_o9i7fk3](https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9i7fk3/)\n- \"my problem with using AI for bug fixing frontend is it will overthink then produce the most longest code solution possible. now do that 10 times and you end up with bloated code base\" [comment_p3n8t6l](https://reddit.com/r/vibecoding/comments/1vo6dfr/why_people_say_that_tokenmaxxing_is_a_bad_thing/p3n8t6l/)\n\n**4. Loss of control / model regressions breaking a previously-working build**\n- \"it quickly fell apart during working on the codebase... produced wrong results, nonworking code and ran into endless change loops when I added compile verification...\" [comment_nwxg5m2](https://reddit.com/r/vibecoding/comments/1pyc8t7/antigravity_nano_banana_might_be_the_ultimate/nwxg5m2/)\n\n**5. Simple burnout / loss of the \"vibe\"**\nNot every abandonment is technical \u2014 some is just motivational fade:\n- \"I fell for it, ran about 2 years on just vibe coding for my personal projects. But I think I've had enough. Now I have a code mess which I'm about to clean up.\" [comment_onyunfh](https://reddit.com/r/vibecoding/comments/1to52wh/how_is_vibecoding_even_a_thing/onyunfh/)\n- \"Lost the vibe to code\" [comment_ox5z4fh](https://reddit.com/r/vibecoding/comments/1uusi2b/how_to_unvibe_code_a_vibe_coded_website/ox5z4fh/)\n- Wryly summarized: \"Before, I had 3 abandoned pet projects. After vibe coding appeared, now I have 30 abandoned pet projects. =)\" [comment_od17tpm](https://reddit.com/r/vibecoding/comments/1s61ww3/me_in_5_years/od17tpm/) \u2014 a joke that the corpus's `project-abandonment` topic (81 mentions) and `abandoned-projects` topic (18 mentions) suggest is a real pattern: vibe coding lowers the barrier to *starting* far more than it lowers the barrier to *finishing/maintaining*.\n\n**6. Some projects are eventually resurrected rather than truly killed**, which supports the \"not really abandoned, just stalled\" framing: \"I took my defunct first vibe coded project from 2023 and revived it in a few hours\" [post_1uy285i](https://reddit.com/r/vibecoding/comments/1uy285i/i_took_my_defunct_first_vibe_coded_project_from/).\n\n### Summary\nThe dominant narrative isn't \"AI can't code\" \u2014 it's a **compounding-debt story**: small early convenience (fast first draft, no need to understand the code) turns into large late cost once the codebase crosses a size/complexity threshold the person (or the model) can no longer reason about. At that point, people report three exit paths: (a) grind through expensive manual debugging, (b) do a full rewrite/refactor, or (c) just walk away from the project. A smaller but consistent thread is plain motivational burnout unrelated to code quality.\n\n*Caveat: the canon briefs don't have a dedicated \"abandonment\" brief \u2014 this synthesis draws mainly from semantic search quotes and topic-tag counts (`project-abandonment`: 81 mentions, `rewrite`/`codebase-rewrite`: 22 mentions combined), so it's representative of visible discourse patterns rather than an exhaustive causal breakdown.*",
+    "url_mappings": {
+      "comment_n2ctnkr": "https://reddit.com/r/vibecoding/comments/1lwbgzl/vibe_coding_is_killing_my_company/n2ctnkr/",
+      "comment_n6gxygn": "https://reddit.com/r/vibecoding/comments/1mfgeex/vibe_coding_is_not_working_and_heres_why/n6gxygn/",
+      "comment_n91kqyo": "https://reddit.com/r/vibecoding/comments/1ms1vol/people_saying_they_vibe_coded_an_entire_app/n91kqyo/",
+      "comment_na13b2x": "https://reddit.com/r/vibecoding/comments/1mwxn8q/waitam_i_vibe_coding/na13b2x/",
+      "comment_nno0kby": "https://reddit.com/r/vibecoding/comments/1or6ud8/wth_is_vibe_coding/nno0kby/",
+      "comment_nwc0bsv": "https://reddit.com/r/vibecoding/comments/1pxfojl/message_for_the_software_engineers/nwc0bsv/",
+      "comment_ojntbwb": "https://reddit.com/r/vibecoding/comments/1t2i55r/started_vibe_coding_and_now_im_just_confused/ojntbwb/",
+      "comment_om546fk": "https://reddit.com/r/vibecoding/comments/1tevwmj/vibecode_haters/om546fk/",
+      "comment_ootngok": "https://reddit.com/r/vibecoding/comments/1ts9psb/vibe_coded_this_game_in_2_days_insane_how_far/ootngok/",
+      "comment_ormifat": "https://reddit.com/r/vibecoding/comments/1u5p8yq/is_it_just_me_or_does_vibe_coding_get_harder_the/ormifat/",
+      "comment_ot4vlri": "https://reddit.com/r/vibecoding/comments/1ucm7o4/if_ai_has_ruined_software_development_why_am_i/ot4vlri/",
+      "post_1ko49z7": "https://reddit.com/r/vibecoding/comments/1ko49z7/my_friend_is_helping_me_with_vibe_coding_issues/",
+      "post_1o486r5": "https://reddit.com/r/vibecoding/comments/1o486r5/vibe_coding_is_just_the_new_dropshipping_change/",
+      "post_1oshp94": "https://reddit.com/r/vibecoding/comments/1oshp94/i_did_it/",
+      "post_1q30apl": "https://reddit.com/r/vibecoding/comments/1q30apl/vibe_coding_vs_vibe_engineering/",
+      "post_1rjhuvh": "https://reddit.com/r/vibecoding/comments/1rjhuvh/my_entire_vibe_coding_workflow_as_a_nontechnical/",
+      "post_1ryn86h": "https://reddit.com/r/vibecoding/comments/1ryn86h/vibe_code_so_hard_your_entire_waitlist_is_visible/",
+      "post_1swyadr": "https://reddit.com/r/vibecoding/comments/1swyadr/viral_grill_me_claude_skill_proves_specstocode_is/",
+      "post_1t69av5": "https://reddit.com/r/vibecoding/comments/1t69av5/show_me_what_youve_vibe_coded_drop_your_project/",
+      "post_1tf7dan": "https://reddit.com/r/vibecoding/comments/1tf7dan/im_a_software_engineer_with_a_decade_of/",
+      "post_1thlwew": "https://reddit.com/r/vibecoding/comments/1thlwew/just_finished_three_anthropic_certifications_that/",
+      "post_1uj2ucj": "https://reddit.com/r/vibecoding/comments/1uj2ucj/i_vibe_coded_an_ad_blocker_that_websites_cant/",
+      "post_1uoqikl": "https://reddit.com/r/vibecoding/comments/1uoqikl/dont_be_the_caveman/",
+      "post_1uy285i": "https://reddit.com/r/vibecoding/comments/1uy285i/i_took_my_defunct_first_vibe_coded_project_from/",
+      "comment_nvyaq0b": "https://reddit.com/r/vibecoding/comments/1pv9fvf/build_a_vibe_code_project_that_finally_makes_money/nvyaq0b/",
+      "comment_ocmc2ha": "https://reddit.com/r/vibecoding/comments/1s4b8vm/i_quit_vibe_coding_and_started_to_learn/ocmc2ha/",
+      "comment_ocpk2m5": "https://reddit.com/r/vibecoding/comments/1s4smaw/vibe_coders_which_vibe_coding_platform_are_you/ocpk2m5/",
+      "comment_od17tpm": "https://reddit.com/r/vibecoding/comments/1s61ww3/me_in_5_years/od17tpm/",
+      "comment_nk4lq5p": "https://reddit.com/r/vibecoding/comments/1o9lcfh/do_you_need_to_understand_the_code_ai_writes/nk4lq5p/",
+      "comment_onyunfh": "https://reddit.com/r/vibecoding/comments/1to52wh/how_is_vibecoding_even_a_thing/onyunfh/",
+      "comment_omkpuv9": "https://reddit.com/r/vibecoding/comments/1th43cm/how_to_manage_task_and_plan_for_several/omkpuv9/",
+      "comment_n8mykya": "https://reddit.com/r/vibecoding/comments/1mpyhma/of_projects_abandoned/n8mykya/",
+      "comment_mnrop9t": "https://reddit.com/r/vibecoding/comments/1j99p58/what_are_you_vibe_coding_this_week/mnrop9t/",
+      "comment_o8rzdjh": "https://reddit.com/r/vibecoding/comments/1rjqr62/due_to_war_my_ios_app_got_10k_downloads/o8rzdjh/",
+      "comment_ocplu3l": "https://reddit.com/r/vibecoding/comments/1s4smaw/vibe_coders_which_vibe_coding_platform_are_you/ocplu3l/",
+      "comment_ox5z4fh": "https://reddit.com/r/vibecoding/comments/1uusi2b/how_to_unvibe_code_a_vibe_coded_website/ox5z4fh/",
+      "comment_owu3gqz": "https://reddit.com/r/vibecoding/comments/1ut9oee/your_vibecoded_website_is_genuinely_crap_prove_me/owu3gqz/",
+      "comment_odhzeuq": "https://reddit.com/r/vibecoding/comments/1s8mojl/i_think_i_see_that_a_lot_of_people_underestimate/odhzeuq/",
+      "comment_oetux1i": "https://reddit.com/r/vibecoding/comments/1sevpwd/built_a_tool_to_understand_aigenerated_codebases/oetux1i/",
+      "comment_p3n8t6l": "https://reddit.com/r/vibecoding/comments/1vo6dfr/why_people_say_that_tokenmaxxing_is_a_bad_thing/p3n8t6l/",
+      "comment_oe4rp1n": "https://reddit.com/r/vibecoding/comments/1sbi35n/the_real_cost_of_vibe_coding_isnt_the/oe4rp1n/",
+      "comment_on8wn5f": "https://reddit.com/r/vibecoding/comments/1tkii9s/do_you_actually_understand_the_code_you_write/on8wn5f/",
+      "comment_oaygo70": "https://reddit.com/r/vibecoding/comments/1rvjtza/very_true/oaygo70/",
+      "comment_ogefyf5": "https://reddit.com/r/vibecoding/comments/1sm6rtj/gpt_really_looked_at_1000_lines_of_logic_and/ogefyf5/",
+      "comment_o9i7fk3": "https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9i7fk3/",
+      "comment_p07pyfb": "https://reddit.com/r/vibecoding/comments/1v8pm7x/i_asked_for_one_bug_fix_ai_had_other_plans/p07pyfb/",
+      "comment_o9bfd2k": "https://reddit.com/r/vibecoding/comments/1rndiqk/if_llms_can_vibe_code_in_lowlevel_languages_like/o9bfd2k/",
+      "comment_p2429ub": "https://reddit.com/r/vibecoding/comments/1vgyquy/whats_the_bug_fixing_difference_between_ai_code/p2429ub/",
+      "comment_otu6f7a": "https://reddit.com/r/vibecoding/comments/1ufqime/is_aigenerated_code_creating_hidden_technical_debt/otu6f7a/",
+      "comment_ovx0t9e": "https://reddit.com/r/vibecoding/comments/1ujns38/anyone_can_just_vibe_code_an_appreally/ovx0t9e/",
+      "comment_nojmyjw": "https://reddit.com/r/vibecoding/comments/1ov5opt/whats_the_best_ai_for_vibe_coding_for_someone_who/nojmyjw/",
+      "comment_oi1hdzw": "https://reddit.com/r/vibecoding/comments/1sugf1p/vibe_coding_killed_the_cant_build_excuse_so_whats/oi1hdzw/",
+      "comment_nwxg5m2": "https://reddit.com/r/vibecoding/comments/1pyc8t7/antigravity_nano_banana_might_be_the_ultimate/nwxg5m2/"
+    },
+    "entity_sentiment": {
+      "claude": {
+        "mention_count": 17573,
+        "avg_sentiment": 0.25,
+        "positive_pct": 53.3,
+        "negative_pct": 17.2,
+        "neutral_pct": 29.5
+      },
+      "claude-code": {
+        "mention_count": 11275,
+        "avg_sentiment": 0.332,
+        "positive_pct": 60.0,
+        "negative_pct": 10.9,
+        "neutral_pct": 29.1
+      },
+      "cursor": {
+        "mention_count": 8322,
+        "avg_sentiment": 0.198,
+        "positive_pct": 48.0,
+        "negative_pct": 17.0,
+        "neutral_pct": 35.0
+      },
+      "codex": {
+        "mention_count": 6563,
+        "avg_sentiment": 0.264,
+        "positive_pct": 54.5,
+        "negative_pct": 11.5,
+        "neutral_pct": 34.0
+      },
+      "chatgpt": {
+        "mention_count": 4550,
+        "avg_sentiment": 0.139,
+        "positive_pct": 42.8,
+        "negative_pct": 20.5,
+        "neutral_pct": 36.7
+      },
+      "gemini": {
+        "mention_count": 4175,
+        "avg_sentiment": 0.143,
+        "positive_pct": 44.8,
+        "negative_pct": 19.1,
+        "neutral_pct": 36.1
+      },
+      "lovable": {
+        "mention_count": 3444,
+        "avg_sentiment": 0.089,
+        "positive_pct": 37.7,
+        "negative_pct": 27.9,
+        "neutral_pct": 34.4
+      },
+      "vscode": {
+        "mention_count": 2501,
+        "avg_sentiment": 0.164,
+        "positive_pct": 37.3,
+        "negative_pct": 6.4,
+        "neutral_pct": 56.3
+      },
+      "supabase": {
+        "mention_count": 2493,
+        "avg_sentiment": 0.181,
+        "positive_pct": 42.9,
+        "negative_pct": 11.9,
+        "neutral_pct": 45.2
+      },
+      "copilot": {
+        "mention_count": 2345,
+        "avg_sentiment": 0.128,
+        "positive_pct": 41.9,
+        "negative_pct": 21.2,
+        "neutral_pct": 36.9
+      },
+      "anthropic": {
+        "mention_count": 2034,
+        "avg_sentiment": -0.043,
+        "positive_pct": 23.5,
+        "negative_pct": 38.6,
+        "neutral_pct": 37.9
+      },
+      "vibe-coding": {
+        "mention_count": 1843,
+        "avg_sentiment": 0.129,
+        "positive_pct": 49.0,
+        "negative_pct": 33.7,
+        "neutral_pct": 17.3
+      },
+      "replit": {
+        "mention_count": 1775,
+        "avg_sentiment": 0.069,
+        "positive_pct": 36.5,
+        "negative_pct": 28.2,
+        "neutral_pct": 35.4
+      },
+      "github": {
+        "mention_count": 1766,
+        "avg_sentiment": 0.158,
+        "positive_pct": 37.7,
+        "negative_pct": 7.8,
+        "neutral_pct": 54.6
+      },
+      "antigravity": {
+        "mention_count": 1683,
+        "avg_sentiment": 0.175,
+        "positive_pct": 47.2,
+        "negative_pct": 19.1,
+        "neutral_pct": 33.7
+      }
+    },
+    "error": false,
+    "created_at": "2026-08-19T18:34:13.214066",
+    "completed_at": "2026-08-19T18:35:18.608029",
+    "analysis_id": "i60NqA8mQr"
+  }
+}

@@ -79,6 +79,10 @@ function slug(value) {
     .slice(0, 48);
 }
 
+function isCitationRef(value) {
+  return /^(comment|post)[_\s-]?[a-z0-9]{5,}$/i.test(String(value || "").trim());
+}
+
 function dayKey(iso) {
   return String(iso).slice(0, 10);
 }
@@ -305,7 +309,8 @@ const EXTRACT_PROMPT = [
   "Read this synthesis of r/vibecoding discussion and pull out the separate claims it makes.",
   "",
   "Rules:",
-  "- One finding per claim. Name the tool, product or person the claim is about in `entity`; use the topic when no entity is named.",
+  "- One finding per claim. `entity` is the tool, product or person the claim is about, or a short topic phrase of two to four words when the claim names none.",
+  "- `entity` is NEVER a citation reference. Strings like comment_ok3ab12 or post_1tqyz3c identify where a claim came from, not what it is about. Those belong in permalinks and nowhere else.",
   "- `claim` states what the community said, in one sentence, without adjectives you cannot source.",
   "- `permalinks` carries only reddit.com URLs that appear in the text. Never invent one.",
   "- `mentions` is a count only if the text states one. Leave it out otherwise.",
@@ -335,11 +340,17 @@ async function extract(ctx, state, now) {
     const findings = Array.isArray(parsed && parsed.findings) ? parsed.findings.slice(0, 40) : [];
     let written = 0;
     for (const f of findings) {
-      const id = "finding:" + source.name + ":" + slug(f.entity) + ":" + slug(String(f.claim).slice(0, 40));
+      // The model has been observed answering with the citation reference it
+      // was reading (comment_ok3ab12) instead of the subject of the claim. A
+      // finding filed under the id of its own footnote is unreadable, and the
+      // page would print it as a heading, so it is caught here as well as
+      // forbidden in the prompt.
+      const entity = isCitationRef(f.entity) ? source.name : String(f.entity || "").slice(0, 120);
+      const id = "finding:" + source.name + ":" + slug(entity) + ":" + slug(String(f.claim).slice(0, 40));
       const doc = {
         _id: id,
         type: "finding",
-        entity: String(f.entity || "").slice(0, 120),
+        entity,
         claim: String(f.claim || "").slice(0, 600),
         sentiment: f.sentiment ? String(f.sentiment).slice(0, 40) : null,
         mentions: typeof f.mentions === "number" ? f.mentions : null,

@@ -630,9 +630,10 @@ const BLURB_RULES = [
 
 async function dress(ctx, state, now) {
   const links = await readAll(ctx, DB_FINDINGS, "link");
-  const waiting = links.filter((l) => !l.blurbDraft && !l.blurb).slice(0, BLURB_PER_TICK);
+  const waiting = links.filter((l) => !l.blurbDraft && !l.blurb && !l.blurbError).slice(0, BLURB_PER_TICK);
   if (!waiting.length) return state;
 
+  let wrote = 0;
   for (const l of waiting) {
     let draft;
     try {
@@ -657,14 +658,23 @@ async function dress(ctx, state, now) {
         ),
       ).trim();
     } catch (err) {
-      ctx.log("error", "blurb draft failed", { link: l._id, message: String(err && err.message) });
+      // The reason lands on the document as well as in the log, because a log
+      // you cannot read back turns "the step ran and nothing appeared" into a
+      // guess (vibes.diy#4938). It also stops this link being retried every
+      // tick forever while the same call keeps failing.
+      const why = String((err && err.message) || err).slice(0, 300);
+      ctx.log("error", "blurb draft failed", { link: l._id, message: why });
+      await putIfChanged(ctx, { ...l, blurbError: why, blurbTriedAt: now }, DB_FINDINGS);
       continue;
     }
     if (!draft) continue;
     await putIfChanged(ctx, { ...l, blurbDraft: draft.slice(0, 500), blurbDraftedAt: now }, DB_FINDINGS);
     ctx.log("drafted a blurb", { link: l._id, words: draft.split(/\s+/).length });
+    wrote++;
   }
-  return { ...state, lastBlurbAt: now };
+  // Only a written draft counts as progress. Reporting "advanced" for a tick
+  // that failed every call is how a broken step looks healthy.
+  return wrote ? { ...state, lastBlurbAt: now } : state;
 }
 
 // ------------------------------------------------------------- 4. assemble

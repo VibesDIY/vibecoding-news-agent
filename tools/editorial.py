@@ -7,10 +7,14 @@ Usage:
   editorial.py approve <link-id> --by <name> [--text "..."] [--vibe ...]
   editorial.py reject  <link-id> [--vibe ...]        clear the draft, redraft next tick
 
-The page shows `blurb` and never `blurbDraft`, so nothing here reaches a reader
-until a person runs `approve`. Passing --text replaces the draft with your own
-words, which is the expected case rather than the exception: the draft exists to
-save you from a blank page.
+The page shows the draft, marked as a draft, because the people reading it are
+the people deciding what to post. What `approve` does is drop that marker: it
+records that a person went through the line and stands behind it. Passing
+--text replaces the draft with your own words, which is the expected case
+rather than the exception.
+
+Approval in the sense that matters is posting to r/vibecoding, which happens
+from a person's own account and not from here.
 
 House style is vibe/EDITORIAL.md. If the drafts keep coming back wrong, that
 file is the thing to change, not each blurb.

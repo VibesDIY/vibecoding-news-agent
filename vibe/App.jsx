@@ -30,6 +30,11 @@ function Masthead({ status }) {
         Threads worth reading, picked by an agent from a semantic index of the subreddit. The code that picks them is
         public, and so is every answer it read.
       </p>
+      <p style={{ margin: "10px 0 0", fontSize: 13, color: C.muted }}>
+        This page is the draft. The writing under each link is machine-drafted and marked as such until a person has
+        been through it. Nothing here has been posted to r/vibecoding, and a person deciding to post is what approval
+        means.
+      </p>
       {status && status.state !== "ok" ? (
         <p style={{ margin: "10px 0 0", fontSize: 13, color: C.accent }}>Collector status: {status.message}</p>
       ) : null}
@@ -115,8 +120,23 @@ function LinkRow({ l }) {
         {l.title || l.url}
       </a>
 
-      {l.blurb ? (
-        <p style={{ margin: "10px 0 0", fontSize: 16, lineHeight: 1.5 }}>{l.blurb}</p>
+      {l.blurb || l.blurbDraft ? (
+        <p style={{ margin: "10px 0 0", fontSize: 16, lineHeight: 1.5 }}>
+          {l.blurb ? null : (
+            <span
+              style={{
+                fontSize: 12,
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+                color: C.muted,
+                marginRight: 8,
+              }}
+            >
+              draft
+            </span>
+          )}
+          {l.blurb || l.blurbDraft}
+        </p>
       ) : null}
 
       {l.excerpt ? (

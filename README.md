@@ -8,9 +8,10 @@ that picks the links is here, so you can check the method or change it.
 
 Each link carries a short piece of writing that is not a summary: someone
 pointing at the one detail that made them stop, with a view about it. A model
-drafts those and a person signs them, and the page shows nothing until somebody
-has. House style is in [vibe/EDITORIAL.md](vibe/EDITORIAL.md), which is the file
-to argue with if the blurbs read wrong.
+drafts those, the page shows them marked as drafts, and a person rewrites what
+needs rewriting before any of it is posted anywhere. House style is in
+[vibe/EDITORIAL.md](vibe/EDITORIAL.md), which is the file to argue with if the
+blurbs read wrong.
 
 The ordering is the opinionated part. It alternates between threads the
 subreddit voted up and threads that drew far more discussion than votes. That

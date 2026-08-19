@@ -39,15 +39,18 @@ can already see from the title.
    or the corpus answer that surfaced it. If a claim needs a fact nobody
    wrote down, cut the claim.
 
-## Why a person still signs it
+## Where the draft is read, and what approval means
 
-The blurb is drafted by a model and published only after a human has read it
-and either edited it or let it stand. That is not ceremony. This audience
-detects machine prose reliably and mocks it above the fold, so a page full of
-unread machine blurbs would cost more credibility than the whole round-up
-earns. The draft is there to save a person from a blank page, not to replace
-them.
+The page is the draft. Blurbs appear on it marked `draft` until a person has
+been through them, because the reader this page is for right now is the person
+deciding what gets posted, and hiding the draft from them hides the only thing
+they came to read.
 
-Drafts live on the link document as `blurbDraft`. A human promotes one with
-`tools/editorial.py`, which writes `blurb` and records who approved it. The
-page shows `blurb` and never `blurbDraft`.
+Approval is not a field. It is posting to r/vibecoding, which is a person's
+decision and a person's account. What `tools/editorial.py` does is let that
+person rewrite a blurb before it goes anywhere: `approve --by <name> --text
+"..."` replaces the draft with their words and drops the marker.
+
+The machine-prose problem has not gone away, it has moved to the right place.
+Nothing machine-written reaches r/vibecoding without a person having read every
+line, and the page says out loud which lines those are.

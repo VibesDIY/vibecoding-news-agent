@@ -727,8 +727,8 @@ async function assemble(ctx, state, now) {
       links: links.length,
       underseen: links.filter((l) => l.underseen).length,
       citedWithNoThread: noThread,
-      blurbs: links.filter((l) => l.blurb).length,
-      blurbsAwaitingAPerson: links.filter((l) => l.blurbDraft && !l.blurb).length,
+      blurbsCleared: links.filter((l) => l.blurb).length,
+      blurbsStillDrafts: links.filter((l) => l.blurbDraft && !l.blurb).length,
       entities: entities.length,
       ranked: ranked.length,
       unverified: unverified.length,
@@ -744,8 +744,12 @@ async function assemble(ctx, state, now) {
       author: l.author || null,
       subreddit: l.subreddit || null,
       surfacedBy: questionOf[l.sourceName] || null,
-      // Approved prose only. A draft nobody has read is not published.
+      // The page IS the draft surface, so it carries both: the machine's draft
+      // and, once somebody has been through it, their version. The reader this
+      // page is for right now is the person deciding what gets posted, and
+      // hiding the draft from them would hide the thing they came to read.
       blurb: l.blurb || null,
+      blurbDraft: l.blurbDraft || null,
       score: l.score,
       comments: l.comments,
       underseen: l.underseen,

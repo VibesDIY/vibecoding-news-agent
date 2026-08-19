@@ -59,17 +59,19 @@ mentioning him. Querying him by name returned 11 mentions at +0.12 sentiment,
 which is neutral. The impression was wrong and the count was right, and a
 generator that cannot tell them apart will publish the wrong one.
 
-## The blurb, and the one gate that has a person in it
+## The blurb, and where the gate actually is
 
-The page shows a blurb only after somebody has read it. `dress` writes
-`blurbDraft`, `tools/editorial.py approve --by <name>` writes `blurb`, and the
-page renders the second and never the first. Passing `--text` replaces the
-draft with your own words, which is the expected case: the draft exists to save
-a person from a blank page, not to replace them.
+The page is the draft. `dress` writes `blurbDraft` and the page shows it with a
+`draft` marker; `tools/editorial.py approve --by <name> --text "..."` replaces
+it with a person's words and drops the marker. The draft exists to save that
+person from a blank page, not to replace them.
 
-This audience detects machine prose and mocks it above the fold, and the corpus
-measures them doing exactly that. A page of unread machine blurbs would cost
-more credibility than the whole round-up earns.
+The gate that matters is further along: posting to r/vibecoding, from a
+person's own account. This audience detects machine prose and mocks it above
+the fold, and the corpus measures them doing exactly that, so nothing
+machine-written goes to the subreddit without somebody having read every line.
+What the page owes its readers is honesty about which lines those are, which is
+what the marker is for.
 
 ## What it will not do
 

@@ -522,6 +522,20 @@ export async function scheduled(event, ctx) {
     }
   };
 
+  // Two counts, because "the step did nothing" has two very different causes
+  // and one document can tell them apart: a page of the database with no
+  // filter at all, and the keyed read the extractor actually makes. If the
+  // first is zero the backend cannot see the database; if only the second is
+  // zero the filter is wrong.
+  try {
+    const all = await ctx.db.query({ db: DB_CORPUS, limit: 50 });
+    const fresh = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "new", limit: 50 });
+    steps.corpusDocs = Array.from(all).length;
+    steps.corpusUnprocessed = Array.from(fresh).length;
+  } catch (err) {
+    steps.corpusDocs = "read failed: " + String((err && err.message) || err).slice(0, 200);
+  }
+
   await run("collect", () => collect(ctx, state, now));
   await run("extract", () => extract(ctx, state, now));
   await run("measure", () => measure(ctx, state, now));

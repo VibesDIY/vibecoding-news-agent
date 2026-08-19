@@ -57,9 +57,13 @@ const UNDERSEEN_MAX_SCORE = 5;
 
 // The blurb pass. One link per tick, because this is the call that is supposed
 // to be worth paying for: the analysis loop can be cheap, the writing cannot.
-// Set EDITORIAL_MODEL to the best model available to the account running this.
-// "openrouter/auto" is a safe default and not the right answer for prose.
-const EDITORIAL_MODEL = "openrouter/auto";
+// The model matters here more than anywhere else in the file, so it is named
+// rather than left to routing. "openrouter/auto" was the first attempt and it
+// came back with "ai gateway returned no completion" on every call, which is
+// the platform's way of saying it had nowhere to send that. The ids the
+// platform actually serves are its own catalogue, and the one below is the
+// most capable of them.
+const EDITORIAL_MODEL = "~anthropic/claude-opus-latest";
 const BLURB_PER_TICK = 1;
 
 const DB_CORPUS = "corpus";

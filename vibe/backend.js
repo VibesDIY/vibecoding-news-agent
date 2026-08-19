@@ -494,8 +494,20 @@ async function measure(ctx, state, now) {
 // two numbers the ordering rests on, so nothing downstream has to re-derive
 // them and anyone can check the call.
 
-function linkRow(e, sourceName, now) {
-  const url = String(e.url || "");
+// A cited post's `url` is what the post POINTS AT, not the post. A self post
+// points at its own permalink, a link post points at imgur, and a post pulled
+// in from another subreddit arrives as a bare path. Only the first of those is
+// something to link a reader to, so the discussion permalink is rebuilt from
+// the one part every form carries: /r/<sub>/comments/<id>. Anything with no id
+// in it has no thread to point at and is counted as skipped rather than
+// quietly dropped.
+function permalinkOf(e) {
+  const m = /\/r\/([A-Za-z0-9_]+)\/comments\/([a-z0-9]+)/.exec(String((e && e.url) || ""));
+  if (!m) return null;
+  return "https://reddit.com/r/" + m[1] + "/comments/" + m[2] + "/";
+}
+
+function linkRow(e, url, sourceName, now) {
   const score = typeof e.score === "number" ? e.score : 0;
   const comments = typeof e.num_comments === "number" ? e.num_comments : 0;
   return {
@@ -520,12 +532,17 @@ async function harvest(ctx, state, now) {
   for (const c of candidates) {
     const source = await stillWaiting(ctx, DB_CORPUS, c._id, "extracted");
     if (!source) continue;
+    let skipped = 0;
     for (const e of (source.examples || []).slice(0, 20)) {
-      if (!e || !e.url || String(e.url).indexOf("reddit.com") === -1) continue;
-      if (await putIfChanged(ctx, linkRow(e, source.name, now), DB_FINDINGS)) written++;
+      const url = permalinkOf(e);
+      if (!url) {
+        skipped++;
+        continue;
+      }
+      if (await putIfChanged(ctx, linkRow(e, url, source.name, now), DB_FINDINGS)) written++;
     }
-    await putIfChanged(ctx, { ...source, status: "harvested" }, DB_CORPUS);
-    ctx.log("harvested", { source: source._id, links: (source.examples || []).length, written });
+    await putIfChanged(ctx, { ...source, status: "harvested", linksSkipped: skipped }, DB_CORPUS);
+    ctx.log("harvested", { source: source._id, cited: (source.examples || []).length, written, skipped });
   }
   return written ? { ...state, lastHarvestAt: now } : state;
 }
@@ -564,6 +581,11 @@ async function assemble(ctx, state, now) {
   const entities = await readAll(ctx, DB_FINDINGS, "entity");
   const leads = await readAll(ctx, DB_FINDINGS, "finding");
   const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
+  // Cited posts that had no thread to link to (an image post, usually). Counted
+  // and printed rather than dropped, so the round-up's size is honest about
+  // what the corpus actually handed over.
+  const sources = await readAll(ctx, DB_CORPUS, "source");
+  const noThread = sources.reduce((n, s2) => n + (s2.linksSkipped || 0), 0);
   if (!entities.length && !leads.length && !links.length) return state;
 
   // Measured and confirmed is the only thing that gets ranked. Measured but
@@ -591,6 +613,7 @@ async function assemble(ctx, state, now) {
     counts: {
       links: links.length,
       underseen: links.filter((l) => l.underseen).length,
+      citedWithNoThread: noThread,
       entities: entities.length,
       ranked: ranked.length,
       unverified: unverified.length,

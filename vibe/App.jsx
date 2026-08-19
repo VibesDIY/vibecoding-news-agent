@@ -115,10 +115,6 @@ function LinkRow({ l }) {
         {l.title || l.url}
       </a>
 
-      {l.says && l.says.length ? (
-        <p style={{ margin: "8px 0 0", fontSize: 15 }}>{l.says[0]}</p>
-      ) : null}
-
       {l.excerpt ? (
         <p
           style={{
@@ -131,8 +127,12 @@ function LinkRow({ l }) {
           }}
         >
           {l.excerpt}
-          {l.excerpt.length >= 260 ? "…" : ""}
+          {l.excerpt.length >= 260 && !l.excerpt.endsWith("...") ? "…" : ""}
         </p>
+      ) : null}
+
+      {l.surfacedBy ? (
+        <p style={{ margin: "8px 0 0", fontSize: 13, color: C.muted }}>Found asking: {l.surfacedBy}</p>
       ) : null}
     </li>
   );

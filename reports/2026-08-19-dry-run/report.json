@@ -14,8 +14,29 @@
       "sourceName": "abandonment"
     },
     {
+      "claim": "AI-generated bugs can become too expensive to fix, leading to abandonment or rewriting.",
+      "entity": "Bug fixing costs",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9i7fk3/",
+        "https://reddit.com/r/vibecoding/comments/1vo6dfr/why_people_say_that_tokenmaxxing_is_a_bad_thing/p3n8t6l/"
+      ],
+      "sourceName": "abandonment"
+    },
+    {
       "claim": "People abandon projects when the code becomes unreadable or un-fixable as it grows beyond a certain size.",
       "entity": "Code readability issues",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1ov5opt/whats_the_best_ai_for_vibe_coding_for_someone_who/nojmyjw/",
+        "https://reddit.com/r/vibecoding/comments/1o9lcfh/do_you_need_to_understand_the_code_ai_writes/nk4lq5p/",
+        "https://reddit.com/r/vibecoding/comments/1sm6rtj/gpt_really_looked_at_1000_lines_of_logic_and/ogefyf5/"
+      ],
+      "sourceName": "abandonment"
+    },
+    {
+      "claim": "People abandon projects when they find the code unreadable or un-fixable.",
+      "entity": "Code readability",
       "sentiment": "negative",
       "permalinks": [
         "https://reddit.com/r/vibecoding/comments/1ov5opt/whats_the_best_ai_for_vibe_coding_for_someone_who/nojmyjw/",
@@ -30,6 +51,26 @@
       "sentiment": "negative",
       "permalinks": [
         "https://reddit.com/r/vibecoding/comments/1pyc8t7/antigravity_nano_banana_might_be_the_ultimate/nwxg5m2/"
+      ],
+      "sourceName": "abandonment"
+    },
+    {
+      "claim": "Loss of control or model regressions can break a previously working build, leading to project abandonment.",
+      "entity": "Model regressions",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1pyc8t7/antigravity_nano_banana_might_be_the_ultimate/nwxg5m2/"
+      ],
+      "sourceName": "abandonment"
+    },
+    {
+      "claim": "Simple burnout or loss of motivation can cause people to abandon vibe-coded projects.",
+      "entity": "Motivational burnout",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1to52wh/how_is_vibecoding_even_a_thing/onyunfh/",
+        "https://reddit.com/r/vibecoding/comments/1uusi2b/how_to_unvibe_code_a_vibe_coded_website/ox5z4fh/",
+        "https://reddit.com/r/vibecoding/comments/1s61ww3/me_in_5_years/od17tpm/"
       ],
       "sourceName": "abandonment"
     },
@@ -50,6 +91,26 @@
       "sentiment": "neutral",
       "permalinks": [
         "https://reddit.com/r/vibecoding/comments/1uy285i/i_took_my_defunct_first_vibe_coded_project_from/"
+      ],
+      "sourceName": "abandonment"
+    },
+    {
+      "claim": "Some vibe-coded projects are eventually resurrected rather than truly abandoned.",
+      "entity": "Project resurrection",
+      "sentiment": "neutral",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1uy285i/i_took_my_defunct_first_vibe_coded_project_from/"
+      ],
+      "sourceName": "abandonment"
+    },
+    {
+      "claim": "Accumulated technical debt leads to rewriting or abandoning AI-generated projects.",
+      "entity": "Technical debt",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1sugf1p/vibe_coding_killed_the_cant_build_excuse_so_whats/oi1hdzw/",
+        "https://reddit.com/r/vibecoding/comments/1ufqime/is_aigenerated_code_creating_hidden_technical_debt/otu6f7a/",
+        "https://reddit.com/r/vibecoding/comments/1sbi35n/the_real_cost_of_vibe_coding_isnt_the/oe4rp1n/"
       ],
       "sourceName": "abandonment"
     },
@@ -86,6 +147,15 @@
       "sourceName": "cost-surprises"
     },
     {
+      "claim": "API token expense can quickly get out of hand.",
+      "entity": "API token use",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1mw66ja/most_tools_like_cursor_are_to_expensive/n9vdlrx/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
       "claim": "Cost and usage can spiral out of control quickly if not monitored.",
       "entity": "API token use",
       "sentiment": "negative",
@@ -96,12 +166,69 @@
       "sourceName": "cost-surprises"
     },
     {
+      "claim": "Users experience bill-shock from unexpected high charges on their AI tool usage.",
+      "entity": "Bill-shock",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1tqz6e2/anthropic_bill_came_in_this_morning_and_im/",
+        "https://reddit.com/r/vibecoding/comments/1swxbyz/gotta_let_the_llms_focus_on_important_things/oijm7qz/",
+        "https://reddit.com/r/vibecoding/comments/1u76m8k/guys_i_think_i_cracked_it/osafll5/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
+      "claim": "The community sees unexpected API costs as a rite of passage, with frequent discussions around coping strategies.",
+      "entity": "Community Sentiment",
+      "sentiment": "neutral",
+      "permalinks": [],
+      "sourceName": "cost-surprises"
+    },
+    {
+      "claim": "High costs are causing users to shift towards cheaper AI models.",
+      "entity": "Cost-conscious behavior",
+      "sentiment": "neutral",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1ts0b0i/the_price_difference_is_mad/",
+        "https://reddit.com/r/vibecoding/comments/1vftsnj/presenting_deepcraft_a_oneshot_minecraft_clone/p1sszke/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
       "claim": "Users are switching to cheaper models due to price differences.",
       "entity": "Cost-consciousness",
       "sentiment": "neutral",
       "permalinks": [
         "https://reddit.com/r/vibecoding/comments/1ts0b0i/the_price_difference_is_mad/",
         "https://reddit.com/r/vibecoding/comments/1vftsnj/presenting_deepcraft_a_oneshot_minecraft_clone/p1sszke/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
+      "claim": "People frequently check and discuss their token spend due to curiosity and underlying anxiety.",
+      "entity": "Curiosity/Anxiety Loop",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1v1qdak/how_many_ai_tokens_have_you_burned_building_your/oyq0xw6/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
+      "claim": "A $100 max account can consume the equivalent of several thousand dollars monthly if billed by token.",
+      "entity": "Flat-rate plans",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1uk9shn/wtf_are_you_guys_doing_thats_burning_so_many/ouu7bik/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
+      "claim": "Some heavy users find high token spend justifiable, while others see it as unsustainable.",
+      "entity": "Heavy users",
+      "sentiment": "mixed",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1ubur7e/alternative_to_claude_code/osyxcmo/",
+        "https://reddit.com/r/vibecoding/comments/1rp2177/magic_of_vibe_coding_most_still_do_not_get_it/o9pbtez/",
+        "https://reddit.com/r/vibecoding/comments/1se9854/opus_has_fallen_what_now/oeo6h1e/"
       ],
       "sourceName": "cost-surprises"
     },
@@ -126,6 +253,25 @@
       "sourceName": "cost-surprises"
     },
     {
+      "claim": "The gap between subscription price and real usage cost is a significant pain point in the community.",
+      "entity": "Monetization Culture",
+      "sentiment": "neutral",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1siiokj/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
+      "claim": "Repricing by providers leads to anger and complaints about rising costs.",
+      "entity": "Repricing Effects",
+      "sentiment": "negative",
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1sbukly/anthropic_just_pulled_the_plug_on_thirdparty/oe6jru5/",
+        "https://reddit.com/r/vibecoding/comments/1sy1o2e/pack_up_boyos_it_is_over/oirxijo/"
+      ],
+      "sourceName": "cost-surprises"
+    },
+    {
       "claim": "People are often curious or worried about their token use.",
       "entity": "Usage-checking anxiety",
       "sentiment": "neutral",
@@ -145,6 +291,35 @@
       "sourceName": "post-ship-failures"
     },
     {
+      "claim": "Row-level security and permission issues cause problems once multiple user accounts are implemented.",
+      "entity": "Data access/auth policies",
+      "sentiment": null,
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1s53qbj/am_i_cooked_for_using_gemini_3_flash_for_my/ocrvxan/"
+      ],
+      "sourceName": "post-ship-failures"
+    },
+    {
+      "claim": "App outages result in significant financial losses and reputation damage.",
+      "entity": "Downtime repercussions",
+      "sentiment": null,
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1rkzvcq/how_much_does_an_outage_really_cost_you/o8ooqpn/",
+        "https://reddit.com/r/vibecoding/comments/1sg1lyz/heres_an_honest_vibe_coder_problem_nobody_talks/of1yqld/"
+      ],
+      "sourceName": "post-ship-failures"
+    },
+    {
+      "claim": "Issues are often only discovered in production environments, highlighting differences from development contexts.",
+      "entity": "General self-diagnosis",
+      "sentiment": null,
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1mv2yt2/i_vibe_coded_a_whole_ass_presentation_generator/n9p6n9v/",
+        "https://reddit.com/r/vibecoding/comments/1u514ks/i_now_understand_the_hate/ori3v4f/"
+      ],
+      "sourceName": "post-ship-failures"
+    },
+    {
       "claim": "Applications without proper rate limits or quotas experience runaway API or infrastructure bills.",
       "entity": "Infrastructure Costs",
       "sentiment": "neutral",
@@ -152,6 +327,17 @@
         "https://reddit.com/r/vibecoding/comments/1ssc8n0/went_to_bed_with_a_10_budget_alert_woke_up_to/ohslwf4/",
         "https://reddit.com/r/vibecoding/comments/1th9tr4/ive_been_looking_at_a_bunch_of_vibecoded_apps_5/ommmco4/",
         "https://reddit.com/r/vibecoding/comments/1tfvv6z/make_sure_to_audit_your_users_ai_usage_before/omco2je/"
+      ],
+      "sourceName": "post-ship-failures"
+    },
+    {
+      "claim": "Vibe-coded apps often face operational issues under concurrent user load.",
+      "entity": "Load scaling failures",
+      "sentiment": null,
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1s52ap5/my_app_crashes_at_just_100_users_do_i_need_to/",
+        "https://reddit.com/r/vibecoding/comments/1rw34jn/vibe_coding_feels_great_until_you_actually_run/ob5507y/",
+        "https://reddit.com/r/vibecoding/comments/1szqjbd/what_do_you_struggle_with_getting_tested/oj3mmeh/"
       ],
       "sourceName": "post-ship-failures"
     },
@@ -178,6 +364,17 @@
       "sourceName": "post-ship-failures"
     },
     {
+      "claim": "Exposed API keys in client-side code allow unauthorized access and can lead to unexpected expenses.",
+      "entity": "Security holes",
+      "sentiment": null,
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1q12ceq/found_a_hardcoded_openai_key_in_a_vibecoded_app/",
+        "https://reddit.com/r/vibecoding/comments/1vow04e/vibe_code_is_secure_right/",
+        "https://reddit.com/r/vibecoding/comments/1u8t602/vibe_code_problems/"
+      ],
+      "sourceName": "post-ship-failures"
+    },
+    {
       "claim": "Security holes arise in apps where databases and credentials are exposed due to improper deployment practices.",
       "entity": "Security Vulnerabilities",
       "sentiment": "neutral",
@@ -186,18 +383,177 @@
         "https://reddit.com/r/vibecoding/comments/1sjeitv/built_a_vibe_coded_app_ill_try_to_break_it_for/ofwjaqw/"
       ],
       "sourceName": "post-ship-failures"
+    },
+    {
+      "claim": "Hosting and scaling costs can soar unexpectedly, threatening the viability of the app.",
+      "entity": "Unexpected costs",
+      "sentiment": null,
+      "permalinks": [
+        "https://reddit.com/r/vibecoding/comments/1t1qyqf/im_a_senior_software_engineer_with_15_years/ojj078n/",
+        "https://reddit.com/r/vibecoding/comments/1q5eylv/built_almost_everything_on_lovable_cloud_now/",
+        "https://reddit.com/r/vibecoding/comments/1u3mggs/ongoing_costs_to_run_an_app_in_app_store/or6d740/"
+      ],
+      "sourceName": "post-ship-failures"
     }
   ],
   "prose": null,
   "counts": {
-    "leads": 18,
+    "leads": 39,
+    "links": 13,
     "ranked": 0,
     "sources": 3,
     "entities": 15,
-    "unverified": 15
+    "underseen": 4,
+    "unverified": 15,
+    "citedWithNoThread": 2
   },
   "ranked": [],
   "status": "analysis-draft",
+  "roundup": [
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1o9sprj/",
+      "says": [],
+      "score": 19,
+      "title": "The problem with vibe coding: debugging in production is a nightmare",
+      "author": "arjy0",
+      "excerpt": "So you spent three weeks vibecoding with Lovable. You ship your app. You're proud of yourself - with just $50 you managed to build and launch your first real app. Users seem happy. Life is good lol.Then someone cas...",
+      "comments": 94,
+      "subreddit": "vibecoding",
+      "underseen": true
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1vmqzq6/",
+      "says": [],
+      "score": 32,
+      "title": "Are you guys actually deploying vibe coded stuff?",
+      "author": "JennySurfs",
+      "excerpt": "I have vibe coded a few things myself, and constantly see linkedin posts from nontechnical folks talking about how they are now deploying full stack applications for their business. I'm confused - how is this stuff maintained? Is it ...",
+      "comments": 92,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1tumgz0/",
+      "says": [],
+      "score": 2,
+      "title": "Can vibe-coded apps actually survive production?",
+      "author": "yash_maanikya",
+      "excerpt": "Vibe coding is great for building quick MVPs, but I feel many apps break once they face real-world requirements. The demo may work, but production needs secure auth, database rules, deployment, monitoring, testing, backups, complianc...",
+      "comments": 40,
+      "subreddit": "vibecoding",
+      "underseen": true
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1mpyhma/",
+      "says": [],
+      "score": 19,
+      "title": "% of projects abandoned?",
+      "author": "last_barron",
+      "excerpt": "I abandon around 2/3 of vibe coding projects I start due to the inability of the platform to produce a working app - I\u2019m not talking about landing pages. Roughly speaking, if it takes more than 30 mins to get the bare bones running, I start drifting onto ot...",
+      "comments": 71,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1v7m1hj/",
+      "says": [],
+      "score": 2,
+      "title": "What happens when your vibe-coded app starts getting real users?",
+      "author": "Sea_Faithlessness198",
+      "excerpt": "Vibe coding has made it crazy fast to go from idea to working app. But I'm wondering what happens after that first version is live. For people who have built something with Cursor, Lovable, Bolt, Replit, Claude, etc....",
+      "comments": 15,
+      "subreddit": "vibecoding",
+      "underseen": true
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1tpxtsg/",
+      "says": [],
+      "score": 6,
+      "title": "Building an AI product and terrified of runaway API costs. What have you been burned by?",
+      "author": "thisismetrying2506",
+      "excerpt": "Hey, early stage founder here trying to avoid expensive mistakes before I make them. Talking to other devs and the one thing that keeps coming up is unexpected API bills. A retry loop here...",
+      "comments": 4,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1uvo0o5/",
+      "says": [],
+      "score": 0,
+      "title": "The hidden cost of AI coding tools nobody talks about (and how I fixed mine)",
+      "author": "Proper_Violinist1371",
+      "excerpt": "Been building my SaaS solo for 2 years. Early on I threw every AI coding tool at my workflow thinking it'd make me faster. It did ! but my monthly AI bill crept up to $327. I didn't notice until I actually...",
+      "comments": 8,
+      "subreddit": "vibecoding",
+      "underseen": true
+    },
+    {
+      "url": "https://reddit.com/r/nocode/comments/1mx884d/",
+      "says": [],
+      "score": 2,
+      "title": "Why is a vibe coded project stuck at 80-90% ?",
+      "author": "anchit_rana",
+      "excerpt": "Why is a vibe coded project stuck at 80-90% ?",
+      "comments": 0,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1rx9cds/",
+      "says": [],
+      "score": 1,
+      "title": "How are you thinking about AI API costs if your project scales?",
+      "author": "NeoTree69",
+      "excerpt": "I work as a PM for SaaS startups and when new AI tools get added I don't think there is a big consideration for costs as scale occurs (or will occur, hopefully). I'm thinking along the lines of those who are shipping fa...",
+      "comments": 0,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1u0uddq/",
+      "says": [],
+      "score": 1,
+      "title": "How are people managing AI costs?",
+      "author": "Excellent_Knee_7109",
+      "excerpt": "Just like everyone else, I've been seeing the recent news about how AI bills have been skyrocketing for companies. I've been seeing people Reddit posts / comments about how their companies have done a full 180 from \"use AI for everything\" to \"limit ...",
+      "comments": 2,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/webdev/comments/1vnx44m/",
+      "says": [],
+      "score": 1,
+      "title": "Has anyone actually maintained a vibe coded code-base 12 months after launch? What did it look like?",
+      "author": "prolific_user",
+      "excerpt": "It's either \"Look at them vibe coding an app that was not hand crafted like a unique Japanese tea pot, that requires a unique handjob finish.\" Or it is, \"I used to run Bitcoin scams...",
+      "comments": 0,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1thejay/",
+      "says": [],
+      "score": 0,
+      "title": "Any other vibe coders accidentally build something that works\u2026 and then get destroyed by AI costs?",
+      "author": "Thonwalo",
+      "excerpt": "I built a small app with OpenAI and Anthropic APIs. At first it was just a fun project. Ship fast. Use the best models. Make the UX feel magical. Then people actually started usin...",
+      "comments": 6,
+      "subreddit": "vibecoding",
+      "underseen": false
+    },
+    {
+      "url": "https://reddit.com/r/vibecoding/comments/1v8c6y1/",
+      "says": [],
+      "score": 0,
+      "title": "The weekend prototype works great on your laptop - what actually goes wrong the first time you let it run unattended for real users?",
+      "author": "marcin_michalak",
+      "excerpt": "Founder of Server4Agent (agent-app hosting), flagging that upfront. No link, not selling, genuinely want to hear from people who've actually shipped a...",
+      "comments": 2,
+      "subreddit": "vibecoding",
+      "underseen": false
+    }
+  ],
   "proseNote": "This is analysis, not a post. The published write-up is a separate pass with a stronger model, and a person edits it before it goes anywhere.",
   "countsNote": "Mention counts are index-wide. They measure how much r/vibecoding discusses each tool overall, not how it came up in the questions behind this report.",
   "unverified": [
@@ -322,5 +678,5 @@
       "verifiedNote": null
     }
   ],
-  "generatedAt": "2026-08-19T20:34:53.785Z"
+  "generatedAt": "2026-08-19T21:34:56.437Z"
 }

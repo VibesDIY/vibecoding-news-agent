@@ -36,7 +36,11 @@ can already see from the title.
    blurb with no attitude is a summary wearing a hat.
 3. **Two or three sentences. Forty words is plenty.** If it needs more, the
    thread is the article and the blurb is the sign pointing at it.
-4. **Quote when the poster said it better than you would.** They usually did.
+4. **Do not open with a quotation.** The reader already sees a large pull
+   quote from the post directly beneath the commentary, so a blurb that starts
+   with one says the same thing twice and every entry starts to look the same.
+   Quote a phrase inline when it does work in the middle of your own sentence.
+   The poster usually did say it better, which is what the pull quote is for.
 5. **The numbers are a hook once, not every time.** Two points and forty
    replies means the subreddit argued about something it never voted on, and
    that is worth a clause. But a tidy observation about the score and the

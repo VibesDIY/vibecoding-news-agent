@@ -627,7 +627,7 @@ const BLURB_RULES = [
   "- Lead with the specific detail, never the topic. The reader can already see the topic in the title.",
   "- Have a view: delighted, annoyed, unconvinced, quietly vindicated. A blurb with no attitude is a summary wearing a hat.",
   "- Two or three sentences. Forty words is plenty.",
-  "- Quote the poster when they said it better than you would, which is most of the time.",
+  "- The reader already sees a large pull quote from this post directly beneath what you write. So do not OPEN with a quotation, and do not hand back the same sentence the quote will show. Quote a phrase inline only when it is doing work in the middle of yours.",
   "- Do not reach for the same closing move twice. Especially not a tidy observation about the score and the comment count: that is a formula, and a formula read three times is a tell.",
   "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",
   "- No em-dashes. No rule-of-three cadence. This audience reads both as a machine's fingerprints and says so in the comments.",

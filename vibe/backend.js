@@ -111,6 +111,19 @@ async function putIfChanged(ctx, doc, db) {
   return true;
 }
 
+// A keyed query answers from an index that can lag its own writes. Twice in
+// one hour the extractor was handed a source it had already processed and
+// stamped, because the stamp had not reached the index the query reads. Work
+// is idempotent by document id so nothing was corrupted, but a re-extraction
+// costs a model call, which is the expensive thing this loop does.
+//
+// So a candidate from a query is a CANDIDATE. The point read by id is the
+// authoritative answer, and it is cheap. Ask it before spending anything.
+async function stillWaiting(ctx, db, id, status) {
+  const fresh = await ctx.db.get(id, { db });
+  return fresh && fresh.status === status ? fresh : null;
+}
+
 // Take up to `want` documents matching a filter.
 //
 // The subtlety that cost a couple of ticks here: `limit` clamps the RAW page
@@ -320,7 +333,13 @@ const EXTRACT_PROMPT = [
 ].join("\n");
 
 async function extract(ctx, state, now) {
-  const sources = await readSome(ctx, DB_CORPUS, "status", "new", EXTRACT_PER_TICK);
+  const candidates = await readSome(ctx, DB_CORPUS, "status", "new", EXTRACT_PER_TICK);
+  const sources = [];
+  for (const c of candidates) {
+    const fresh = await stillWaiting(ctx, DB_CORPUS, c._id, "new");
+    if (fresh) sources.push(fresh);
+    else ctx.log("skipped a source the index still lists as unprocessed", { source: c._id });
+  }
   if (!sources.length) return state;
 
   for (const source of sources) {
@@ -400,7 +419,12 @@ async function extract(ctx, state, now) {
 // measure. The scope travels on the document for that reason.
 
 async function measure(ctx, state, now) {
-  const sources = await readSome(ctx, DB_CORPUS, "status", "measured", 4);
+  const candidates = await readSome(ctx, DB_CORPUS, "status", "measured", 4);
+  const sources = [];
+  for (const c of candidates) {
+    const fresh = await stillWaiting(ctx, DB_CORPUS, c._id, "measured");
+    if (fresh) sources.push(fresh);
+  }
   if (!sources.length) return state;
 
   for (const source of sources) {

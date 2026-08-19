@@ -671,7 +671,11 @@ async function dress(ctx, state, now) {
               : " Do not comment on the score or the comment count. Find the hook in what the post says.") +
             "\nIt opens: " +
             (l.excerpt || "(no text)"),
-          { model: EDITORIAL_MODEL, max_tokens: 200 },
+          // 200 was not enough and the tell was subtle: the blurb came back a
+          // sentence and a half long, ending on "feels like someone". A capable
+          // model can spend its budget before the visible answer starts, so the
+          // cap has to cover more than the forty words being asked for.
+          { model: EDITORIAL_MODEL, max_tokens: 900 },
         ),
       ).trim();
     } catch (err) {
@@ -685,6 +689,15 @@ async function dress(ctx, state, now) {
       continue;
     }
     if (!draft) continue;
+    // A blurb that stops mid-sentence is worse than no blurb: it reads as a
+    // broken page rather than an unfinished one, and it would go out looking
+    // like prose somebody wrote. Ending punctuation is a crude test and it
+    // catches exactly this failure.
+    if (!/[.!?"'\u201d\u2019)]$/.test(draft)) {
+      ctx.log("warn", "discarded a truncated blurb", { link: l._id, chars: draft.length });
+      await putIfChanged(ctx, { ...l, blurbError: "draft came back truncated", blurbTriedAt: now }, DB_FINDINGS);
+      continue;
+    }
     await putIfChanged(ctx, { ...l, blurbDraft: draft.slice(0, 500), blurbDraftedAt: now }, DB_FINDINGS);
     ctx.log("drafted a blurb", { link: l._id, words: draft.split(/\s+/).length });
     wrote++;

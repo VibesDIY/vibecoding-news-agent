@@ -34,6 +34,21 @@ const EXTRACT_PER_TICK = 1; // one ctx.callAI pass per tick, never a burst
 // minutes; two hours means the request is gone.
 const PENDING_GIVEUP_MS = 2 * 60 * 60 * 1000;
 
+// What makes a link worth putting in front of people.
+//
+// The obvious half is the score: a thread the subreddit already voted up. The
+// half worth building for is the other one, a thread that clearly earned a
+// conversation and never got the votes. "Can vibe-coded apps actually survive
+// production?" sat at 2 points with 40 comments. Forty people had something to
+// say and almost nobody pressed the arrow, which means most of the subreddit
+// never saw it. That is the best thing a round-up can carry, because everyone
+// else's round-up carries the same top posts.
+//
+// So: a link is UNDERSEEN when it drew real discussion and the votes did not
+// follow. Both numbers travel with it so a reader can disagree with the rule.
+const UNDERSEEN_MIN_COMMENTS = 8;
+const UNDERSEEN_COMMENT_RATIO = 4;
+
 const DB_CORPUS = "corpus";
 const DB_FINDINGS = "findings";
 
@@ -246,6 +261,10 @@ async function collect(ctx, state, now) {
         // map behind the answer's inline references.
         entitySentiment: body.entity_sentiment || {},
         urlMappings: body.url_mappings || {},
+        // The cited posts with their scores and comment counts. These arrive
+        // on the ASK, not on the answer poll, so they are carried across the
+        // two ticks on the pending record.
+        examples: pending.examples || [],
         requestId: pending.requestId,
       },
       DB_CORPUS,
@@ -286,7 +305,13 @@ async function collect(ctx, state, now) {
   ctx.log("asked", { name: next.name, requestId: body.request_id });
   return {
     ...state,
-    pending: { requestId: body.request_id, name: next.name, question: next.question, askedAt: now },
+    pending: {
+      requestId: body.request_id,
+      name: next.name,
+      question: next.question,
+      askedAt: now,
+      examples: Array.isArray(body.representative_examples) ? body.representative_examples.slice(0, 20) : [],
+    },
     askedToday: { day: dayKey(now), names: askedToday.concat(next.name) },
   };
 }
@@ -463,6 +488,63 @@ async function measure(ctx, state, now) {
   return { ...state, lastMeasureAt: now };
 }
 
+// --------------------------------------------------------------- 3b. links
+//
+// The round-up itself. Each cited post becomes one link document carrying the
+// two numbers the ordering rests on, so nothing downstream has to re-derive
+// them and anyone can check the call.
+
+function linkRow(e, sourceName, now) {
+  const url = String(e.url || "");
+  const score = typeof e.score === "number" ? e.score : 0;
+  const comments = typeof e.num_comments === "number" ? e.num_comments : 0;
+  return {
+    _id: "link:" + slug(url.replace(/^https?:\/\/(www\.)?reddit\.com\/r\//, "").slice(0, 60)),
+    type: "link",
+    url,
+    title: String(e.title || "").slice(0, 200),
+    score,
+    comments,
+    relevance: typeof e.relevance_score === "number" ? Math.round(e.relevance_score * 100) / 100 : null,
+    // Discussion the votes did not follow. Kept as data rather than a label
+    // so a reader who dislikes the rule can apply their own.
+    underseen: comments >= UNDERSEEN_MIN_COMMENTS && comments >= UNDERSEEN_COMMENT_RATIO * Math.max(score, 1),
+    sourceName,
+    harvestedAt: now,
+  };
+}
+
+async function harvest(ctx, state, now) {
+  const candidates = await readSome(ctx, DB_CORPUS, "status", "extracted", 4);
+  let written = 0;
+  for (const c of candidates) {
+    const source = await stillWaiting(ctx, DB_CORPUS, c._id, "extracted");
+    if (!source) continue;
+    for (const e of (source.examples || []).slice(0, 20)) {
+      if (!e || !e.url || String(e.url).indexOf("reddit.com") === -1) continue;
+      if (await putIfChanged(ctx, linkRow(e, source.name, now), DB_FINDINGS)) written++;
+    }
+    await putIfChanged(ctx, { ...source, status: "harvested" }, DB_CORPUS);
+    ctx.log("harvested", { source: source._id, links: (source.examples || []).length, written });
+  }
+  return written ? { ...state, lastHarvestAt: now } : state;
+}
+
+// The order the round-up goes out in. Not by score, and not by the underseen
+// rule either: alternating between them. A list of only top posts is one
+// everybody has already read, and a list of only overlooked ones reads like a
+// contrarian pose. The mix is the point, so the interleave is the algorithm.
+function roundup(links) {
+  const seen = links.filter((l) => !l.underseen).sort((a, b) => b.score - a.score);
+  const missed = links.filter((l) => l.underseen).sort((a, b) => b.comments - a.comments);
+  const out = [];
+  while (seen.length || missed.length) {
+    if (missed.length) out.push(missed.shift());
+    if (seen.length) out.push(seen.shift());
+  }
+  return out;
+}
+
 // ------------------------------------------------------------- 4. assemble
 //
 // The draft report. It carries findings, the counts behind them and the
@@ -481,7 +563,8 @@ async function measure(ctx, state, now) {
 async function assemble(ctx, state, now) {
   const entities = await readAll(ctx, DB_FINDINGS, "entity");
   const leads = await readAll(ctx, DB_FINDINGS, "finding");
-  if (!entities.length && !leads.length) return state;
+  const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
+  if (!entities.length && !leads.length && !links.length) return state;
 
   // Measured and confirmed is the only thing that gets ranked. Measured but
   // unconfirmed is counted and named as such, because a reader deciding how
@@ -506,12 +589,23 @@ async function assemble(ctx, state, now) {
     countsNote:
       "Mention counts are index-wide. They measure how much r/vibecoding discusses each tool overall, not how it came up in the questions behind this report.",
     counts: {
+      links: links.length,
+      underseen: links.filter((l) => l.underseen).length,
       entities: entities.length,
       ranked: ranked.length,
       unverified: unverified.length,
       leads: leads.length,
       sources: new Set(leads.concat(entities).map((f) => f.sourceName)).size,
     },
+    // The round-up is the output. Everything under it is the working the
+    // round-up was chosen from.
+    roundup: links.slice(0, 30).map((l) => ({
+      url: l.url,
+      title: l.title,
+      score: l.score,
+      comments: l.comments,
+      underseen: l.underseen,
+    })),
     ranked: ranked.slice(0, 25).map(entityRow),
     unverified: unverified.slice(0, 25).map(entityRow),
     leads: leads.slice(0, 60).map((f) => ({
@@ -527,7 +621,7 @@ async function assemble(ctx, state, now) {
   if (unchanged(existing, body)) return state;
 
   await ctx.db.put({ ...body, generatedAt: now }, { db: DB_FINDINGS });
-  ctx.log("assembled", { day, entities: entities.length, ranked: ranked.length, leads: leads.length });
+  ctx.log("assembled", { day, links: links.length, entities: entities.length, leads: leads.length });
   return { ...state, lastReportAt: now };
 }
 
@@ -601,6 +695,7 @@ export async function scheduled(event, ctx) {
   await run("collect", () => collect(ctx, state, now));
   await run("extract", () => extract(ctx, state, now));
   await run("measure", () => measure(ctx, state, now));
+  await run("harvest", () => harvest(ctx, state, now));
   await run("assemble", () => assemble(ctx, state, now));
 
   await putIfChanged(ctx, { _id: TICK_REPORT_ID, type: "tickreport", steps }, DB_CORPUS);

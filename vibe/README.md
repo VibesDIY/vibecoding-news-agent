@@ -28,7 +28,21 @@ Live: <https://vibes.diy/vibe/jchris/vibecoding-news>
    not the question it arrived with. Every surface that prints these numbers
    says that, because a count printed under a question will be read as
    answering it.
-4. **assemble** writes one draft report a day.
+4. **harvest** turns each cited post into a link carrying its score and comment
+   count, and marks the ones where discussion ran far ahead of votes.
+5. **assemble** builds the round-up and writes the draft.
+
+## The ordering rule
+
+The round-up alternates: a thread the subreddit voted up, then a thread that
+drew a lot more discussion than votes, then back again. Both halves are needed.
+A list of only top posts is one the reader has already seen, and a list of only
+overlooked threads reads as a pose.
+
+A link counts as underseen at eight or more comments and at least four comments
+per point. Those two numbers are in `backend.js` and are the kind of thing a
+pull request should argue with. Every link carries its raw score and comment
+count so you can apply your own rule instead.
 
 ## The rule that shapes the data model
 

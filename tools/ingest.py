@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Load raw corpus answers into the deployed generator's database.
 
-Usage: ingest.py <rawdir> [--vibe handle/app-slug]
+Usage: ingest.py <rawdir> [--vibe handle/app-slug] [--rearm]
 
 Why this exists. The generator's backend.js knows how to call the corpus API
 itself, and it tries on every tick. Right now the platform refuses that call:
@@ -48,9 +48,30 @@ def source_doc(payload):
         # allowed to rank from, so it travels with the answer, not apart.
         "entitySentiment": status.get("entity_sentiment") or {},
         "urlMappings": status.get("url_mappings") or {},
+        # The cited posts with their scores and comment counts. These ride the
+        # ASK response rather than the answer, which is why they are read from
+        # `analyze` and not from `status`.
+        "examples": (payload.get("analyze") or {}).get("representative_examples") or [],
         "requestId": (payload.get("analyze") or {}).get("request_id"),
         "loadedBy": "tools/ingest.py",
     }
+
+
+def existing_status(doc_id, vibe):
+    """What the app already thinks of this source, or None if it is new."""
+    cmd = CLI + ["db", "get", doc_id, "--db", "corpus", "--json"]
+    if vibe:
+        cmd += ["--vibe", vibe]
+    res = subprocess.run(cmd, text=True, capture_output=True)
+    if res.returncode != 0:
+        return None
+    for line in res.stdout.splitlines():
+        if line.strip().startswith("{"):
+            try:
+                return json.loads(line).get("status")
+            except ValueError:
+                return None
+    return None
 
 
 def main():
@@ -61,6 +82,10 @@ def main():
     vibe = None
     if "--vibe" in sys.argv:
         vibe = sys.argv[sys.argv.index("--vibe") + 1]
+    # Loading a file again should not silently re-run the model over a source
+    # the app already processed. It carries whatever is new in the file and
+    # leaves the source where it was in the pipeline, unless you say otherwise.
+    rearm = "--rearm" in sys.argv
 
     for fname in sorted(os.listdir(rawdir)):
         if not fname.endswith(".json"):
@@ -70,6 +95,10 @@ def main():
         if not doc:
             print(f"[ingest] {fname}: no answer in file, skipping")
             continue
+        if not rearm:
+            was = existing_status(doc["_id"], vibe)
+            if was:
+                doc["status"] = was
         cmd = CLI + ["db", "put", "--db", "corpus"]
         if vibe:
             cmd += ["--vibe", vibe]

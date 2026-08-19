@@ -11,7 +11,14 @@ function published(user, oldDoc, doc, channel) {
   if (!user || !user.isOwner) {
     throw { forbidden: "this app publishes; it does not take submissions. Send a pull request instead: https://github.com/VibesDIY/vibecoding-news-agent" };
   }
-  return { channels: [channel], grant: { public: [channel] } };
+  // Two grants, and the second one is not redundant. `public` opens the
+  // channel to readers. The explicit self-grant opens it to the writer, who
+  // is the owner, because grants are keyed by handle and a channel with no
+  // grant for your handle is unreadable by you even when you wrote every doc
+  // in it. Without this line the generator's own queries came back empty
+  // while the admin-mode CLI insisted the documents were there, which is a
+  // confusing hour if you have not met it before.
+  return { channels: [channel], grant: { public: [channel], users: { [user.userHandle]: [channel] } } };
 }
 
 // Raw answers from the corpus, the question list, the rate budget and the

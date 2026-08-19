@@ -115,6 +115,10 @@ function LinkRow({ l }) {
         {l.title || l.url}
       </a>
 
+      {l.blurb ? (
+        <p style={{ margin: "10px 0 0", fontSize: 16, lineHeight: 1.5 }}>{l.blurb}</p>
+      ) : null}
+
       {l.excerpt ? (
         <p
           style={{

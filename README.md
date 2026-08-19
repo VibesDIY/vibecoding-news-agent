@@ -6,6 +6,12 @@ purpose: a title, a link, its score and its comment count. The round-up is
 published as an app, and from there a person posts it to r/vibecoding. The code
 that picks the links is here, so you can check the method or change it.
 
+Each link carries a short piece of writing that is not a summary: someone
+pointing at the one detail that made them stop, with a view about it. A model
+drafts those and a person signs them, and the page shows nothing until somebody
+has. House style is in [vibe/EDITORIAL.md](vibe/EDITORIAL.md), which is the file
+to argue with if the blurbs read wrong.
+
 The ordering is the opinionated part. It alternates between threads the
 subreddit voted up and threads that drew far more discussion than votes. That
 second kind is the reason to read a round-up at all: forty people replying to a

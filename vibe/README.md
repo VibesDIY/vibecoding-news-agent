@@ -30,7 +30,9 @@ Live: <https://vibes.diy/vibe/jchris/vibecoding-news>
    answering it.
 4. **harvest** turns each cited post into a link carrying its score and comment
    count, and marks the ones where discussion ran far ahead of votes.
-5. **assemble** builds the round-up and writes the draft.
+5. **dress** drafts one blurb per tick with the strongest model available, in
+   the house style in [EDITORIAL.md](EDITORIAL.md). Drafts are never published.
+6. **assemble** builds the round-up and writes the draft.
 
 ## The ordering rule
 
@@ -57,9 +59,21 @@ mentioning him. Querying him by name returned 11 mentions at +0.12 sentiment,
 which is neutral. The impression was wrong and the count was right, and a
 generator that cannot tell them apart will publish the wrong one.
 
+## The blurb, and the one gate that has a person in it
+
+The page shows a blurb only after somebody has read it. `dress` writes
+`blurbDraft`, `tools/editorial.py approve --by <name>` writes `blurb`, and the
+page renders the second and never the first. Passing `--text` replaces the
+draft with your own words, which is the expected case: the draft exists to save
+a person from a blank page, not to replace them.
+
+This audience detects machine prose and mocks it above the fold, and the corpus
+measures them doing exactly that. A page of unread machine blurbs would cost
+more credibility than the whole round-up earns.
+
 ## What it will not do
 
-`backend.js` never writes the published prose. It produces analysis: entities,
+`backend.js` never publishes prose nobody has read. It produces analysis: entities,
 counts, sentiment, permalinks. The write-up is a separate pass with a stronger
 model and then a person edits it. That is a rule about credibility, not about
 cost. This audience recognises machine-written copy and says so in the

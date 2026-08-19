@@ -100,6 +100,9 @@ def main():
         md.append(f"### [{l.get('title') or l.get('url')}]({l.get('url')})")
         md.append("")
         md.append(f"{meta}{mark}")
+        if l.get("blurb"):
+            md.append("")
+            md.append(l["blurb"])
         if l.get("excerpt"):
             ex = l["excerpt"]
             md.append("")

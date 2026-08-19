@@ -55,6 +55,13 @@ const UNDERSEEN_COMMENT_RATIO = 4;
 // supposed to be worth. Overlooked means the votes stayed near zero.
 const UNDERSEEN_MAX_SCORE = 5;
 
+// The blurb pass. One link per tick, because this is the call that is supposed
+// to be worth paying for: the analysis loop can be cheap, the writing cannot.
+// Set EDITORIAL_MODEL to the best model available to the account running this.
+// "openrouter/auto" is a safe default and not the right answer for prose.
+const EDITORIAL_MODEL = "openrouter/auto";
+const BLURB_PER_TICK = 1;
+
 const DB_CORPUS = "corpus";
 const DB_FINDINGS = "findings";
 
@@ -588,6 +595,78 @@ function roundup(links) {
   return out;
 }
 
+// ------------------------------------------------------------- 3c. the blurb
+//
+// The only part of this app that writes rather than counts, and the only part
+// a person has to sign before anyone sees it.
+//
+// House style lives in EDITORIAL.md next to this file, and the prompt below
+// quotes it rather than paraphrasing, so editing the rules means editing one
+// place. What lands here is a DRAFT. The page never renders a draft. A person
+// promotes one with tools/editorial.py, and can rewrite it on the way through.
+//
+// Why the gate is not ceremony: this audience spots machine prose and mocks it
+// above the fold, and the corpus measures them doing it. A page of unread
+// machine blurbs would cost more credibility than the round-up earns.
+
+const BLURB_RULES = [
+  "You are drafting one blurb for a link round-up, in the style of Boing Boing when it was good.",
+  "",
+  "A person found this thread, points at the one detail that made them stop, and has an opinion about it.",
+  "",
+  "Rules:",
+  "- Lead with the specific detail, never the topic. The reader can already see the topic in the title.",
+  "- Have a view: delighted, annoyed, unconvinced, quietly vindicated. A blurb with no attitude is a summary wearing a hat.",
+  "- Two or three sentences. Forty words is plenty.",
+  "- Quote the poster when they said it better than you would, which is most of the time.",
+  "- If the numbers are the story, say so in a clause. A thread at 2 points with 40 replies means the subreddit argued about something it never voted on.",
+  "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",
+  "- No em-dashes. No rule-of-three cadence. This audience reads both as a machine's fingerprints and says so in the comments.",
+  "- Invent nothing. Everything comes from the post, its numbers, or the question that surfaced it.",
+  "",
+  "Answer with the blurb and nothing else. No preamble, no quotation marks around the whole thing.",
+  "",
+].join("\n");
+
+async function dress(ctx, state, now) {
+  const links = await readAll(ctx, DB_FINDINGS, "link");
+  const waiting = links.filter((l) => !l.blurbDraft && !l.blurb).slice(0, BLURB_PER_TICK);
+  if (!waiting.length) return state;
+
+  for (const l of waiting) {
+    let draft;
+    try {
+      draft = String(
+        await ctx.callAI(
+          BLURB_RULES +
+            "THREAD: " +
+            l.title +
+            "\nPosted in r/" +
+            (l.subreddit || "vibecoding") +
+            " by u/" +
+            (l.author || "someone") +
+            "\nIt has " +
+            l.score +
+            " points and " +
+            l.comments +
+            " comments." +
+            (l.underseen ? " The discussion ran far ahead of the votes." : "") +
+            "\nIt opens: " +
+            (l.excerpt || "(no text)"),
+          { model: EDITORIAL_MODEL, max_tokens: 200 },
+        ),
+      ).trim();
+    } catch (err) {
+      ctx.log("error", "blurb draft failed", { link: l._id, message: String(err && err.message) });
+      continue;
+    }
+    if (!draft) continue;
+    await putIfChanged(ctx, { ...l, blurbDraft: draft.slice(0, 500), blurbDraftedAt: now }, DB_FINDINGS);
+    ctx.log("drafted a blurb", { link: l._id, words: draft.split(/\s+/).length });
+  }
+  return { ...state, lastBlurbAt: now };
+}
+
 // ------------------------------------------------------------- 4. assemble
 //
 // The draft report. It carries findings, the counts behind them and the
@@ -648,6 +727,8 @@ async function assemble(ctx, state, now) {
       links: links.length,
       underseen: links.filter((l) => l.underseen).length,
       citedWithNoThread: noThread,
+      blurbs: links.filter((l) => l.blurb).length,
+      blurbsAwaitingAPerson: links.filter((l) => l.blurbDraft && !l.blurb).length,
       entities: entities.length,
       ranked: ranked.length,
       unverified: unverified.length,
@@ -663,6 +744,8 @@ async function assemble(ctx, state, now) {
       author: l.author || null,
       subreddit: l.subreddit || null,
       surfacedBy: questionOf[l.sourceName] || null,
+      // Approved prose only. A draft nobody has read is not published.
+      blurb: l.blurb || null,
       score: l.score,
       comments: l.comments,
       underseen: l.underseen,
@@ -757,6 +840,7 @@ export async function scheduled(event, ctx) {
   await run("extract", () => extract(ctx, state, now));
   await run("measure", () => measure(ctx, state, now));
   await run("harvest", () => harvest(ctx, state, now));
+  await run("dress", () => dress(ctx, state, now));
   await run("assemble", () => assemble(ctx, state, now));
 
   await putIfChanged(ctx, { _id: TICK_REPORT_ID, type: "tickreport", steps }, DB_CORPUS);

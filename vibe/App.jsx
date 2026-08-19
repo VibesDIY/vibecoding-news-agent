@@ -26,9 +26,10 @@ function Masthead({ status }) {
   return (
     <header style={{ borderBottom: "2px solid " + C.fg, paddingBottom: 14, marginBottom: 22 }}>
       <h1 style={{ fontSize: 30, margin: "0 0 6px", letterSpacing: "-0.01em" }}>r/vibecoding link round-up</h1>
-      <p style={{ margin: 0, color: C.muted, fontSize: 15 }}>
-        Threads worth reading, picked by an agent from a semantic index of the subreddit. The code that picks them is
-        public, and so is every answer it read.
+      <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55 }}>
+        Somebody has to read the whole subreddit so you do not have to. That somebody is a program, which reads all of
+        it, has no opinions worth having, and hands the good bits to a person who does. What follows is the good bits,
+        with the arguing left in.
       </p>
       <p style={{ margin: "10px 0 0", fontSize: 13, color: C.muted }}>
         This page is the draft. The writing under each link is machine-drafted and marked as such until a person has
@@ -100,63 +101,67 @@ function Tag({ children, tone }) {
 }
 
 function LinkRow({ l }) {
+  const commentary = l.blurb || l.blurbDraft;
   return (
-    <li style={{ listStyle: "none", padding: "20px 0", borderBottom: "1px solid " + C.line }}>
-      <div style={{ marginBottom: 6 }}>
-        {l.underseen ? <Tag tone="alert">more talk than votes</Tag> : null}
-        {l.subreddit ? <Tag>r/{l.subreddit}</Tag> : null}
-        <span style={{ fontSize: 13, color: C.muted }}>
-          {l.score} points &middot; {l.comments} comments
-          {l.author ? " · u/" + l.author : ""}
-        </span>
-      </div>
-
-      <a
-        href={l.url}
-        target="_blank"
-        rel="noreferrer"
-        style={{ color: C.fg, fontSize: 20, fontWeight: 600, textDecoration: "none", lineHeight: 1.3 }}
-      >
-        {l.title || l.url}
-      </a>
-
-      {l.blurb || l.blurbDraft ? (
-        <p style={{ margin: "10px 0 0", fontSize: 16, lineHeight: 1.5 }}>
+    <li style={{ listStyle: "none", padding: "34px 0", borderBottom: "1px solid " + C.line }}>
+      {/* The writing comes first. A reader decides whether they care from the
+          commentary, not from a headline they have to interpret. */}
+      {commentary ? (
+        <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55 }}>
           {l.blurb ? null : (
             <span
               style={{
-                fontSize: 12,
-                letterSpacing: "0.04em",
+                fontSize: 11,
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 color: C.muted,
+                border: "1px solid " + C.line,
+                borderRadius: 3,
+                padding: "1px 5px",
                 marginRight: 8,
+                verticalAlign: "middle",
               }}
             >
               draft
             </span>
           )}
-          {l.blurb || l.blurbDraft}
+          {commentary}
         </p>
       ) : null}
 
       {l.excerpt ? (
-        <p
+        <blockquote
           style={{
-            margin: "8px 0 0",
-            paddingLeft: 12,
-            borderLeft: "3px solid " + C.line,
-            fontSize: 15,
-            color: C.muted,
+            margin: commentary ? "20px 0 0" : 0,
+            padding: "0 0 0 20px",
+            borderLeft: "4px solid " + C.accent,
+            fontSize: 24,
+            lineHeight: 1.4,
             fontStyle: "italic",
+            color: C.fg,
           }}
         >
           {l.excerpt}
           {l.excerpt.length >= 260 && !l.excerpt.endsWith("...") ? "…" : ""}
-        </p>
+        </blockquote>
       ) : null}
 
+      {/* The link and its numbers sit under the writing, small, where a reader
+          goes once they have decided. */}
+      <div style={{ marginTop: 16, fontSize: 14 }}>
+        <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.accent, fontWeight: 600 }}>
+          {l.title || l.url}
+        </a>
+        <span style={{ color: C.muted }}>
+          {" "}
+          r/{l.subreddit || "vibecoding"}
+          {l.author ? " · u/" + l.author : ""} · {l.score} points · {l.comments} comments
+          {l.underseen ? " · more talk than votes" : ""}
+        </span>
+      </div>
+
       {l.surfacedBy ? (
-        <p style={{ margin: "8px 0 0", fontSize: 13, color: C.muted }}>Found asking: {l.surfacedBy}</p>
+        <p style={{ margin: "6px 0 0", fontSize: 13, color: C.muted }}>Found asking: {l.surfacedBy}</p>
       ) : null}
     </li>
   );

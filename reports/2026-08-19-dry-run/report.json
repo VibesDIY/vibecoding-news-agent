@@ -405,6 +405,8 @@
     "entities": 15,
     "underseen": 3,
     "unverified": 15,
+    "blurbsCleared": 0,
+    "blurbsStillDrafts": 3,
     "citedWithNoThread": 2
   },
   "ranked": [],
@@ -412,6 +414,7 @@
   "roundup": [
     {
       "url": "https://reddit.com/r/vibecoding/comments/1tumgz0/",
+      "blurb": null,
       "score": 2,
       "title": "Can vibe-coded apps actually survive production?",
       "author": "yash_maanikya",
@@ -419,10 +422,12 @@
       "comments": 40,
       "subreddit": "vibecoding",
       "underseen": true,
+      "blurbDraft": null,
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1vmqzq6/",
+      "blurb": null,
       "score": 32,
       "title": "Are you guys actually deploying vibe coded stuff?",
       "author": "JennySurfs",
@@ -430,10 +435,12 @@
       "comments": 92,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1v7m1hj/",
+      "blurb": null,
       "score": 2,
       "title": "What happens when your vibe-coded app starts getting real users?",
       "author": "Sea_Faithlessness198",
@@ -441,10 +448,12 @@
       "comments": 15,
       "subreddit": "vibecoding",
       "underseen": true,
+      "blurbDraft": null,
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1mpyhma/",
+      "blurb": null,
       "score": 19,
       "title": "% of projects abandoned?",
       "author": "last_barron",
@@ -452,10 +461,12 @@
       "comments": 71,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": "Thirty minutes is the whole runway: \"if it takes more than 30 mins to get the bare bones running, I start drifting onto ot...\" and two thirds of his projects die there. Nineteen points against 71 comments, which is a room that would rather argue about the number than agree on one.",
       "surfacedBy": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1uvo0o5/",
+      "blurb": null,
       "score": 0,
       "title": "The hidden cost of AI coding tools nobody talks about (and how I fixed mine)",
       "author": "Proper_Violinist1371",
@@ -463,10 +474,12 @@
       "comments": 8,
       "subreddit": "vibecoding",
       "underseen": true,
+      "blurbDraft": null,
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1o9sprj/",
+      "blurb": null,
       "score": 19,
       "title": "The problem with vibe coding: debugging in production is a nightmare",
       "author": "arjy0",
@@ -474,10 +487,12 @@
       "comments": 94,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": "Three weeks and \"with just $50 you managed to build and launch your first real app,\" and then one user hits a case nobody prompted for. Nineteen points against 94 comments, which is r/vibecoding arguing hard about a complaint it declined to upvote.",
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1tpxtsg/",
+      "blurb": null,
       "score": 6,
       "title": "Building an AI product and terrified of runaway API costs. What have you been burned by?",
       "author": "thisismetrying2506",
@@ -485,10 +500,12 @@
       "comments": 4,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
       "url": "https://reddit.com/r/nocode/comments/1mx884d/",
+      "blurb": null,
       "score": 2,
       "title": "Why is a vibe coded project stuck at 80-90% ?",
       "author": "anchit_rana",
@@ -496,10 +513,12 @@
       "comments": 0,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": "The entire post is the title typed twice, which is either a submission error or the most honest possible demonstration of the last 10%. Two points, zero comments, in a subreddit that presumably has some experience with this: nobody wanted to be the one to answer \"why is a vibe coded project stuck at 80-90%?\"",
       "surfacedBy": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1rx9cds/",
+      "blurb": null,
       "score": 1,
       "title": "How are you thinking about AI API costs if your project scales?",
       "author": "NeoTree69",
@@ -507,10 +526,12 @@
       "comments": 0,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1u0uddq/",
+      "blurb": null,
       "score": 1,
       "title": "How are people managing AI costs?",
       "author": "Excellent_Knee_7109",
@@ -518,10 +539,12 @@
       "comments": 2,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
       "url": "https://reddit.com/r/webdev/comments/1vnx44m/",
+      "blurb": null,
       "score": 1,
       "title": "Has anyone actually maintained a vibe coded code-base 12 months after launch? What did it look like?",
       "author": "prolific_user",
@@ -529,10 +552,12 @@
       "comments": 0,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1thejay/",
+      "blurb": null,
       "score": 0,
       "title": "Any other vibe coders accidentally build something that works\u2026 and then get destroyed by AI costs?",
       "author": "Thonwalo",
@@ -540,10 +565,12 @@
       "comments": 6,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
       "url": "https://reddit.com/r/vibecoding/comments/1v8c6y1/",
+      "blurb": null,
       "score": 0,
       "title": "The weekend prototype works great on your laptop - what actually goes wrong the first time you let it run unattended for real users?",
       "author": "marcin_michalak",
@@ -551,6 +578,7 @@
       "comments": 2,
       "subreddit": "vibecoding",
       "underseen": false,
+      "blurbDraft": null,
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     }
   ],
@@ -678,5 +706,5 @@
       "verifiedNote": null
     }
   ],
-  "generatedAt": "2026-08-19T21:49:56.442Z"
+  "generatedAt": "2026-08-19T23:19:59.718Z"
 }

@@ -64,7 +64,11 @@ const UNDERSEEN_MAX_SCORE = 5;
 // platform actually serves are its own catalogue, and the one below is the
 // most capable of them.
 const EDITORIAL_MODEL = "~anthropic/claude-opus-latest";
-const BLURB_PER_TICK = 1;
+// Three a tick, inside the documented per-invocation budget alongside the one
+// extraction call. At one a tick a thirteen link round-up took three hours to
+// grow its writing, and a page whose commentary arrives hours after its links
+// is a page that reads as broken.
+const BLURB_PER_TICK = 3;
 
 const DB_CORPUS = "corpus";
 const DB_FINDINGS = "findings";
@@ -633,7 +637,10 @@ const BLURB_RULES = [
 ].join("\n");
 
 async function dress(ctx, state, now) {
-  const links = await readAll(ctx, DB_FINDINGS, "link");
+  // Drafted in the order the round-up will print, so the top of the page gets
+  // its writing first. Filling in whatever order the database hands back means
+  // the first thing a reader sees is the last thing to get a sentence.
+  const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
   const waiting = links.filter((l) => !l.blurbDraft && !l.blurb && !l.blurbError).slice(0, BLURB_PER_TICK);
   if (!waiting.length) return state;
 

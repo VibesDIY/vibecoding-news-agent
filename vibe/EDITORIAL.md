@@ -4,6 +4,17 @@ Every link gets one short piece of writing that is not a summary. This file is
 what that writing is supposed to sound like, and it is the file to argue with
 if the blurbs read wrong.
 
+## Where it sits on the page
+
+The commentary comes first, before the quote and before the link. A reader
+decides whether they care from a sentence with a view in it, not from a
+headline they have to interpret. Under the commentary sits one large pull
+quote in the poster's own words, and under that, small, the link and its
+numbers, for the reader who has already decided.
+
+That order is the whole reason the writing has to be good. It is the first
+thing on the page and there is nothing above it to hide behind.
+
 ## The model
 
 Boing Boing when it was good. A person finds something, points at the one

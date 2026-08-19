@@ -86,31 +86,35 @@ def main():
         f"votes. Working below the round-up: {counts.get('leads', 0)} claims, {counts.get('entities', 0)} counted "
         f"tools, {counts.get('ranked', 0)} confirmed, from {counts.get('sources', 0)} corpus answers.",
         "",
-        "## The round-up",
+        "Somebody has to read the whole subreddit so you do not have to. That somebody is a program, which reads "
+        "all of it, has no opinions worth having, and hands the good bits to a person who does. What follows is "
+        "the good bits, with the arguing left in.",
         "",
-        "Alternating between threads the subreddit voted up and threads that drew far more discussion than votes.",
+        "---",
         "",
     ]
     for l in roundup:
-        mark = " · **more talk than votes**" if l.get("underseen") else ""
-        where = f"r/{l.get('subreddit')}" if l.get("subreddit") else ""
-        who = f"u/{l.get('author')}" if l.get("author") else ""
-        meta = " · ".join(x for x in [where, who, f"{l.get('score')} points",
-                                      f"{l.get('comments')} comments"] if x)
-        md.append(f"### [{l.get('title') or l.get('url')}]({l.get('url')})")
-        md.append("")
-        md.append(f"{meta}{mark}")
-        if l.get("blurb"):
+        commentary = l.get("blurb") or l.get("blurbDraft")
+        if commentary:
+            md.append(("*(draft)* " if not l.get("blurb") else "") + commentary)
             md.append("")
-            md.append(l["blurb"])
         if l.get("excerpt"):
             ex = l["excerpt"]
-            md.append("")
             md.append("> " + ex + ("…" if len(ex) >= 260 and not ex.endswith("...") else ""))
+            md.append("")
+        where = f"r/{l.get('subreddit')}" if l.get("subreddit") else ""
+        who = f"u/{l.get('author')}" if l.get("author") else ""
+        mark = "more talk than votes" if l.get("underseen") else ""
+        meta = " · ".join(x for x in [where, who, f"{l.get('score')} points",
+                                      f"{l.get('comments')} comments", mark] if x)
+        md.append(f"[{l.get('title') or l.get('url')}]({l.get('url')}) · {meta}")
         if l.get("surfacedBy"):
             md.append("")
             md.append(f"*Found asking: {l['surfacedBy']}*")
         md.append("")
+        md.append("---")
+        md.append("")
+
     md += [
         "",
         "Mention counts below are index-wide. They measure how much r/vibecoding discusses each tool "

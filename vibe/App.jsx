@@ -57,11 +57,18 @@ function Item({ f, rank }) {
         {rank ? <span style={{ color: C.muted, marginRight: 8 }}>{rank}.</span> : null}
         {f.entity}
         {typeof f.mentions === "number" ? (
-          <span style={{ color: C.muted, fontWeight: 400, fontSize: 14 }}> ({f.mentions} mentions)</span>
+          <span style={{ color: C.muted, fontWeight: 400, fontSize: 14 }}>
+            {" "}
+            ({f.mentions.toLocaleString()} mentions
+            {typeof f.sentiment === "number" ? ", sentiment " + f.sentiment : ""})
+          </span>
         ) : null}
       </div>
-      <div style={{ fontSize: 16 }}>{f.claim}</div>
-      {f.sentiment ? <div style={{ fontSize: 13, color: C.muted }}>sentiment: {f.sentiment}</div> : null}
+      {f.claim ? <div style={{ fontSize: 16 }}>{f.claim}</div> : null}
+      {f.verifiedNote ? <div style={{ fontSize: 14 }}>checked: {f.verifiedNote}</div> : null}
+      {f.sentiment && typeof f.sentiment !== "number" ? (
+        <div style={{ fontSize: 13, color: C.muted }}>sentiment: {f.sentiment}</div>
+      ) : null}
       <Links urls={f.permalinks} />
     </li>
   );
@@ -122,7 +129,10 @@ export default function App() {
   const { docs: reports } = useLiveQuery("type", { key: "report", descending: true, limit: 5 });
   const { docs: statuses } = useCorpus("type", { key: "status", limit: 1 });
 
-  const report = reports && reports.length ? reports[0] : null;
+  // Every report doc carries the same index key, so ordering falls back to _id.
+  // Sort on the day the report is for and take the newest.
+  const sorted = (reports || []).slice().sort((a, b) => String(a.day).localeCompare(String(b.day)));
+  const report = sorted.length ? sorted[sorted.length - 1] : null;
   const status = statuses && statuses.length ? statuses[0] : null;
 
   return (
@@ -137,8 +147,9 @@ export default function App() {
       ) : (
         <>
           <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-            {report.day} &middot; {report.counts.findings} findings from {report.counts.sources} corpus answers &middot;{" "}
-            {report.counts.rankable} confirmed with a count, {report.counts.leads} still leads
+            {report.day} &middot; {report.counts.entities} measured entities from {report.counts.sources} corpus
+            answers &middot; {report.counts.ranked} confirmed, {report.counts.unverified} not yet checked,{" "}
+            {report.counts.leads} leads
           </p>
 
           {report.ranked && report.ranked.length ? (
@@ -162,6 +173,21 @@ export default function App() {
               </p>
             </section>
           )}
+
+          {report.unverified && report.unverified.length ? (
+            <section style={{ marginTop: 28 }}>
+              <h2 style={{ fontSize: 20, marginBottom: 4 }}>Measured, not yet checked</h2>
+              <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
+                The index counted these. Nobody has confirmed yet that each one is a real, distinct thing, so they are
+                listed rather than ranked.
+              </p>
+              <ul style={{ padding: 0, margin: 0 }}>
+                {report.unverified.map((f, i) => (
+                  <Item key={f.entity + i} f={f} />
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
           <section style={{ marginTop: 28 }}>
             <h2 style={{ fontSize: 20, marginBottom: 4 }}>Leads</h2>

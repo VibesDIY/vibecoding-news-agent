@@ -1,0 +1,5 @@
+[
+  {"name": "post-ship-failures", "question": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?", "lens": null},
+  {"name": "cost-surprises", "question": "What do people say about unexpected costs, token spend or API bills from AI coding tools?", "lens": null},
+  {"name": "abandonment", "question": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?", "lens": null}
+]

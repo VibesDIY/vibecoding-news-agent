@@ -507,6 +507,17 @@ function permalinkOf(e) {
   return "https://reddit.com/r/" + m[1] + "/comments/" + m[2] + "/";
 }
 
+// The post's own words. The corpus hands back a blob that starts with the
+// title and then the body, both labelled, so the labels come off and what is
+// left is the opening of the post. It is the cheapest way to make one link
+// distinguishable from the next, and it costs nothing: this text was already
+// sitting in the document the answer arrived in.
+function excerptOf(e) {
+  const raw = String((e && e.content) || "");
+  const body = raw.indexOf("Content:") >= 0 ? raw.slice(raw.indexOf("Content:") + 8) : raw;
+  return body.replace(/\s+/g, " ").trim().slice(0, 260);
+}
+
 function linkRow(e, url, sourceName, now) {
   const score = typeof e.score === "number" ? e.score : 0;
   const comments = typeof e.num_comments === "number" ? e.num_comments : 0;
@@ -515,6 +526,12 @@ function linkRow(e, url, sourceName, now) {
     type: "link",
     url,
     title: String(e.title || "").slice(0, 200),
+    excerpt: excerptOf(e),
+    // Who wrote it and where it was posted. The where matters more than it
+    // looks: the corpus cites r/nocode and r/webdev threads too, and a reader
+    // deserves to know when a link leaves the subreddit it was collected for.
+    author: String(e.author || "").slice(0, 60),
+    subreddit: String(e.subreddit || "").slice(0, 40),
     score,
     comments,
     relevance: typeof e.relevance_score === "number" ? Math.round(e.relevance_score * 100) / 100 : null,
@@ -584,6 +601,7 @@ async function assemble(ctx, state, now) {
   // Cited posts that had no thread to link to (an image post, usually). Counted
   // and printed rather than dropped, so the round-up's size is honest about
   // what the corpus actually handed over.
+  const says = claimsByThread(leads);
   const sources = await readAll(ctx, DB_CORPUS, "source");
   const noThread = sources.reduce((n, s2) => n + (s2.linksSkipped || 0), 0);
   if (!entities.length && !leads.length && !links.length) return state;
@@ -625,6 +643,10 @@ async function assemble(ctx, state, now) {
     roundup: links.slice(0, 30).map((l) => ({
       url: l.url,
       title: l.title,
+      excerpt: l.excerpt || null,
+      author: l.author || null,
+      subreddit: l.subreddit || null,
+      says: says[threadIdOf(l.url)] || [],
       score: l.score,
       comments: l.comments,
       underseen: l.underseen,
@@ -646,6 +668,29 @@ async function assemble(ctx, state, now) {
   await ctx.db.put({ ...body, generatedAt: now }, { db: DB_FINDINGS });
   ctx.log("assembled", { day, links: links.length, entities: entities.length, leads: leads.length });
   return { ...state, lastReportAt: now };
+}
+
+// The id inside a reddit permalink, which is the only thing a thread link and
+// a claim's citation reliably share.
+function threadIdOf(url) {
+  const m = /\/comments\/([a-z0-9]+)/.exec(String(url || ""));
+  return m ? m[1] : null;
+}
+
+// What the corpus said about each thread, attached to the thread. The claims
+// were extracted from the same answer that cited these posts, so the join is
+// free and it turns a bare link into a link with a reason.
+function claimsByThread(leads) {
+  const map = {};
+  for (const lead of leads) {
+    for (const url of lead.permalinks || []) {
+      const id = threadIdOf(url);
+      if (!id) continue;
+      if (!map[id]) map[id] = [];
+      if (map[id].length < 2 && lead.claim) map[id].push(lead.claim);
+    }
+  }
+  return map;
 }
 
 function entityRow(e) {

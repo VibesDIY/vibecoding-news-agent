@@ -74,16 +74,66 @@ function Item({ f, rank }) {
   );
 }
 
+function Tag({ children, tone }) {
+  return (
+    <span
+      style={{
+        fontSize: 12,
+        letterSpacing: "0.04em",
+        textTransform: "uppercase",
+        color: tone === "alert" ? C.accent : C.muted,
+        border: "1px solid " + (tone === "alert" ? C.accent : C.line),
+        borderRadius: 3,
+        padding: "1px 6px",
+        marginRight: 8,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
 function LinkRow({ l }) {
   return (
-    <li style={{ listStyle: "none", padding: "12px 0", borderBottom: "1px solid " + C.line }}>
-      <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.fg, fontSize: 17, textDecoration: "none" }}>
+    <li style={{ listStyle: "none", padding: "20px 0", borderBottom: "1px solid " + C.line }}>
+      <div style={{ marginBottom: 6 }}>
+        {l.underseen ? <Tag tone="alert">more talk than votes</Tag> : null}
+        {l.subreddit ? <Tag>r/{l.subreddit}</Tag> : null}
+        <span style={{ fontSize: 13, color: C.muted }}>
+          {l.score} points &middot; {l.comments} comments
+          {l.author ? " · u/" + l.author : ""}
+        </span>
+      </div>
+
+      <a
+        href={l.url}
+        target="_blank"
+        rel="noreferrer"
+        style={{ color: C.fg, fontSize: 20, fontWeight: 600, textDecoration: "none", lineHeight: 1.3 }}
+      >
         {l.title || l.url}
       </a>
-      <div style={{ fontSize: 13, color: C.muted, marginTop: 2 }}>
-        {l.score} points, {l.comments} comments
-        {l.underseen ? <span style={{ color: C.accent }}> &middot; more discussion than votes</span> : null}
-      </div>
+
+      {l.says && l.says.length ? (
+        <p style={{ margin: "8px 0 0", fontSize: 15 }}>{l.says[0]}</p>
+      ) : null}
+
+      {l.excerpt ? (
+        <p
+          style={{
+            margin: "8px 0 0",
+            paddingLeft: 12,
+            borderLeft: "3px solid " + C.line,
+            fontSize: 15,
+            color: C.muted,
+            fontStyle: "italic",
+          }}
+        >
+          {l.excerpt}
+          {l.excerpt.length >= 260 ? "…" : ""}
+        </p>
+      ) : null}
     </li>
   );
 }

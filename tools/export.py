@@ -92,9 +92,22 @@ def main():
         "",
     ]
     for l in roundup:
-        mark = " **(more discussion than votes)**" if l.get("underseen") else ""
-        md.append(f"- [{l.get('title') or l.get('url')}]({l.get('url')}) &mdash; {l.get('score')} points, "
-                  f"{l.get('comments')} comments{mark}")
+        mark = " · **more talk than votes**" if l.get("underseen") else ""
+        where = f"r/{l.get('subreddit')}" if l.get("subreddit") else ""
+        who = f"u/{l.get('author')}" if l.get("author") else ""
+        meta = " · ".join(x for x in [where, who, f"{l.get('score')} points",
+                                      f"{l.get('comments')} comments"] if x)
+        md.append(f"### [{l.get('title') or l.get('url')}]({l.get('url')})")
+        md.append("")
+        md.append(f"{meta}{mark}")
+        says = l.get("says") or []
+        if says:
+            md.append("")
+            md.append(says[0])
+        if l.get("excerpt"):
+            md.append("")
+            md.append("> " + l["excerpt"] + ("…" if len(l["excerpt"]) >= 260 else ""))
+        md.append("")
     md += [
         "",
         "Mention counts below are index-wide. They measure how much r/vibecoding discusses each tool "

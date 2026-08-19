@@ -41,6 +41,7 @@ const STATE_ID = "0-collector-state";
 const BUDGET_ID = "0-corpus-budget";
 const QUESTIONS_ID = "0-questions";
 const STATUS_ID = "0-refresh-status";
+const TICK_REPORT_ID = "0-tick-report";
 
 // The seed question set. Edit this list (or the 0-questions doc it seeds) to
 // change what the agent asks. Nothing else in the pipeline is question-aware.
@@ -504,26 +505,28 @@ export async function scheduled(event, ctx) {
   const now = event.scheduledTime || new Date().toISOString();
   let state = await loadState(ctx);
 
-  try {
-    state = await collect(ctx, state, now);
-  } catch (err) {
-    ctx.log("error", "collect threw", { message: String(err && err.message) });
-  }
-  try {
-    state = await extract(ctx, state, now);
-  } catch (err) {
-    ctx.log("error", "extract threw", { message: String(err && err.message) });
-  }
-  try {
-    state = await measure(ctx, state, now);
-  } catch (err) {
-    ctx.log("error", "measure threw", { message: String(err && err.message) });
-  }
-  try {
-    state = await assemble(ctx, state, now);
-  } catch (err) {
-    ctx.log("error", "assemble threw", { message: String(err && err.message) });
-  }
+  // What the tick did, written where a person can read it. ctx.log is the
+  // right lane for this and it is the one used above, but a log you cannot
+  // read back tells you nothing, so the outcome of each step also lands in
+  // one document. It is written only when the outcome changes, so a steady
+  // state writes nothing and an error shows up the tick it happens.
+  const steps = {};
+  const run = async (name, fn) => {
+    try {
+      const before = JSON.stringify(state);
+      state = await fn();
+      steps[name] = JSON.stringify(state) === before ? "no change" : "advanced";
+    } catch (err) {
+      steps[name] = "failed: " + String((err && err.message) || err).slice(0, 200);
+      ctx.log("error", name + " threw", { message: String(err && err.message) });
+    }
+  };
 
+  await run("collect", () => collect(ctx, state, now));
+  await run("extract", () => extract(ctx, state, now));
+  await run("measure", () => measure(ctx, state, now));
+  await run("assemble", () => assemble(ctx, state, now));
+
+  await putIfChanged(ctx, { _id: TICK_REPORT_ID, type: "tickreport", steps }, DB_CORPUS);
   await saveState(ctx, { ...state, lastTickAt: now });
 }

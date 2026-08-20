@@ -112,14 +112,15 @@ def main():
             ex = l["excerpt"]
             md.append("> " + ex + ("…" if len(ex) >= 260 and not ex.endswith("...") else ""))
             md.append("")
-        where = f"r/{l.get('subreddit')}" if l.get("subreddit") else ""
-        who = f"u/{l.get('author')}" if l.get("author") else ""
-        mark = "more talk than votes" if l.get("underseen") else ""
-        meta = " · ".join(x for x in [where, who, f"{l.get('score')} points",
-                                      f"{l.get('comments')} comments", mark] if x)
-        title = l.get("title") or l.get("url")
-        md.append(f"**[Link]({l.get('url')})** to \u201c{title}\u201d · {meta}"
-                  + (f" · Found asking: {l['surfacedBy']}" if l.get("surfacedBy") else ""))
+        # The byline and the numbers are the link. "Link" was a convention for
+        # destinations with nothing else to describe them; these have plenty.
+        who = f"u/{l.get('author')}" if l.get("author") else f"r/{l.get('subreddit') or 'vibecoding'}"
+        pts = "point" if l.get("score") == 1 else "points"
+        line = f"{who} · {l.get('comments')} comments · {l.get('score')} {pts}"
+        if l.get("subreddit") and l.get("subreddit") != "vibecoding":
+            line += f" · r/{l.get('subreddit')}"
+        md.append(f"[{line}]({l.get('url')})"
+                  + (" · more talk than votes" if l.get("underseen") else ""))
         md.append("")
         md.append("---")
         md.append("")

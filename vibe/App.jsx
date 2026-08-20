@@ -195,13 +195,12 @@ function LinkRow({ l }) {
           destination, the source title names it, and the provenance says how
           the item turned up. */}
       <div style={{ marginTop: 18, fontSize: 14, color: C.muted }}>
-        <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.accent, fontWeight: 700 }}>
-          Link
+        <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.accent, textDecoration: "none" }}>
+          {l.author ? "u/" + l.author : "r/" + (l.subreddit || "vibecoding")} · {l.comments} comments · {l.score}{" "}
+          {l.score === 1 ? "point" : "points"}
+          {l.subreddit && l.subreddit !== "vibecoding" ? " · r/" + l.subreddit : ""}
         </a>
-        {l.title ? <span> to &ldquo;{l.title}&rdquo;</span> : null} · r/{l.subreddit || "vibecoding"}
-        {l.author ? " · u/" + l.author : ""} · {l.score} points · {l.comments} comments
-        {l.underseen ? " · more talk than votes" : ""}
-        {l.surfacedBy ? <span> · Found asking: {l.surfacedBy}</span> : null}
+        {l.underseen ? <span> · more talk than votes</span> : null}
       </div>
     </li>
   );

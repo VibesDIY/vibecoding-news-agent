@@ -54,9 +54,22 @@ can already see from the title.
 7. **No em-dashes and no rule-of-three cadence.** This audience reads those as
    a machine's fingerprints and says so in the comments. That is not a
    superstition, it is what the corpus shows them doing.
-8. **Never invent.** Everything in the blurb comes from the post, its numbers,
-   or the corpus answer that surfaced it. If a claim needs a fact nobody
-   wrote down, cut the claim.
+8. **Never invent, and that includes a life.** Everything in the blurb comes
+   from the post, its numbers, or the corpus answer that surfaced it. If a
+   claim needs a fact nobody wrote down, cut the claim.
+
+   The sharpest version of this rule, learned from the first full page of
+   drafts: **a view is allowed, a past is not.** Three blurbs claimed personal
+   history nobody has. "I have watched enough people learn that the expensive
+   way." "I've been waiting for this thread since roughly March." A reader who
+   works out that the writer has no March is not annoyed at a turn of phrase,
+   they stop believing the page, and they are right to. Have opinions about
+   what is in front of you and no memories at all.
+
+9. **Vary the opening.** Three of the first seven drafts began "The detail that
+   stuck", "The trouble starts at", "The scary thing here is". If your first
+   three words would fit under any other link on the page, they are not doing
+   any work.
 
 ## Where the draft is read, and what approval means
 

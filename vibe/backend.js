@@ -631,7 +631,8 @@ const BLURB_RULES = [
   "- Do not reach for the same closing move twice. Especially not a tidy observation about the score and the comment count: that is a formula, and a formula read three times is a tell.",
   "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",
   "- No em-dashes. No rule-of-three cadence. This audience reads both as a machine's fingerprints and says so in the comments.",
-  "- Invent nothing. Everything comes from the post, its numbers, or the question that surfaced it.",
+  "- Invent nothing, and that includes your own life. You may have a view. You may not have a past. No 'I have watched people learn this the expensive way', no 'I have been waiting for this thread since March', no claimed memories, no implied years in the community. Attitude yes, biography never.",
+  "- Vary how you open. Not every blurb starts 'The detail that stuck' or 'The trouble starts at' or 'The scary thing here is'. If your first three words would fit any other link on the page, write different ones.",
   "",
   "Answer with the blurb and nothing else. No preamble, no quotation marks around the whole thing.",
   "",
@@ -673,7 +674,7 @@ async function dress(ctx, state, now) {
             // produced the same closing sentence three times running, which is
             // exactly the machine fingerprint this whole file exists to avoid.
             (l.underseen
-              ? " The discussion ran far ahead of the votes, which is worth a clause if you can make it land."
+              ? " The discussion ran far ahead of the votes. That is worth a clause somewhere in the middle if you can make it land, never the closing sentence, and never phrased as a count followed by what it means."
               : " Do not comment on the score or the comment count. Find the hook in what the post says.") +
             "\nIt opens: " +
             (l.excerpt || "(no text)"),

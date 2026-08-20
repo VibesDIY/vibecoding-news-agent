@@ -154,6 +154,10 @@ function LinkRow({ l }) {
           commentary, not from a headline they have to interpret. */}
       <Plate l={l} />
 
+      {l.headline ? (
+        <h2 style={{ margin: "0 0 8px", fontSize: 27, lineHeight: 1.2, letterSpacing: "-0.01em" }}>{l.headline}</h2>
+      ) : null}
+
       {commentary ? <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55 }}>{commentary}</p> : null}
 
       {l.excerpt ? (
@@ -175,21 +179,18 @@ function LinkRow({ l }) {
 
       {/* The link and its numbers sit under the writing, small, where a reader
           goes once they have decided. */}
-      <div style={{ marginTop: 16, fontSize: 14 }}>
-        <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.accent, fontWeight: 600 }}>
-          {l.title || l.url}
+      {/* The link line, in the 2007 grammar: the word Link carries the
+          destination, the source title names it, and the provenance says how
+          the item turned up. */}
+      <div style={{ marginTop: 18, fontSize: 14, color: C.muted }}>
+        <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.accent, fontWeight: 700 }}>
+          Link
         </a>
-        <span style={{ color: C.muted }}>
-          {" "}
-          r/{l.subreddit || "vibecoding"}
-          {l.author ? " · u/" + l.author : ""} · {l.score} points · {l.comments} comments
-          {l.underseen ? " · more talk than votes" : ""}
-        </span>
+        {l.title ? <span> to &ldquo;{l.title}&rdquo;</span> : null} · r/{l.subreddit || "vibecoding"}
+        {l.author ? " · u/" + l.author : ""} · {l.score} points · {l.comments} comments
+        {l.underseen ? " · more talk than votes" : ""}
+        {l.surfacedBy ? <span> · Found asking: {l.surfacedBy}</span> : null}
       </div>
-
-      {l.surfacedBy ? (
-        <p style={{ margin: "6px 0 0", fontSize: 13, color: C.muted }}>Found asking: {l.surfacedBy}</p>
-      ) : null}
     </li>
   );
 }

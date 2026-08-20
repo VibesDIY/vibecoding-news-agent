@@ -619,9 +619,13 @@ function roundup(links) {
 // machine blurbs would cost more credibility than the round-up earns.
 
 const BLURB_RULES = [
-  "You are drafting one blurb for a link round-up, in the style of Boing Boing when it was good.",
+  "You are drafting one entry for a link round-up, in the form Boing Boing used for short link posts in 2007.",
   "",
-  "A person found this thread, points at the one detail that made them stop, and has an opinion about it.",
+  "Two parts.",
+  "",
+  "HEADLINE: ours, not the poster's. Boing Boing never reprinted the source's title, it wrote one that carried the conclusion, the joke, or the reason to click. 'Photo reveals the opposite of recycling.' 'Antibacterial products may be bad news.' Under ten words, sentence case, no colon-and-subtitle construction, and never a restatement of the thread title, which the reader sees anyway in the link underneath.",
+  "",
+  "BLURB: a person found this thread, points at the one detail that made them stop, and has an opinion about it.",
   "",
   "Rules:",
   "- Lead with the specific detail, never the topic. The reader can already see the topic in the title.",
@@ -634,7 +638,7 @@ const BLURB_RULES = [
   "- Invent nothing, and that includes your own life. You may have a view. You may not have a past. No 'I have watched people learn this the expensive way', no 'I have been waiting for this thread since March', no claimed memories, no implied years in the community. Attitude yes, biography never.",
   "- Vary how you open. Not every blurb starts 'The detail that stuck' or 'The trouble starts at' or 'The scary thing here is'. If your first three words would fit any other link on the page, write different ones.",
   "",
-  "Answer with the blurb and nothing else. No preamble, no quotation marks around the whole thing.",
+  "Length follows the material. Two good sentences beat four padded ones.",
   "",
 ].join("\n");
 
@@ -654,8 +658,10 @@ async function dress(ctx, state, now) {
   let wrote = 0;
   for (const l of waiting) {
     let draft;
+    let headline;
+    let raw;
     try {
-      draft = String(
+      raw = String(
         await ctx.callAI(
           BLURB_RULES +
             "THREAD: " +
@@ -682,9 +688,19 @@ async function dress(ctx, state, now) {
           // sentence and a half long, ending on "feels like someone". A capable
           // model can spend its budget before the visible answer starts, so the
           // cap has to cover more than the forty words being asked for.
-          { model: EDITORIAL_MODEL, max_tokens: 900 },
+          {
+            model: EDITORIAL_MODEL,
+            max_tokens: 900,
+            schema: {
+              properties: { headline: { type: "string" }, blurb: { type: "string" } },
+              required: ["headline", "blurb"],
+            },
+          },
         ),
       ).trim();
+      const parsed = JSON.parse(raw);
+      headline = String(parsed.headline || "").trim();
+      draft = String(parsed.blurb || "").trim();
     } catch (err) {
       // The reason lands on the document as well as in the log, because a log
       // you cannot read back turns "the step ran and nothing appeared" into a
@@ -702,7 +718,7 @@ async function dress(ctx, state, now) {
       );
       continue;
     }
-    if (!draft) continue;
+    if (!draft || !headline) continue;
     // A blurb that stops mid-sentence is worse than no blurb: it reads as a
     // broken page rather than an unfinished one, and it would go out looking
     // like prose somebody wrote. Ending punctuation is a crude test and it
@@ -719,7 +735,11 @@ async function dress(ctx, state, now) {
       );
       continue;
     }
-    await putIfChanged(ctx, { ...l, blurbDraft: draft.slice(0, 500), blurbDraftedAt: now }, DB_FINDINGS);
+    await putIfChanged(
+      ctx,
+      { ...l, headline: headline.slice(0, 140), blurbDraft: draft.slice(0, 500), blurbDraftedAt: now },
+      DB_FINDINGS,
+    );
     ctx.log("drafted a blurb", { link: l._id, words: draft.split(/\s+/).length });
     wrote++;
   }
@@ -811,6 +831,9 @@ async function assemble(ctx, state, now) {
       // hiding the draft from them would hide the thing they came to read.
       blurb: l.blurb || null,
       blurbDraft: l.blurbDraft || null,
+      // Ours, not the poster's. The thread's own title is the name of the
+      // destination and lives in the link line.
+      headline: l.headline || null,
       score: l.score,
       comments: l.comments,
       underseen: l.underseen,

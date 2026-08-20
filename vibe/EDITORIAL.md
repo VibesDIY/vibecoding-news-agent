@@ -1,88 +1,88 @@
-# House style for the blurb
+# House style
 
-Every link gets one short piece of writing that is not a summary. This file is
-what that writing is supposed to sound like, and it is the file to argue with
-if the blurbs read wrong.
+Built from a working reference of Boing Boing's 2007 output: the editorial
+posts, the short link posts, and the Monday week-in-review listings. The
+structures below are that site's, observed and named. The rules under them are
+this project's, and several were written after a draft got something wrong.
 
-## Where it sits on the page
+Sources for the shapes: [Brain bag](https://boingboing.net/2007/11/01/brain-bag.html),
+[Tiki aquarium](https://boingboing.net/2007/01/22/tiki-aquarium.html),
+[Coin jar calculator](https://boingboing.net/2007/12/31/coin-jar-calculator.html),
+[Antibacterial products may be bad news](https://boingboing.net/2007/06/20/antibacterial-produc.html),
+[Visit to the Body Farm](https://boingboing.net/2007/10/30/visit-to-the-body-fa.html),
+[Debunking medical myths](https://boingboing.net/2007/12/21/debunking-medical-my.html).
 
-The commentary comes first, before the quote and before the link. A reader
-decides whether they care from a sentence with a view in it, not from a
-headline they have to interpret. Under the commentary sits one large pull
-quote in the poster's own words, and under that, small, the link and its
-numbers, for the reader who has already decided.
+## The shape we are writing
 
-That order is the whole reason the writing has to be good. It is the first
-thing on the page and there is nothing above it to hide behind.
+Two of the five shapes in that reference fit a link round-up, and every entry
+here is one of them.
 
-## The model
+**The short curiosity.** Name the thing directly. One concrete fact. One joke
+or judgment. Then the destination behind the word **Link**, and the provenance
+of how it arrived.
 
-Boing Boing when it was good. A person finds something, points at the one
-detail that made them stop, and has an opinion about it. Two or three
-sentences. You finish reading and you either click or you do not, and either
-way you learned something.
+**The excerpt-led link.** One paragraph on why the destination matters, naming
+whoever is speaking. Then the part of the source that carries the evidence or
+the texture. Then little or no conclusion, because the excerpt already made it.
 
-What that is not: "In this thread, users discuss the challenges of deploying
-AI-generated applications." Nobody has ever clicked on that sentence. It
-describes the category the link belongs to, which is the one thing a reader
-can already see from the title.
+Our page runs both at once: a headline, a paragraph, the poster's own words at
+size, then Link. What we do not do is the campaigning explainer or the
+voice-forward review, which need a person with a life to write them.
+
+## The headline does editorial work
+
+This is the part most easily missed. Boing Boing did not reprint the source's
+title, it wrote one, and the headline carried the conclusion or the joke or the
+reason to click. "Photo reveals the opposite of recycling." "Antibacterial
+products may be bad news."
+
+So each entry gets our headline, and the poster's original title lives down in
+the link line where it belongs, as the name of the destination.
 
 ## The rules
 
-1. **Lead with the specific thing.** Not the topic, the detail. "Three weeks
-   in Lovable, fifty dollars, then someone tried to reset a password" beats
-   "a post about production debugging" every time.
-2. **Have a view.** Delighted, annoyed, unconvinced, quietly vindicated. A
-   blurb with no attitude is a summary wearing a hat.
-3. **Two or three sentences. Forty words is plenty.** If it needs more, the
-   thread is the article and the blurb is the sign pointing at it.
-4. **Do not open with a quotation.** The reader already sees a large pull
-   quote from the post directly beneath the commentary, so a blurb that starts
-   with one says the same thing twice and every entry starts to look the same.
-   Quote a phrase inline when it does work in the middle of your own sentence.
-   The poster usually did say it better, which is what the pull quote is for.
+1. **Lead with the specific detail, never the topic.** The reader can already
+   see the topic. Give them the thing that made you stop.
+2. **Have a view.** Delighted, annoyed, unconvinced. A blurb with no attitude
+   is a summary wearing a hat.
+3. **Length follows the material.** A bag gets two sentences, a copyright fight
+   gets an essay, and both are the same kind of post. Do not pad an entry to
+   match the one above it.
+4. **Do not open with a quotation.** The pull quote sits directly beneath the
+   commentary, so opening with one says it twice and makes every entry look
+   alike. Quote inline when the phrase does work in the middle of your sentence.
 5. **The numbers are a hook once, not every time.** Two points and forty
    replies means the subreddit argued about something it never voted on, and
-   that is worth a clause. But a tidy observation about the score and the
-   comment count at the end of every blurb is a formula, and the first three
-   drafts written under this file each reached for it. So the material is only
-   offered to the drafter when the gap is genuinely the story. Everywhere else,
-   the hook is in what the post says.
-6. **No summary verbs.** Nothing "explores", "delves into", "highlights" or
-   "sheds light on". If the sentence would survive being pasted under a
-   different link, delete it.
-7. **No em-dashes and no rule-of-three cadence.** This audience reads those as
-   a machine's fingerprints and says so in the comments. That is not a
-   superstition, it is what the corpus shows them doing.
-8. **Never invent, and that includes a life.** Everything in the blurb comes
-   from the post, its numbers, or the corpus answer that surfaced it. If a
-   claim needs a fact nobody wrote down, cut the claim.
-
-   The sharpest version of this rule, learned from the first full page of
-   drafts: **a view is allowed, a past is not.** Three blurbs claimed personal
-   history nobody has. "I have watched enough people learn that the expensive
-   way." "I've been waiting for this thread since roughly March." A reader who
-   works out that the writer has no March is not annoyed at a turn of phrase,
-   they stop believing the page, and they are right to. Have opinions about
-   what is in front of you and no memories at all.
-
+   that is worth a clause. Three drafts in a row ending on a tidy count and
+   what it means is a formula, so the score and comment count are only offered
+   to the drafter when that gap is the story.
+6. **No summary verbs.** Nothing explores, delves into, highlights or sheds
+   light on. If the sentence would survive under a different link, cut it.
+7. **No em-dashes, no rule-of-three cadence.** This audience reads both as a
+   machine's fingerprints and says so in the comments.
+8. **Never invent, and that includes a life.** A view is allowed. A past is
+   not. Three early drafts claimed one: "I have watched enough people learn
+   that the expensive way", "I've been waiting for this thread since roughly
+   March". A reader who works out that the writer has no March stops believing
+   the page, and is right to.
 9. **Vary the opening.** Three of the first seven drafts began "The detail that
    stuck", "The trouble starts at", "The scary thing here is". If your first
-   three words would fit under any other link on the page, they are not doing
-   any work.
+   three words fit under any other link on the page, they are not working.
+10. **Keep the provenance.** Boing Boing said via, and thanks, and named the
+    tipster. Ours says which question turned the thread up. It is the same
+    courtesy: showing how the item arrived.
 
-## Where the draft is read, and what approval means
+## What the mixed stream is for
 
-The page is the draft. Blurbs appear on it marked `draft` until a person has
-been through them, because the reader this page is for right now is the person
-deciding what gets posted, and hiding the draft from them hides the only thing
-they came to read.
+The reference calls it plainly: selection is the thesis, and the weekly lists
+did not force a hierarchy or a taxonomy, they reproduced the abundance in
+compressed form and let discovery come from juxtaposition. Our ordering does
+the same job differently, alternating threads the subreddit voted up with
+threads it argued about and never upvoted. Neither is a ranking.
 
-Approval is not a field. It is posting to r/vibecoding, which is a person's
-decision and a person's account. What `tools/editorial.py` does is let that
-person rewrite a blurb before it goes anywhere: `approve --by <name> --text
-"..."` replaces the draft with their words and drops the marker.
+## Where the draft is read
 
-The machine-prose problem has not gone away, it has moved to the right place.
-Nothing machine-written reaches r/vibecoding without a person having read every
-line, and the page says out loud which lines those are.
+The page is the draft. The reader it is for right now is the person deciding
+what to post, so the writing appears as written rather than hidden behind an
+approval. Approval means posting to r/vibecoding, from a person's own account,
+which has not happened.

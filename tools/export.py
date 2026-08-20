@@ -99,6 +99,9 @@ def main():
         "",
     ]
     for l in roundup:
+        if l.get("headline"):
+            md.append("### " + l["headline"])
+            md.append("")
         commentary = l.get("blurb") or l.get("blurbDraft")
         if commentary:
             md.append(commentary)
@@ -112,10 +115,9 @@ def main():
         mark = "more talk than votes" if l.get("underseen") else ""
         meta = " · ".join(x for x in [where, who, f"{l.get('score')} points",
                                       f"{l.get('comments')} comments", mark] if x)
-        md.append(f"[{l.get('title') or l.get('url')}]({l.get('url')}) · {meta}")
-        if l.get("surfacedBy"):
-            md.append("")
-            md.append(f"*Found asking: {l['surfacedBy']}*")
+        title = l.get("title") or l.get("url")
+        md.append(f"**[Link]({l.get('url')})** to \u201c{title}\u201d · {meta}"
+                  + (f" · Found asking: {l['surfacedBy']}" if l.get("surfacedBy") else ""))
         md.append("")
         md.append("---")
         md.append("")

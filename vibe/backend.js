@@ -20,7 +20,14 @@ export const config = { scheduled: { interval: "15m" } };
 // real byte change. Bump this when the tick stops.
 //   2026-08-20 20:04 — last tick 19:36, twenty seven minutes on a fifteen
 //   minute interval, with `app rearm` 403ing (vibes.diy#4939).
-const REARM = "2026-08-20T20:04";
+//   2026-08-20 20:25 — dead again, one tick after the last re-arm. Ticks ran
+//   every fifteen minutes for hours earlier today, so something changed this
+//   evening. The tick at 20:08 did an extraction, a measure, a harvest, an
+//   assembly and three writing calls, running from 20:08:20 to at least
+//   20:08:59. The suspicion is duration or call budget in one invocation:
+//   ctx.callAI documents a handful of calls per invocation and that tick made
+//   four. Testing it by dropping the writing sweep to one a tick.
+const REARM = "2026-08-20T20:26";
 
 // ---------------------------------------------------------------- constants
 
@@ -749,7 +756,7 @@ async function draftFor(ctx, l, now) {
 // so if the lane starts delivering, the sweep simply finds nothing to do.
 async function dress(ctx, state, now) {
   const links = roundup(await readAll(ctx, DB, "link"));
-  const waiting = links.filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline)).slice(0, 3);
+  const waiting = links.filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline)).slice(0, 1);
   if (!waiting.length) return state;
 
   let wrote = 0;

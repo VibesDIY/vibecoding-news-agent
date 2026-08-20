@@ -647,7 +647,13 @@ async function dress(ctx, state, now) {
   // its writing first. Filling in whatever order the database hands back means
   // the first thing a reader sees is the last thing to get a sentence.
   const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
-  const waiting = links.filter((l) => !l.blurbDraft && !l.blurb && !l.blurbError).slice(0, BLURB_PER_TICK);
+  // An entry needs work when a person has not signed it and it is missing
+  // either half. Checking only for a missing blurb was enough until the
+  // headline arrived, at which point every existing entry had a blurb, no
+  // headline, and no way to ever get one.
+  const waiting = links
+    .filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline))
+    .slice(0, BLURB_PER_TICK);
   // Three attempts before a link is written off. The gateway returns "no
   // completion" intermittently, and the first version of this stamped a
   // permanent error on the first failure, which quietly retired links that

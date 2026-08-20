@@ -62,15 +62,15 @@ def main():
     # half, which fails as a parse error a long way from its cause.
     if not day:
         day = subprocess.run(["date", "-u", "+%Y-%m-%d"], text=True, capture_output=True).stdout.strip()
-    report = docs(cli(["db", "get", "report:" + day, "--db", "findings", "--json"], vibe))
+    report = docs(cli(["db", "get", "report:" + day, "--db", "newsroom", "--json"], vibe))
     if not report:
         print(f"no report for {day} in the app yet")
         sys.exit(1)
     report = report[0]
 
-    entities = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"entity"',
+    entities = docs(cli(["db", "query", "type", "--db", "newsroom", "--key", '"entity"',
                          "--limit", "40", "--json"], vibe))
-    findings = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"finding"',
+    findings = docs(cli(["db", "query", "type", "--db", "newsroom", "--key", '"finding"',
                          "--limit", "40", "--json"], vibe))
 
     json.dump(report, open(os.path.join(outdir, "report.json"), "w"), indent=2)

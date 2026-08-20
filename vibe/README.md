@@ -9,7 +9,7 @@ Live: <https://vibes.diy/vibe/jchris/vibecoding-news>
 | File | What it is |
 |---|---|
 | `backend.js` | the scheduled generator: collect, extract, measure, assemble |
-| `access.js` | who may write (the owner, which in practice means the tick) and who may read (anyone) |
+| `access.js` | who may write (the owner, which in practice means the tick) and which channel each document lands on |
 | `App.jsx` | the page the report is published on |
 
 ## The pipeline
@@ -45,6 +45,22 @@ A link counts as underseen at eight or more comments and at least four comments
 per point. Those two numbers are in `backend.js` and are the kind of thing a
 pull request should argue with. Every link carries its raw score and comment
 count so you can apply your own rule instead.
+
+## One database, two channels
+
+Everything lives in `newsroom`. Nothing but `backend.js` creates a database,
+so there was no reason to spread the work across several and then write rules
+reconciling them, and `access.js` is a single default export deciding one
+thing per document: which channel it lands on.
+
+A reader replicates what they may read, so that decision is also the download.
+The current edition sits on a public channel. The corpus answers, the
+extracted claims, the counted entities, the per link working documents and the
+collector's own state sit on the desk, and an edition joins them the moment a
+newer one exists. Rendering one report used to pull roughly 120KB of working
+material to every visitor, growing daily; it now pulls one document, which is
+possible because the report document already carries everything the page
+prints.
 
 ## The rule that shapes the data model
 

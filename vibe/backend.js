@@ -71,8 +71,9 @@ const EDITORIAL_MODEL = "~anthropic/claude-opus-latest";
 const BLURB_PER_TICK = 3;
 const BLURB_ATTEMPTS = 3;
 
-const DB_CORPUS = "corpus";
-const DB_FINDINGS = "findings";
+// One database. Nothing but this file creates one, so there is no reason to
+// spread the work across several and then write rules reconciling them.
+const DB = "newsroom";
 
 const STATE_ID = "0-collector-state";
 const BUDGET_ID = "0-corpus-budget";
@@ -186,7 +187,7 @@ async function readSome(ctx, db, field, key, want) {
 }
 
 async function loadState(ctx) {
-  const stored = await ctx.db.get(STATE_ID, { db: DB_FINDINGS });
+  const stored = await ctx.db.get(STATE_ID, { db: DB });
   const state = stored || memState || { _id: STATE_ID, type: "state" };
   memState = state;
   return state;
@@ -194,13 +195,13 @@ async function loadState(ctx) {
 
 async function saveState(ctx, state) {
   memState = state;
-  await ctx.db.put({ ...state, _id: STATE_ID, type: "state" }, { db: DB_FINDINGS });
+  await ctx.db.put({ ...state, _id: STATE_ID, type: "state" }, { db: DB });
 }
 
 async function questions(ctx) {
-  const doc = await ctx.db.get(QUESTIONS_ID, { db: DB_CORPUS });
+  const doc = await ctx.db.get(QUESTIONS_ID, { db: DB });
   if (doc && Array.isArray(doc.questions) && doc.questions.length) return doc.questions;
-  await putIfChanged(ctx, { _id: QUESTIONS_ID, type: "config", questions: SEED_QUESTIONS }, DB_CORPUS);
+  await putIfChanged(ctx, { _id: QUESTIONS_ID, type: "config", questions: SEED_QUESTIONS }, DB);
   return SEED_QUESTIONS;
 }
 
@@ -208,15 +209,15 @@ async function questions(ctx) {
 // scan, so it stays correct however large the database gets.
 async function spendCorpusCall(ctx, now) {
   const key = hourKey(now);
-  const doc = (await ctx.db.get(BUDGET_ID, { db: DB_CORPUS })) || {};
+  const doc = (await ctx.db.get(BUDGET_ID, { db: DB })) || {};
   const used = doc.hour === key ? doc.used || 0 : 0;
   if (used >= CORPUS_CALLS_PER_HOUR) return false;
-  await ctx.db.put({ _id: BUDGET_ID, type: "budget", hour: key, used: used + 1 }, { db: DB_CORPUS });
+  await ctx.db.put({ _id: BUDGET_ID, type: "budget", hour: key, used: used + 1 }, { db: DB });
   return true;
 }
 
 async function noteStatus(ctx, state, message) {
-  await putIfChanged(ctx, { _id: STATUS_ID, type: "status", state, message }, DB_CORPUS);
+  await putIfChanged(ctx, { _id: STATUS_ID, type: "status", state, message }, DB);
 }
 
 // Every outbound call goes through ctx.fetch, and a denied one comes back as a
@@ -289,7 +290,7 @@ async function collect(ctx, state, now) {
         examples: pending.examples || [],
         requestId: pending.requestId,
       },
-      DB_CORPUS,
+      DB,
     );
     await noteStatus(ctx, "ok", "Last answer collected " + now);
     ctx.log("collected", { name: pending.name });
@@ -380,10 +381,10 @@ const EXTRACT_PROMPT = [
 ].join("\n");
 
 async function extract(ctx, state, now) {
-  const candidates = await readSome(ctx, DB_CORPUS, "status", "new", EXTRACT_PER_TICK);
+  const candidates = await readSome(ctx, DB, "status", "new", EXTRACT_PER_TICK);
   const sources = [];
   for (const c of candidates) {
-    const fresh = await stillWaiting(ctx, DB_CORPUS, c._id, "new");
+    const fresh = await stillWaiting(ctx, DB, c._id, "new");
     if (fresh) sources.push(fresh);
     else ctx.log("skipped a source the index still lists as unprocessed", { source: c._id });
   }
@@ -399,7 +400,7 @@ async function extract(ctx, state, now) {
       parsed = JSON.parse(raw);
     } catch (err) {
       ctx.log("error", "extract failed", { source: source._id, message: String(err && err.message) });
-      await putIfChanged(ctx, { ...source, status: "error", extractError: String(err && err.message) }, DB_CORPUS);
+      await putIfChanged(ctx, { ...source, status: "error", extractError: String(err && err.message) }, DB);
       continue;
     }
 
@@ -436,10 +437,10 @@ async function extract(ctx, state, now) {
         extractedAt: now,
         verified: false,
       };
-      if (await putIfChanged(ctx, doc, DB_FINDINGS)) written++;
+      if (await putIfChanged(ctx, doc, DB)) written++;
     }
 
-    await putIfChanged(ctx, { ...source, status: "measured", extractedAt: now }, DB_CORPUS);
+    await putIfChanged(ctx, { ...source, status: "measured", extractedAt: now }, DB);
     ctx.log("extracted", { source: source._id, findings: findings.length, written });
   }
 
@@ -466,10 +467,10 @@ async function extract(ctx, state, now) {
 // measure. The scope travels on the document for that reason.
 
 async function measure(ctx, state, now) {
-  const candidates = await readSome(ctx, DB_CORPUS, "status", "measured", 4);
+  const candidates = await readSome(ctx, DB, "status", "measured", 4);
   const sources = [];
   for (const c of candidates) {
-    const fresh = await stillWaiting(ctx, DB_CORPUS, c._id, "measured");
+    const fresh = await stillWaiting(ctx, DB, c._id, "measured");
     if (fresh) sources.push(fresh);
   }
   if (!sources.length) return state;
@@ -481,7 +482,7 @@ async function measure(ctx, state, now) {
       const row = table[name] || {};
       if (typeof row.mention_count !== "number") continue;
       const id = "entity:" + slug(name);
-      const existing = await ctx.db.get(id, { db: DB_FINDINGS });
+      const existing = await ctx.db.get(id, { db: DB });
       const doc = {
         _id: id,
         type: "entity",
@@ -502,9 +503,9 @@ async function measure(ctx, state, now) {
         verified: existing ? existing.verified === true : false,
         verifiedNote: existing ? existing.verifiedNote || null : null,
       };
-      if (await putIfChanged(ctx, doc, DB_FINDINGS)) written++;
+      if (await putIfChanged(ctx, doc, DB)) written++;
     }
-    await putIfChanged(ctx, { ...source, status: "extracted" }, DB_CORPUS);
+    await putIfChanged(ctx, { ...source, status: "extracted" }, DB);
     ctx.log("measured", { source: source._id, entities: Object.keys(table).length, written });
   }
   return { ...state, lastMeasureAt: now };
@@ -569,10 +570,10 @@ function linkRow(e, url, sourceName, now) {
 }
 
 async function harvest(ctx, state, now) {
-  const candidates = await readSome(ctx, DB_CORPUS, "status", "extracted", 4);
+  const candidates = await readSome(ctx, DB, "status", "extracted", 4);
   let written = 0;
   for (const c of candidates) {
-    const source = await stillWaiting(ctx, DB_CORPUS, c._id, "extracted");
+    const source = await stillWaiting(ctx, DB, c._id, "extracted");
     if (!source) continue;
     let skipped = 0;
     for (const e of (source.examples || []).slice(0, 20)) {
@@ -581,9 +582,9 @@ async function harvest(ctx, state, now) {
         skipped++;
         continue;
       }
-      if (await putIfChanged(ctx, linkRow(e, url, source.name, now), DB_FINDINGS)) written++;
+      if (await putIfChanged(ctx, linkRow(e, url, source.name, now), DB)) written++;
     }
-    await putIfChanged(ctx, { ...source, status: "harvested", linksSkipped: skipped }, DB_CORPUS);
+    await putIfChanged(ctx, { ...source, status: "harvested", linksSkipped: skipped }, DB);
     ctx.log("harvested", { source: source._id, cited: (source.examples || []).length, written, skipped });
   }
   return written ? { ...state, lastHarvestAt: now } : state;
@@ -648,7 +649,7 @@ async function dress(ctx, state, now) {
   // Drafted in the order the round-up will print, so the top of the page gets
   // its writing first. Filling in whatever order the database hands back means
   // the first thing a reader sees is the last thing to get a sentence.
-  const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
+  const links = roundup(await readAll(ctx, DB, "link"));
   // An entry needs work when a person has not signed it and it is missing
   // either half. Checking only for a missing blurb was enough until the
   // headline arrived, at which point every existing entry had a blurb, no
@@ -720,7 +721,7 @@ async function dress(ctx, state, now) {
         attempts >= BLURB_ATTEMPTS
           ? { ...l, blurbAttempts: attempts, blurbError: why, blurbTriedAt: now }
           : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
-        DB_FINDINGS,
+        DB,
       );
       continue;
     }
@@ -741,7 +742,7 @@ async function dress(ctx, state, now) {
         attempts >= BLURB_ATTEMPTS
           ? { ...l, blurbAttempts: attempts, blurbError: "kept opening on a quotation", blurbTriedAt: now }
           : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
-        DB_FINDINGS,
+        DB,
       );
       continue;
     }
@@ -753,14 +754,14 @@ async function dress(ctx, state, now) {
         attempts >= BLURB_ATTEMPTS
           ? { ...l, blurbAttempts: attempts, blurbError: "draft kept coming back truncated", blurbTriedAt: now }
           : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
-        DB_FINDINGS,
+        DB,
       );
       continue;
     }
     await putIfChanged(
       ctx,
       { ...l, headline: headline.slice(0, 140), blurbDraft: draft.slice(0, 500), blurbDraftedAt: now },
-      DB_FINDINGS,
+      DB,
     );
     ctx.log("drafted a blurb", { link: l._id, words: draft.split(/\s+/).length });
     wrote++;
@@ -786,13 +787,13 @@ async function dress(ctx, state, now) {
 // would have differed, so the timestamp is set after the comparison, never
 // before it.
 async function assemble(ctx, state, now) {
-  const entities = await readAll(ctx, DB_FINDINGS, "entity");
-  const leads = await readAll(ctx, DB_FINDINGS, "finding");
-  const links = roundup(await readAll(ctx, DB_FINDINGS, "link"));
+  const entities = await readAll(ctx, DB, "entity");
+  const leads = await readAll(ctx, DB, "finding");
+  const links = roundup(await readAll(ctx, DB, "link"));
   // Cited posts that had no thread to link to (an image post, usually). Counted
   // and printed rather than dropped, so the round-up's size is honest about
   // what the corpus actually handed over.
-  const sources = await readAll(ctx, DB_CORPUS, "source");
+  const sources = await readAll(ctx, DB, "source");
   // What each link is doing here. An earlier version tried to attach the
   // claims the corpus made, joined on the thread id, and it matched nothing:
   // the synthesis quotes comments from threads that are not the ones it holds
@@ -871,10 +872,10 @@ async function assemble(ctx, state, now) {
     })),
   };
 
-  const existing = await ctx.db.get(body._id, { db: DB_FINDINGS });
+  const existing = await ctx.db.get(body._id, { db: DB });
   if (unchanged(existing, body)) return state;
 
-  await ctx.db.put({ ...body, generatedAt: now }, { db: DB_FINDINGS });
+  await ctx.db.put({ ...body, generatedAt: now }, { db: DB });
 
   // Yesterday's edition stops being public the moment today's exists. One put
   // per day, and the access function routes an archived edition to a channel
@@ -882,9 +883,9 @@ async function assemble(ctx, state, now) {
   // The archive that matters is the one committed to the repo, not a year of
   // back numbers every reader has to download.
   if (state.lastEditionDay && state.lastEditionDay !== day) {
-    const prev = await ctx.db.get("report:" + state.lastEditionDay, { db: DB_FINDINGS });
+    const prev = await ctx.db.get("report:" + state.lastEditionDay, { db: DB });
     if (prev && !prev.archived) {
-      await ctx.db.put({ ...prev, archived: true }, { db: DB_FINDINGS });
+      await ctx.db.put({ ...prev, archived: true }, { db: DB });
       ctx.log("archived the previous edition", { day: state.lastEditionDay });
     }
   }
@@ -951,8 +952,8 @@ export async function scheduled(event, ctx) {
   // first is zero the backend cannot see the database; if only the second is
   // zero the filter is wrong. That is how the paging bug above was found.
   try {
-    const all = await ctx.db.query({ db: DB_CORPUS, limit: 50 });
-    const fresh = await ctx.db.query({ db: DB_CORPUS, field: "status", key: "new", limit: 50 });
+    const all = await ctx.db.query({ db: DB, limit: 50 });
+    const fresh = await ctx.db.query({ db: DB, field: "status", key: "new", limit: 50 });
     steps.corpusDocs = Array.from(all).length;
     steps.corpusUnprocessed = Array.from(fresh).length;
   } catch (err) {
@@ -966,6 +967,6 @@ export async function scheduled(event, ctx) {
   await run("dress", () => dress(ctx, state, now));
   await run("assemble", () => assemble(ctx, state, now));
 
-  await putIfChanged(ctx, { _id: TICK_REPORT_ID, type: "tickreport", steps }, DB_CORPUS);
+  await putIfChanged(ctx, { _id: TICK_REPORT_ID, type: "tickreport", steps }, DB);
   await saveState(ctx, { ...state, lastTickAt: now });
 }

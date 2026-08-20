@@ -261,8 +261,8 @@ function Method({ report }) {
 export default function App() {
   // One database, and the access function decides what reaches a reader: the
   // current edition is on a public channel, everything else is on the desk
-  // channel and never leaves it. So this query is the whole page.
-  const { useLiveQuery } = useFireproof("findings");
+  // and never leaves it. So this query is the whole page.
+  const { useLiveQuery } = useFireproof("newsroom");
   const { docs: reports } = useLiveQuery("type", { key: "report", limit: 5 });
 
   // Every report doc carries the same index key, so ordering falls back to _id.

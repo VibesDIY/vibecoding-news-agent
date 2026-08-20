@@ -59,7 +59,7 @@ def source_doc(payload):
 
 def existing_status(doc_id, vibe):
     """What the app already thinks of this source, or None if it is new."""
-    cmd = CLI + ["db", "get", doc_id, "--db", "corpus", "--json"]
+    cmd = CLI + ["db", "get", doc_id, "--db", "newsroom", "--json"]
     if vibe:
         cmd += ["--vibe", vibe]
     res = subprocess.run(cmd, text=True, capture_output=True)
@@ -102,7 +102,7 @@ def main():
             was = existing_status(doc["_id"], vibe)
             if was:
                 doc["status"] = was
-        cmd = CLI + ["db", "put", "--db", "corpus"]
+        cmd = CLI + ["db", "put", "--db", "newsroom"]
         if vibe:
             cmd += ["--vibe", vibe]
         cmd += ["-"]

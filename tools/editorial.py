@@ -45,7 +45,7 @@ def docs(out):
 
 
 def links(vibe):
-    return docs(cli(["db", "query", "type", "--db", "findings", "--key", '"link"', "--json"], vibe))
+    return docs(cli(["db", "query", "type", "--db", "newsroom", "--key", '"link"', "--json"], vibe))
 
 
 def main():
@@ -95,7 +95,7 @@ def main():
                 print("nothing to approve: no draft and no --text")
                 sys.exit(1)
             print(f"{link_id}: signed by {by}")
-        cli(["db", "put", "--db", "findings", "-"], vibe, stdin=json.dumps(doc))
+        cli(["db", "put", "--db", "newsroom", "-"], vibe, stdin=json.dumps(doc))
         return
 
     print(__doc__)

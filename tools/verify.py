@@ -37,7 +37,7 @@ def cli(args, vibe, stdin=None):
 
 
 def entities(vibe):
-    out = cli(["db", "query", "type", "--db", "findings", "--key", '"entity"', "--json"], vibe)
+    out = cli(["db", "query", "type", "--db", "newsroom", "--key", '"entity"', "--json"], vibe)
     rows = []
     for line in out.splitlines():
         line = line.strip()
@@ -69,7 +69,7 @@ def main():
     if cmd == "show":
         arg = sys.argv[2]
         doc = cli(["db", "get", arg if arg.startswith("entity:") else "entity:" + arg,
-                   "--db", "findings", "--json"], vibe)
+                   "--db", "newsroom", "--json"], vibe)
         print(doc)
         return
 
@@ -79,11 +79,11 @@ def main():
             sys.exit(2)
         slug = sys.argv[2]
         doc_id = slug if slug.startswith("entity:") else "entity:" + slug
-        raw = cli(["db", "get", doc_id, "--db", "findings", "--json"], vibe)
+        raw = cli(["db", "get", doc_id, "--db", "newsroom", "--json"], vibe)
         doc = json.loads([l for l in raw.splitlines() if l.strip().startswith("{")][0])
         doc["verified"] = cmd == "confirm"
         doc["verifiedNote"] = note
-        cli(["db", "put", "--db", "findings", "-"], vibe, stdin=json.dumps(doc))
+        cli(["db", "put", "--db", "newsroom", "-"], vibe, stdin=json.dumps(doc))
         print(f"{doc_id}: {'confirmed' if cmd == 'confirm' else 'rejected'}")
         return
 

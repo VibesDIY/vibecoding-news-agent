@@ -55,8 +55,8 @@ const UNDERSEEN_COMMENT_RATIO = 4;
 // supposed to be worth. Overlooked means the votes stayed near zero.
 const UNDERSEEN_MAX_SCORE = 5;
 
-// The blurb pass. One link per tick, because this is the call that is supposed
-// to be worth paying for: the analysis loop can be cheap, the writing cannot.
+// The writing pass. This is the call that is supposed to be worth paying for:
+// the analysis loop can be cheap, the writing cannot.
 // The model matters here more than anywhere else in the file, so it is named
 // rather than left to routing. "openrouter/auto" was the first attempt and it
 // came back with "ai gateway returned no completion" on every call, which is
@@ -68,7 +68,6 @@ const EDITORIAL_MODEL = "~anthropic/claude-opus-latest";
 // extraction call. At one a tick a thirteen link round-up took three hours to
 // grow its writing, and a page whose commentary arrives hours after its links
 // is a page that reads as broken.
-const BLURB_PER_TICK = 3;
 const BLURB_ATTEMPTS = 3;
 
 // One database. Nothing but this file creates one, so there is no reason to
@@ -674,130 +673,95 @@ const BLURB_RULES = [
 
 
 
+// Draft the writing for one link. Everything it needs is on the document, on
+// purpose: this runs on the onChange lane as well as the tick, and that lane
+// cannot read the database at all.
+//
+// Returns the document to store, or null when nothing should be written.
+async function draftFor(ctx, l, now) {
+  let raw;
+  try {
+    raw = String(
+      await ctx.callAI(
+        BLURB_RULES +
+          "THREAD: " +
+          l.title +
+          "\nPosted in r/" +
+          (l.subreddit || "vibecoding") +
+          " by u/" +
+          (l.author || "someone") +
+          (l.underseen
+            ? " Far more people replied to this than voted on it, so the replies are the good part. Do not say so in the sentence, just let it inform what you point at."
+            : "") +
+          "\nIt opens: " +
+          (l.excerpt || "(no text)"),
+        { model: EDITORIAL_MODEL, max_tokens: 900 },
+      ),
+    ).trim();
+  } catch (err) {
+    const why = String((err && err.message) || err).slice(0, 300);
+    const attempts = (l.blurbAttempts || 0) + 1;
+    ctx.log("error", "draft failed", { link: l._id, attempts, message: why });
+    return attempts >= BLURB_ATTEMPTS
+      ? { ...l, blurbAttempts: attempts, blurbError: why, blurbTriedAt: now }
+      : { ...l, blurbAttempts: attempts, blurbTriedAt: now };
+  }
+
+  const lines = raw
+    .split("\n")
+    .map((x) => x.trim())
+    .filter(Boolean);
+  const headline = lines.length > 1 ? lines[0].replace(/^#+\s*/, "") : null;
+  const draft = lines.length > 1 ? lines.slice(1).join(" ") : raw;
+
+  const reject = (why) => {
+    const attempts = (l.blurbAttempts || 0) + 1;
+    ctx.log("warn", "rejected a draft", { link: l._id, attempts, why });
+    return attempts >= BLURB_ATTEMPTS
+      ? { ...l, blurbAttempts: attempts, blurbError: why, blurbTriedAt: now }
+      : { ...l, blurbAttempts: attempts, blurbTriedAt: now };
+  };
+
+  if (!draft || !headline) return reject("came back without both a headline and a take");
+  if (/^["\u201c]/.test(draft)) return reject("kept opening on a quotation");
+  if (!/[.!?"'\u201d\u2019)]$/.test(draft)) return reject("came back truncated");
+
+  return { ...l, headline: headline.slice(0, 120), blurbDraft: draft.slice(0, 500), blurbDraftedAt: now };
+}
+
+// The tick's backstop. Event delivery is at-least-once and can give up, and
+// links written before this handler existed never had an event at all, so the
+// clock sweeps up whatever the lane missed. One a tick, because this is the
+// exception rather than the road.
 async function dress(ctx, state, now) {
-  // Drafted in the order the round-up will print, so the top of the page gets
-  // its writing first. Filling in whatever order the database hands back means
-  // the first thing a reader sees is the last thing to get a sentence.
   const links = roundup(await readAll(ctx, DB, "link"));
-  // An entry needs work when a person has not signed it and it is missing
-  // either half. Checking only for a missing blurb was enough until the
-  // headline arrived, at which point every existing entry had a blurb, no
-  // headline, and no way to ever get one.
-  const waiting = links
-    .filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline))
-    .slice(0, BLURB_PER_TICK);
-  // Three attempts before a link is written off. The gateway returns "no
-  // completion" intermittently, and the first version of this stamped a
-  // permanent error on the first failure, which quietly retired links that
-  // would have worked on the next tick. A give-up still has to exist, or a
-  // genuinely impossible link is retried until the end of time.
+  const waiting = links.filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline)).slice(0, 1);
   if (!waiting.length) return state;
 
   let wrote = 0;
   for (const l of waiting) {
-    let draft;
-    let headline;
-    let raw;
-    try {
-      raw = String(
-        await ctx.callAI(
-          BLURB_RULES +
-            "THREAD: " +
-            l.title +
-            "\nPosted in r/" +
-            (l.subreddit || "vibecoding") +
-            " by u/" +
-            (l.author || "someone") +
-            "\nIt has " +
-            l.score +
-            " points and " +
-            l.comments +
-            " comments." +
-            // The numbers are offered as material ONLY when the gap is the
-            // story. Handing every draft the score and the comment count
-            // produced the same closing sentence three times running, which is
-            // exactly the machine fingerprint this whole file exists to avoid.
-            (l.underseen ? " Far more people replied to this than voted on it, so the replies are the good part. Do not say so in the sentence, just let it inform what you point at." : "") +
-            "\nIt opens: " +
-            (l.excerpt || "(no text)"),
-          // 200 was not enough and the tell was subtle: the blurb came back a
-          // sentence and a half long, ending on "feels like someone". A capable
-          // model can spend its budget before the visible answer starts, so the
-          // cap has to cover more than the forty words being asked for.
-          {
-            model: EDITORIAL_MODEL,
-            max_tokens: 900,
-            schema: {
-              properties: { headline: { type: "string" }, blurb: { type: "string" } },
-              required: ["headline", "blurb"],
-            },
-          },
-        ),
-      ).trim();
-      const parsed = JSON.parse(raw);
-      headline = String(parsed.headline || "").trim();
-      draft = String(parsed.blurb || "").trim();
-    } catch (err) {
-      // The reason lands on the document as well as in the log, because a log
-      // you cannot read back turns "the step ran and nothing appeared" into a
-      // guess (vibes.diy#4938). It also stops this link being retried every
-      // tick forever while the same call keeps failing.
-      const why = String((err && err.message) || err).slice(0, 300);
-      const attempts = (l.blurbAttempts || 0) + 1;
-      ctx.log("error", "blurb draft failed", { link: l._id, attempts, message: why });
-      await putIfChanged(
-        ctx,
-        attempts >= BLURB_ATTEMPTS
-          ? { ...l, blurbAttempts: attempts, blurbError: why, blurbTriedAt: now }
-          : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
-        DB,
-      );
-      continue;
-    }
-    if (!draft || !headline) continue;
-    // A blurb that stops mid-sentence is worse than no blurb: it reads as a
-    // broken page rather than an unfinished one, and it would go out looking
-    // like prose somebody wrote. Ending punctuation is a crude test and it
-    // catches exactly this failure.
-    // Opening on a quotation is banned in the prompt and the model does it
-    // anyway, roughly one draft in three. The pull quote sits immediately
-    // below, so the entry says the same thing twice. A rule the prompt cannot
-    // hold gets held here, the same way the truncation check works.
-    if (/^["\u201c]/.test(draft)) {
-      const attempts = (l.blurbAttempts || 0) + 1;
-      ctx.log("warn", "rejected a blurb that opened on a quotation", { link: l._id, attempts });
-      await putIfChanged(
-        ctx,
-        attempts >= BLURB_ATTEMPTS
-          ? { ...l, blurbAttempts: attempts, blurbError: "kept opening on a quotation", blurbTriedAt: now }
-          : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
-        DB,
-      );
-      continue;
-    }
-    if (!/[.!?"'\u201d\u2019)]$/.test(draft)) {
-      const attempts = (l.blurbAttempts || 0) + 1;
-      ctx.log("warn", "discarded a truncated blurb", { link: l._id, attempts, chars: draft.length });
-      await putIfChanged(
-        ctx,
-        attempts >= BLURB_ATTEMPTS
-          ? { ...l, blurbAttempts: attempts, blurbError: "draft kept coming back truncated", blurbTriedAt: now }
-          : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
-        DB,
-      );
-      continue;
-    }
-    await putIfChanged(
-      ctx,
-      { ...l, headline: headline.slice(0, 140), blurbDraft: draft.slice(0, 500), blurbDraftedAt: now },
-      DB,
-    );
-    ctx.log("drafted a blurb", { link: l._id, words: draft.split(/\s+/).length });
-    wrote++;
+    const next = await draftFor(ctx, l, now);
+    if (next && (await putIfChanged(ctx, next, DB))) wrote++;
   }
-  // Only a written draft counts as progress. Reporting "advanced" for a tick
-  // that failed every call is how a broken step looks healthy.
   return wrote ? { ...state, lastBlurbAt: now } : state;
+}
+
+// The road: a link document is written, and its writing is drafted in
+// reaction to that write rather than on the next sweep of a clock.
+//
+// Delivery is at-least-once with capped backoff, so this has to be
+// idempotent, and it is: the guard below is the stamp the handler itself
+// leaves. A redelivery finds the take already written and returns.
+export async function onChange(event, ctx) {
+  if (event.dbName !== DB || event.deleted) return;
+  const l = event.doc;
+  if (!l || l.type !== "link") return;
+  if (l.blurb || l.blurbError) return;
+  if (l.blurbDraft && l.headline) return;
+  if ((l.blurbAttempts || 0) >= BLURB_ATTEMPTS) return;
+
+  const next = await draftFor(ctx, l, new Date().toISOString());
+  if (next) await putIfChanged(ctx, next, DB);
 }
 
 // ------------------------------------------------------------- 4. assemble

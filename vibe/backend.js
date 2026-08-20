@@ -729,6 +729,22 @@ async function dress(ctx, state, now) {
     // broken page rather than an unfinished one, and it would go out looking
     // like prose somebody wrote. Ending punctuation is a crude test and it
     // catches exactly this failure.
+    // Opening on a quotation is banned in the prompt and the model does it
+    // anyway, roughly one draft in three. The pull quote sits immediately
+    // below, so the entry says the same thing twice. A rule the prompt cannot
+    // hold gets held here, the same way the truncation check works.
+    if (/^["\u201c]/.test(draft)) {
+      const attempts = (l.blurbAttempts || 0) + 1;
+      ctx.log("warn", "rejected a blurb that opened on a quotation", { link: l._id, attempts });
+      await putIfChanged(
+        ctx,
+        attempts >= BLURB_ATTEMPTS
+          ? { ...l, blurbAttempts: attempts, blurbError: "kept opening on a quotation", blurbTriedAt: now }
+          : { ...l, blurbAttempts: attempts, blurbTriedAt: now },
+        DB_FINDINGS,
+      );
+      continue;
+    }
     if (!/[.!?"'\u201d\u2019)]$/.test(draft)) {
       const attempts = (l.blurbAttempts || 0) + 1;
       ctx.log("warn", "discarded a truncated blurb", { link: l._id, attempts, chars: draft.length });

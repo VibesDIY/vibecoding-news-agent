@@ -15,6 +15,13 @@
 
 export const config = { scheduled: { interval: "15m" } };
 
+// Re-arm nonce. Releases are content-addressed, so pushing byte-identical
+// source mints no release and re-arms nothing: reviving a dead alarm needs a
+// real byte change. Bump this when the tick stops.
+//   2026-08-20 20:04 — last tick 19:36, twenty seven minutes on a fifteen
+//   minute interval, with `app rearm` 403ing (vibes.diy#4939).
+const REARM = "2026-08-20T20:04";
+
 // ---------------------------------------------------------------- constants
 
 const CORPUS = "https://web-production-fe6e.up.railway.app";

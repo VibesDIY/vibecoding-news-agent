@@ -877,8 +877,21 @@ async function assemble(ctx, state, now) {
   if (unchanged(existing, body)) return state;
 
   await ctx.db.put({ ...body, generatedAt: now }, { db: DB_FINDINGS });
+
+  // Yesterday's edition stops being public the moment today's exists. One put
+  // per day, and the access function routes an archived edition to a channel
+  // with no public grant, so a visitor only ever replicates the current one.
+  // The archive that matters is the one committed to the repo, not a year of
+  // back numbers every reader has to download.
+  if (state.lastEditionDay && state.lastEditionDay !== day) {
+    const prev = await ctx.db.get("report:" + state.lastEditionDay, { db: DB_FINDINGS });
+    if (prev && !prev.archived) {
+      await ctx.db.put({ ...prev, archived: true }, { db: DB_FINDINGS });
+      ctx.log("archived the previous edition", { day: state.lastEditionDay });
+    }
+  }
   ctx.log("assembled", { day, links: links.length, entities: entities.length, leads: leads.length });
-  return { ...state, lastReportAt: now };
+  return { ...state, lastReportAt: now, lastEditionDay: day };
 }
 
 function entityRow(e) {

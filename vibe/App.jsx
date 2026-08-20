@@ -22,7 +22,7 @@ function Shell({ children }) {
   );
 }
 
-function Masthead({ status }) {
+function Masthead() {
   return (
     <header style={{ borderBottom: "2px solid " + C.fg, paddingBottom: 14, marginBottom: 22 }}>
       <h1 style={{ fontSize: 30, margin: "0 0 6px", letterSpacing: "-0.01em" }}>r/vibecoding link round-up</h1>
@@ -35,9 +35,6 @@ function Masthead({ status }) {
         away from the top one, a lot of people had something to say and most of the subreddit never saw it. Those
         are marked in red, and they are usually the ones worth opening.
       </p>
-      {status && status.state !== "ok" ? (
-        <p style={{ margin: "10px 0 0", fontSize: 13, color: C.accent }}>Collector status: {status.message}</p>
-      ) : null}
     </header>
   );
 }
@@ -262,20 +259,21 @@ function Method({ report }) {
 }
 
 export default function App() {
+  // One database, and the access function decides what reaches a reader: the
+  // current edition is on a public channel, everything else is on the desk
+  // channel and never leaves it. So this query is the whole page.
   const { useLiveQuery } = useFireproof("findings");
-  const { useLiveQuery: useCorpus } = useFireproof("corpus");
-  const { docs: reports } = useLiveQuery("type", { key: "report", descending: true, limit: 5 });
-  const { docs: statuses } = useCorpus("type", { key: "status", limit: 1 });
+  const { docs: reports } = useLiveQuery("type", { key: "report", limit: 5 });
 
   // Every report doc carries the same index key, so ordering falls back to _id.
   // Sort on the day the report is for and take the newest.
   const sorted = (reports || []).slice().sort((a, b) => String(a.day).localeCompare(String(b.day)));
   const report = sorted.length ? sorted[sorted.length - 1] : null;
-  const status = statuses && statuses.length ? statuses[0] : null;
+
 
   return (
     <Shell>
-      <Masthead status={status} />
+      <Masthead />
 
       {!report ? (
         <p style={{ fontSize: 16 }}>

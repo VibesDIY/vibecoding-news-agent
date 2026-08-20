@@ -582,7 +582,26 @@ async function harvest(ctx, state, now) {
         skipped++;
         continue;
       }
-      if (await putIfChanged(ctx, linkRow(e, url, source.name, now), DB)) written++;
+      // Merge, never replace. A put writes the whole document, and linkRow
+      // knows nothing about the writing, so re-harvesting a source was
+      // silently deleting every take on it: three drafts kept reappearing and
+      // the count never grew. Anything a later step adds to a link survives
+      // here by being carried across explicitly.
+      const row = linkRow(e, url, source.name, now);
+      const held = await ctx.db.get(row._id, { db: DB });
+      const merged = held
+        ? {
+            ...row,
+            blurb: held.blurb,
+            blurbDraft: held.blurbDraft,
+            blurbDraftedAt: held.blurbDraftedAt,
+            blurbBy: held.blurbBy,
+            headline: held.headline,
+            blurbAttempts: held.blurbAttempts,
+            blurbError: held.blurbError,
+          }
+        : row;
+      if (await putIfChanged(ctx, merged, DB)) written++;
     }
     await putIfChanged(ctx, { ...source, status: "harvested", linksSkipped: skipped }, DB);
     ctx.log("harvested", { source: source._id, cited: (source.examples || []).length, written, skipped });

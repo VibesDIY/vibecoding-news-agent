@@ -12,6 +12,18 @@ const C = {
 
 const REPO = "https://github.com/VibesDIY/vibecoding-news-agent";
 
+// The reference sections announce themselves. In a packed grid a heading that
+// is merely a bit larger disappears into the rows under it.
+const SUBHEAD = {
+  fontSize: 13,
+  fontWeight: 800,
+  letterSpacing: "0.08em",
+  textTransform: "uppercase",
+  margin: "0 0 8px",
+  paddingBottom: 4,
+  borderBottom: "2px solid " + "var(--vibes-fg, #16150f)",
+};
+
 function Shell({ children }) {
   return (
     <div style={{ background: C.bg, color: C.fg, minHeight: "100vh", padding: "28px 18px 64px" }}>
@@ -156,6 +168,25 @@ function Emphasised({ text }) {
 
 function LinkRow({ l }) {
   const commentary = l.blurb || l.blurbDraft;
+
+  // A link nobody has written about yet is a lead, not an entry. It gets one
+  // line: the thread and its numbers. Giving it the full treatment, plate and
+  // pull quote and all, dresses an empty slot up as a finished piece.
+  if (!commentary) {
+    return (
+      <li style={{ listStyle: "none", padding: "10px 0", borderBottom: "1px solid " + C.line, fontSize: 15 }}>
+        <a href={l.url} target="_blank" rel="noreferrer" style={{ color: C.fg, textDecoration: "none" }}>
+          {l.title || l.url}
+        </a>
+        <span style={{ color: C.muted, fontSize: 13 }}>
+          {" "}
+          &middot; {l.author ? "u/" + l.author : "r/" + (l.subreddit || "vibecoding")} &middot; {l.comments} comments
+          {l.underseen ? " · more talk than votes" : ""}
+        </span>
+      </li>
+    );
+  }
+
   return (
     <li style={{ listStyle: "none", padding: "34px 0", borderBottom: "1px solid " + C.line }}>
       {/* The writing comes first. A reader decides whether they care from the
@@ -324,7 +355,7 @@ export default function App() {
             >
               {report.ranked && report.ranked.length ? (
                 <div style={{ gridColumn: "1 / -1" }}>
-                  <h3 style={{ fontSize: 15, margin: "0 0 6px" }}>Counted and confirmed</h3>
+                  <h3 style={SUBHEAD}>Counted and confirmed</h3>
                 </div>
               ) : null}
               {(report.ranked || []).map((f, i) => (
@@ -333,7 +364,7 @@ export default function App() {
 
               {report.unverified && report.unverified.length ? (
                 <div style={{ gridColumn: "1 / -1", marginTop: 14 }}>
-                  <h3 style={{ fontSize: 15, margin: "0 0 6px" }}>Counted, not yet checked</h3>
+                  <h3 style={SUBHEAD}>Counted, not yet checked</h3>
                 </div>
               ) : null}
               {(report.unverified || []).map((f, i) => (
@@ -342,7 +373,7 @@ export default function App() {
 
               {report.leads && report.leads.length ? (
                 <div style={{ gridColumn: "1 / -1", marginTop: 14 }}>
-                  <h3 style={{ fontSize: 15, margin: "0 0 6px" }}>Leads</h3>
+                  <h3 style={SUBHEAD}>Leads</h3>
                   <p style={{ fontSize: 13, color: C.muted, margin: "0 0 6px" }}>
                     Claims pulled from a synthesis. Pointers to threads, not measurements.
                   </p>

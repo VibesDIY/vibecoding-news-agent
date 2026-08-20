@@ -729,13 +729,20 @@ async function draftFor(ctx, l, now) {
   return { ...l, headline: headline.slice(0, 120), blurbDraft: draft.slice(0, 500), blurbDraftedAt: now };
 }
 
-// The tick's backstop. Event delivery is at-least-once and can give up, and
-// links written before this handler existed never had an event at all, so the
-// clock sweeps up whatever the lane missed. One a tick, because this is the
-// exception rather than the road.
+// The tick's sweep.
+//
+// This was meant to be the backstop, with onChange as the road. Measured
+// 2026-08-20: thirteen link documents were written by the tick at 19:37 and
+// the onChange handler did not run once, with no dead-letter row to explain
+// it. The lane has a history of exactly this (vibes.diy#4511). So the sweep
+// is carrying the work until the handler is seen to fire, and it is back to
+// three a tick rather than one.
+//
+// Leaving both in place is deliberate: the handler is correct and idempotent,
+// so if the lane starts delivering, the sweep simply finds nothing to do.
 async function dress(ctx, state, now) {
   const links = roundup(await readAll(ctx, DB, "link"));
-  const waiting = links.filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline)).slice(0, 1);
+  const waiting = links.filter((l) => !l.blurb && !l.blurbError && (!l.blurbDraft || !l.headline)).slice(0, 3);
   if (!waiting.length) return state;
 
   let wrote = 0;

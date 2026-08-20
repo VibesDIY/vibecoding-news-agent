@@ -117,14 +117,6 @@ function slug(value) {
     .slice(0, 48);
 }
 
-// Same cheap hash the page uses for its plates, so a thread's shape is stable
-// across redrafts rather than moving every time it is rewritten.
-function hashOfUrl(url) {
-  let h = 0;
-  for (let i = 0; i < String(url).length; i++) h = (h * 31 + String(url).charCodeAt(i)) % 100000;
-  return h;
-}
-
 function isCitationRef(value) {
   return /^(comment|post)[_\s-]?[a-z0-9]{5,}$/i.test(String(value || "").trim());
 }
@@ -639,6 +631,16 @@ const BLURB_RULES = [
   "Line 2 is the take: ONE sentence, twenty five words or fewer. Not two sentences. Not three.",
   "",
 
+  "Takes that work, in different shapes. Do not copy a construction just because it is first:",
+  "",
+  "\"Secure auth, database rules, monitoring, backups, compliance: turns out **the boring parts were the product**.\"",
+  "\"A retry loop bills you for every polite attempt while you sleep, which is **a cheaper lesson to learn from somebody else's thread**.\"",
+  "\"**Nothing here is a platform problem**, unless thirty minutes of patience counts as a platform.\"",
+  "\"If your monthly AI bill has crept past what you would say out loud, **somebody here counted theirs and it was $327**.\"",
+  "\"Two years solo, every tool bolted on, and the invoice quietly reached $327 a month: **the subscriptions were never the small decision**.\"",
+  "\"Five tools named for shipping and none for the morning after, which is **the whole shape of the complaint**.\"",
+  "\"The demo passes, the second year does not: **maintenance is the only benchmark a generated codebase ever really faces**.\"",
+  "",
   "Rules for the take:",
   "- Never narrate the thread or the person who posted it. No 'the original poster', no 'OP', no 'this poster asks', no 'someone in the sub'. The reader sees a quotation from the post and a link to it directly below your sentence, so who said it is already on the page. You are writing the judgment, not the introduction to it.",
   "- Never mention the score or the comment count. Both are printed beside the link, and a sentence spent on them is a sentence not spent on the point.",
@@ -651,19 +653,7 @@ const BLURB_RULES = [
   "",
 ].join("\n");
 
-// Four shapes, one per entry, chosen by the thread's own id.
-//
-// The first version of this file named a single shape that works, gave one
-// example, and got that example back thirteen times. Drafts cannot see each
-// other, so a shape offered as the shape becomes a template. Handing each
-// entry a different one is the same trick the plate uses for its hue: variety
-// by construction rather than by asking for it.
-const TAKE_SHAPES = [
-  'The detail or list, a colon, then the verdict. Like this: "Secure auth, database rules, monitoring, backups, compliance: turns out **the boring parts were the product**."',
-  'A plain declarative statement of what is there, with the judgment riding in the second clause. Like this: "A retry loop bills you for every polite attempt while you sleep, which is **a cheaper lesson to learn from somebody else\'s thread**."',
-  'The judgment first, with the reason attached to it. In the register of "I generally hate Flash on websites, but this is an exception." Like this: "**Nothing here is a platform problem**, unless thirty minutes of patience counts as a platform."',
-  'The reader\'s own problem as the hook, then what the thread does about it. In the register of "Do you want to know how much your jar of change is worth?" Like this: "If your monthly AI bill has crept past what you would say out loud, **somebody here counted theirs and it was $327**."',
-];
+
 
 async function dress(ctx, state, now) {
   // Drafted in the order the round-up will print, so the top of the page gets
@@ -690,13 +680,9 @@ async function dress(ctx, state, now) {
     let headline;
     let raw;
     try {
-      const shape = TAKE_SHAPES[hashOfUrl(l.url) % TAKE_SHAPES.length];
       raw = String(
         await ctx.callAI(
           BLURB_RULES +
-            "Use this shape for this entry, and only this one: " +
-            shape +
-            "\n\n" +
             "THREAD: " +
             l.title +
             "\nPosted in r/" +

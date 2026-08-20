@@ -619,28 +619,28 @@ function roundup(links) {
 // machine blurbs would cost more credibility than the round-up earns.
 
 const BLURB_RULES = [
-  "You are drafting one entry for a link round-up, in the form Boing Boing used for short link posts in 2007.",
+  "You are drafting one entry for a link round-up in the register of Boing Boing in 2007.",
   "",
-  "Two parts.",
+  "That register, from its own copy: delighted more often than clever (\"Check out this awesome tiki aquarium\"), plain when plain will do (\"Jun Takashi designed this bag that looks like a brain. The Brain Bag is knitted from wool.\"), judgments with the reason attached (\"I generally hate Flash on websites, but this is an exception\"), jokes about the thing and never at the expense of the person who posted it.",
   "",
-  "HEADLINE: ours, not the poster's. Boing Boing never reprinted the source's title, it wrote one that carried the conclusion, the joke, or the reason to click. 'Photo reveals the opposite of recycling.' 'Antibacterial products may be bad news.' Under ten words, sentence case, no colon-and-subtitle construction, and never a restatement of the thread title, which the reader sees anyway in the link underneath.",
+  "Answer with exactly two lines.",
   "",
-  "BLURB: a person found this thread, points at the one detail that made them stop, and has an opinion about it.",
+  "Line 1 is a headline in your own words, six to ten words, carrying the point rather than restating the thread's own title.",
   "",
-  "Rules:",
-  "- Lead with the specific detail, never the topic. The reader can already see the topic in the title.",
-  "- Have a view: delighted, annoyed, unconvinced, quietly vindicated. A blurb with no attitude is a summary wearing a hat.",
-  "- Two or three sentences. Forty words is plenty.",
-  "- The reader already sees a large pull quote from this post directly beneath what you write. So do not OPEN with a quotation, and do not hand back the same sentence the quote will show. Quote a phrase inline only when it is doing work in the middle of yours.",
-  "- Wrap one phrase, or at most two, in double asterisks: the line you would want pulled out and set in bold if this were a magazine. Pick the phrase that carries the judgment, not the subject of the sentence. Nothing else in your answer is markdown.",
-  "- Do not reach for the same closing move twice. Especially not a tidy observation about the score and the comment count: that is a formula, and a formula read three times is a tell.",
-  "- Never frame the subreddit as arguing, fighting, piling on, or getting something wrong. A thread with many replies and few votes is not a brawl, it is a lot of people who had something useful to say, and a reader is being sent there to read them. Enthusiasm for what is in the thread, never commentary on the mood of the room.",
-  "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",
-  "- No em-dashes. No rule-of-three cadence. This audience reads both as a machine's fingerprints and says so in the comments.",
-  "- Invent nothing, and that includes your own life. You may have a view. You may not have a past. No 'I have watched people learn this the expensive way', no 'I have been waiting for this thread since March', no claimed memories, no implied years in the community. Attitude yes, biography never.",
-  "- Vary how you open. Not every blurb starts 'The detail that stuck' or 'The trouble starts at' or 'The scary thing here is'. If your first three words would fit any other link on the page, write different ones.",
+  "Line 2 is the take: ONE sentence, twenty five words or fewer. Not two sentences. Not three.",
   "",
-  "Length follows the material. Two good sentences beat four padded ones.",
+  "The shape that works: the concrete detail or list, a colon, then the verdict. Like this:",
+  "\"Secure auth, database rules, monitoring, backups, compliance: turns out **the boring parts were the product**.\"",
+  "",
+  "Rules for the take:",
+  "- Never narrate the thread or the person who posted it. No 'the original poster', no 'OP', no 'this poster asks', no 'someone in the sub'. The reader sees a quotation from the post and a link to it directly below your sentence, so who said it is already on the page. You are writing the judgment, not the introduction to it.",
+  "- Never mention the score or the comment count. Both are printed beside the link, and a sentence spent on them is a sentence not spent on the point.",
+  "- Never frame the subreddit as arguing, fighting, piling on, or getting something wrong. Enthusiasm for what is in the thread, never commentary on the mood of the room.",
+  "- Wrap one phrase in double asterisks: the half carrying the judgment, never the subject. In the example it is the verdict after the colon, not the list before it. Nothing else in your answer is markdown.",
+  "- Do not open on a quotation. Quote a phrase inline only when it does work in the middle of your sentence.",
+  "- Invent nothing, and that includes your own life. You may have a view. You may not have a past, a March, or years in this community.",
+  "- No summary verbs. Nothing explores, delves into, highlights or sheds light on.",
+  "- No em-dashes. No rule-of-three cadence.",
   "",
 ].join("\n");
 
@@ -687,9 +687,7 @@ async function dress(ctx, state, now) {
             // story. Handing every draft the score and the comment count
             // produced the same closing sentence three times running, which is
             // exactly the machine fingerprint this whole file exists to avoid.
-            (l.underseen
-              ? " Far more people replied to this than voted on it, which means the replies are the good part and most of the subreddit never saw them. Worth a clause in the middle if you can make it land, never the closing sentence, never a count followed by what it means, and never described as an argument."
-              : " Do not comment on the score or the comment count. Find the hook in what the post says.") +
+            (l.underseen ? " Far more people replied to this than voted on it, so the replies are the good part. Do not say so in the sentence, just let it inform what you point at." : "") +
             "\nIt opens: " +
             (l.excerpt || "(no text)"),
           // 200 was not enough and the tell was subtle: the blurb came back a

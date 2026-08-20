@@ -48,7 +48,20 @@ the link line where it belongs, as the name of the destination.
 3. **Length follows the material.** A bag gets two sentences, a copyright fight
    gets an essay, and both are the same kind of post. Do not pad an entry to
    match the one above it.
-4. **Do not open with a quotation.** The pull quote sits directly beneath the
+4. **Never narrate the thread or the poster.** No "the original poster", no
+   "OP", no "this poster asks", no "someone in the sub itself". The page shows
+   a quotation from the post and a link to it directly beneath the sentence,
+   so who said it is already there. You are writing the judgment, not the
+   introduction to the judgment. This is what kills most of the length: an
+   early draft spent eleven words on "that's the list the original poster
+   rattles off" before reaching anything worth reading.
+
+5. **Never mention the score or the comment count.** They are printed beside
+   the link and drawn in the plate above it. A sentence spent on them is a
+   sentence not spent on the point, and it was the source of every formula
+   this file has had to ban.
+
+6. **Do not open with a quotation.** The pull quote sits directly beneath the
    commentary, so opening with one says it twice and makes every entry look
    alike. Quote inline when the phrase does work in the middle of your sentence.
 5. **The numbers are a hook once, not every time.** Two points and forty

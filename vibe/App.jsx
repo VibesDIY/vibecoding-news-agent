@@ -282,9 +282,8 @@ export default function App() {
       ) : (
         <>
           <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-            {report.day} &middot; {report.counts.links} links, {report.counts.underseen} of them with more discussion
-            than votes &middot; working below: {report.counts.leads} claims, {report.counts.entities} counted tools,{" "}
-            {report.counts.ranked} confirmed
+            {report.day} &middot; {report.counts.links} links, {report.counts.underseen} of them with more talk than
+            votes
           </p>
 
           {report.roundup && report.roundup.length ? (
@@ -302,56 +301,74 @@ export default function App() {
             </section>
           ) : null}
 
-          {report.ranked && report.ranked.length ? (
-            <section>
-              <h2 style={{ fontSize: 20, marginBottom: 4 }}>How much the subreddit talks about each tool</h2>
-              <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-                Counted across the whole index and confirmed by hand. These numbers describe r/vibecoding overall. They
-                are not an answer to the questions this report asked, and reading them as one would be a mistake the
-                page is trying not to invite.
-              </p>
-              <ul style={{ padding: 0, margin: 0 }}>
-                {report.ranked.map((f, i) => (
-                  <Item key={f.entity + i} f={f} rank={i + 1} />
-                ))}
-              </ul>
-            </section>
-          ) : (
-            <section>
-              <h2 style={{ fontSize: 20, marginBottom: 4 }}>Nothing is confirmed yet</h2>
-              <p style={{ fontSize: 15, marginTop: 0 }}>
-                Nothing below has survived a by-name query and a verification pass, so nothing is ranked. That is the
-                honest state of this report, and the list underneath is what the agent has to work with.
-              </p>
-            </section>
-          )}
-
-          {report.unverified && report.unverified.length ? (
-            <section style={{ marginTop: 28 }}>
-              <h2 style={{ fontSize: 20, marginBottom: 4 }}>Counted, not yet checked</h2>
-              <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-                Index-wide counts again, for entities nobody has confirmed yet as real and distinct. Listed rather than
-                ranked, and counted on the line above so you can see how much of the table is unchecked.
-              </p>
-              <ul style={{ padding: 0, margin: 0 }}>
-                {report.unverified.map((f, i) => (
-                  <Item key={f.entity + i} f={f} />
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          <section style={{ marginTop: 28 }}>
-            <h2 style={{ fontSize: 20, marginBottom: 4 }}>Leads</h2>
-            <p style={{ fontSize: 14, color: C.muted, marginTop: 0 }}>
-              Pulled from a broad question rather than a query naming the thing. Read these as pointers to threads worth
-              opening, not as measurements.
+          {/* Everything under the round-up is the working material it was
+              chosen from. It reads as reference rather than as prose, so it
+              sets in columns: one on a phone, more as the screen allows. */}
+          <section style={{ marginTop: 34, borderTop: "2px solid " + C.fg, paddingTop: 20 }}>
+            <h2 style={{ fontSize: 20, margin: "0 0 4px" }}>The working</h2>
+            <p style={{ fontSize: 14, color: C.muted, margin: "0 0 18px" }}>
+              What the round-up was chosen from. Counts are index-wide: they describe r/vibecoding overall rather than
+              the questions behind this edition.
             </p>
-            <ul style={{ padding: 0, margin: 0 }}>
-              {(report.leads || []).map((f, i) => (
-                <Item key={f.entity + i} f={f} />
+
+            <div
+              style={{
+                display: "grid",
+                // One column on a phone, two in the middle, three at full
+                // width. The prose column stays 760 wide because that is what
+                // reads well; only the reference material packs.
+                gridTemplateColumns: "repeat(auto-fill, minmax(215px, 1fr))",
+                gap: "8px 28px",
+                alignItems: "start",
+              }}
+            >
+              {report.ranked && report.ranked.length ? (
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <h3 style={{ fontSize: 15, margin: "0 0 6px" }}>Counted and confirmed</h3>
+                </div>
+              ) : null}
+              {(report.ranked || []).map((f, i) => (
+                <Item key={"r" + i} f={f} rank={i + 1} />
               ))}
-            </ul>
+
+              {report.unverified && report.unverified.length ? (
+                <div style={{ gridColumn: "1 / -1", marginTop: 14 }}>
+                  <h3 style={{ fontSize: 15, margin: "0 0 6px" }}>Counted, not yet checked</h3>
+                </div>
+              ) : null}
+              {(report.unverified || []).map((f, i) => (
+                <Item key={"u" + i} f={f} />
+              ))}
+
+              {report.leads && report.leads.length ? (
+                <div style={{ gridColumn: "1 / -1", marginTop: 14 }}>
+                  <h3 style={{ fontSize: 15, margin: "0 0 6px" }}>Leads</h3>
+                  <p style={{ fontSize: 13, color: C.muted, margin: "0 0 6px" }}>
+                    Claims pulled from a synthesis. Pointers to threads, not measurements.
+                  </p>
+                </div>
+              ) : null}
+              {(report.leads || []).map((f, i) => (
+                <Item key={"l" + i} f={f} />
+              ))}
+            </div>
+          </section>
+
+          {/* The honest state of the report, at the end, where a reader
+              arrives after seeing what it is based on rather than before. */}
+          <section style={{ marginTop: 30, fontSize: 14, color: C.muted }}>
+            {report.counts.ranked === 0 ? (
+              <p style={{ margin: 0 }}>
+                Nothing here has survived a by-name query and a verification pass, so nothing is ranked. That is the
+                honest state of this edition: {report.counts.entities} counted tools, none of them checked yet,{" "}
+                {report.counts.leads} claims, {report.counts.links} links.
+              </p>
+            ) : (
+              <p style={{ margin: 0 }}>
+                {report.counts.ranked} of {report.counts.entities} counted tools have been checked by hand.{" "}
+                {report.counts.unverified} have not, and are listed rather than ranked.
+              </p>
+            )}
           </section>
         </>
       )}

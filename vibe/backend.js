@@ -633,6 +633,7 @@ const BLURB_RULES = [
   "- Two or three sentences. Forty words is plenty.",
   "- The reader already sees a large pull quote from this post directly beneath what you write. So do not OPEN with a quotation, and do not hand back the same sentence the quote will show. Quote a phrase inline only when it is doing work in the middle of yours.",
   "- Do not reach for the same closing move twice. Especially not a tidy observation about the score and the comment count: that is a formula, and a formula read three times is a tell.",
+  "- Never frame the subreddit as arguing, fighting, piling on, or getting something wrong. A thread with many replies and few votes is not a brawl, it is a lot of people who had something useful to say, and a reader is being sent there to read them. Enthusiasm for what is in the thread, never commentary on the mood of the room.",
   "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",
   "- No em-dashes. No rule-of-three cadence. This audience reads both as a machine's fingerprints and says so in the comments.",
   "- Invent nothing, and that includes your own life. You may have a view. You may not have a past. No 'I have watched people learn this the expensive way', no 'I have been waiting for this thread since March', no claimed memories, no implied years in the community. Attitude yes, biography never.",
@@ -686,7 +687,7 @@ async function dress(ctx, state, now) {
             // produced the same closing sentence three times running, which is
             // exactly the machine fingerprint this whole file exists to avoid.
             (l.underseen
-              ? " The discussion ran far ahead of the votes. That is worth a clause somewhere in the middle if you can make it land, never the closing sentence, and never phrased as a count followed by what it means."
+              ? " Far more people replied to this than voted on it, which means the replies are the good part and most of the subreddit never saw them. Worth a clause in the middle if you can make it land, never the closing sentence, never a count followed by what it means, and never described as an argument."
               : " Do not comment on the score or the comment count. Find the hook in what the post says.") +
             "\nIt opens: " +
             (l.excerpt || "(no text)"),

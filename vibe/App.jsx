@@ -28,13 +28,12 @@ function Masthead({ status }) {
       <h1 style={{ fontSize: 30, margin: "0 0 6px", letterSpacing: "-0.01em" }}>r/vibecoding link round-up</h1>
       <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55 }}>
         Somebody has to read the whole subreddit so you do not have to. That somebody is a program, which reads all of
-        it, has no opinions worth having, and hands the good bits to a person who does. What follows is the good bits,
-        with the arguing left in.
+        it, has no opinions worth having, and hands the good bits to a person who does. What follows is the good bits.
       </p>
       <p style={{ margin: "12px 0 0", fontSize: 13, color: C.muted }}>
         Each entry opens with its own shape: the top row is votes, the bottom row is replies. When the bottom row runs
-        away from the top one, the subreddit argued about something it never got round to upvoting, and those are
-        marked in red.
+        away from the top one, a lot of people had something to say and most of the subreddit never saw it. Those
+        are marked in red, and they are usually the ones worth opening.
       </p>
       {status && status.state !== "ok" ? (
         <p style={{ margin: "10px 0 0", fontSize: 13, color: C.accent }}>Collector status: {status.message}</p>

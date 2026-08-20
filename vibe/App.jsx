@@ -31,10 +31,10 @@ function Masthead({ status }) {
         it, has no opinions worth having, and hands the good bits to a person who does. What follows is the good bits,
         with the arguing left in.
       </p>
-      <p style={{ margin: "10px 0 0", fontSize: 13, color: C.muted }}>
-        This page is the draft. The writing under each link is machine-drafted and marked as such until a person has
-        been through it. Nothing here has been posted to r/vibecoding, and a person deciding to post is what approval
-        means.
+      <p style={{ margin: "12px 0 0", fontSize: 13, color: C.muted }}>
+        Each entry opens with its own shape: the top row is votes, the bottom row is replies. When the bottom row runs
+        away from the top one, the subreddit argued about something it never got round to upvoting, and those are
+        marked in red.
       </p>
       {status && status.state !== "ok" ? (
         <p style={{ margin: "10px 0 0", fontSize: 13, color: C.accent }}>Collector status: {status.message}</p>
@@ -100,34 +100,61 @@ function Tag({ children, tone }) {
   );
 }
 
+// A visual fingerprint for each entry, drawn from the thread itself.
+//
+// No screenshot and no illustration. Reddit refuses machine reads, so a
+// screenshot would mean pointing another service at a page we cannot verify,
+// and a generated picture of a conversation is decoration pretending to be
+// evidence. What each thread does have is a shape: how many people voted and
+// how many people replied.
+//
+// So the plate draws that. A row of votes over a row of replies, hue keyed to
+// the thread id so no two entries look alike, and the accent colour when the
+// replies ran away from the votes. It is ornament that happens to be the
+// argument the page is making, and you can read the gap across the whole
+// column without looking at a single number.
+function hashOf(str) {
+  let h = 0;
+  for (let i = 0; i < String(str).length; i++) h = (h * 31 + String(str).charCodeAt(i)) % 100000;
+  return h;
+}
+
+function Plate({ l }) {
+  const h = hashOf(l.url);
+  const hue = h % 360;
+  const votes = Math.max(0, Math.min(l.score || 0, 44));
+  const replies = Math.max(0, Math.min(l.comments || 0, 44));
+  const skew = (h % 7) - 3;
+  const ink = l.underseen ? C.accent : "hsl(" + hue + ", 42%, 42%)";
+  const wash = "hsl(" + hue + ", 46%, 94%)";
+  const mark = (n, y, w) =>
+    Array.from({ length: n }, (_, i) => (
+      <rect key={y + "-" + i} x={6 + i * 9} y={y} width={w} height={w === 3 ? 14 : 5} rx={1.5} fill={ink} />
+    ));
+  return (
+    <svg
+      viewBox="0 0 420 56"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      style={{ display: "block", width: "100%", height: 56, background: wash, borderRadius: 4, marginBottom: 14 }}
+    >
+      <g transform={"translate(" + skew + ",0)"}>
+        {mark(votes, 10, 5)}
+        {mark(replies, 34, 3)}
+      </g>
+    </svg>
+  );
+}
+
 function LinkRow({ l }) {
   const commentary = l.blurb || l.blurbDraft;
   return (
     <li style={{ listStyle: "none", padding: "34px 0", borderBottom: "1px solid " + C.line }}>
       {/* The writing comes first. A reader decides whether they care from the
           commentary, not from a headline they have to interpret. */}
-      {commentary ? (
-        <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55 }}>
-          {l.blurb ? null : (
-            <span
-              style={{
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: C.muted,
-                border: "1px solid " + C.line,
-                borderRadius: 3,
-                padding: "1px 5px",
-                marginRight: 8,
-                verticalAlign: "middle",
-              }}
-            >
-              draft
-            </span>
-          )}
-          {commentary}
-        </p>
-      ) : null}
+      <Plate l={l} />
+
+      {commentary ? <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55 }}>{commentary}</p> : null}
 
       {l.excerpt ? (
         <blockquote

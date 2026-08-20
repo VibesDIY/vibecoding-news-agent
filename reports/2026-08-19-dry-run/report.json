@@ -1,6 +1,6 @@
 {
-  "_id": "report:2026-08-19",
-  "day": "2026-08-19",
+  "_id": "report:2026-08-20",
+  "day": "2026-08-20",
   "type": "report",
   "leads": [
     {
@@ -406,7 +406,7 @@
     "underseen": 3,
     "unverified": 15,
     "blurbsCleared": 0,
-    "blurbsStillDrafts": 3,
+    "blurbsStillDrafts": 11,
     "citedWithNoThread": 2
   },
   "ranked": [],
@@ -422,7 +422,7 @@
       "comments": 40,
       "subreddit": "vibecoding",
       "underseen": true,
-      "blurbDraft": null,
+      "blurbDraft": "The shopping list nobody puts in the demo video: secure auth, database rules, backups, compliance. Framing that as the point where apps \"break\" gets it backwards, and judging by how far the replies ran ahead of the votes, plenty of people know it. That list is the job.",
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
@@ -435,7 +435,7 @@
       "comments": 92,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": null,
+      "blurbDraft": "Maintenance is the word missing from every LinkedIn victory lap about the full stack app someone shipped last weekend, and this poster noticed. Deploying is the easy half; the question is who patches the thing in month seven. The answers below are less confident than the posts.",
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
@@ -448,7 +448,7 @@
       "comments": 15,
       "subreddit": "vibecoding",
       "underseen": true,
-      "blurbDraft": null,
+      "blurbDraft": "Five tools get named for the easy part and not one for what comes after. That gap pulled far more replies than the upvote count would predict, and the answers keep landing in the same place: shipping fast and staying shipped are separate skills.",
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
@@ -461,7 +461,7 @@
       "comments": 71,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": "Thirty minutes is the whole runway: \"if it takes more than 30 mins to get the bare bones running, I start drifting onto ot...\" and two thirds of his projects die there. Nineteen points against 71 comments, which is a room that would rather argue about the number than agree on one.",
+      "blurbDraft": "Thirty minutes is the whole runway here. If the bare bones aren't running by then, this poster drifts off to the next idea, and two thirds of their projects die that way. Framed as a tooling failure, but that abandonment rate sounds like an attention budget, and it's worth asking which one is actually broken.",
       "surfacedBy": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?"
     },
     {
@@ -474,7 +474,7 @@
       "comments": 8,
       "subreddit": "vibecoding",
       "underseen": true,
-      "blurbDraft": null,
+      "blurbDraft": "Nobody audits their own subscriptions, which is how a pile of AI assistants reaches $327 a month before anyone does the arithmetic. The votes here sat at zero while the replies kept arriving, which fits: the finding is duller than \"hidden cost.\" Recurring charges aren't hidden, they're just boring to look at.",
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
@@ -487,7 +487,7 @@
       "comments": 94,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": "Three weeks and \"with just $50 you managed to build and launch your first real app,\" and then one user hits a case nobody prompted for. Nineteen points against 94 comments, which is r/vibecoding arguing hard about a complaint it declined to upvote.",
+      "blurbDraft": "Fifty dollars and three weeks with Lovable buys you a shipped app and no working idea of what any of it does, which holds up beautifully until a user mentions something broke. That isn't a debugging problem, it's a comprehension problem, and you can't prompt your way back into a codebase you never read.",
       "surfacedBy": "What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?"
     },
     {
@@ -500,7 +500,7 @@
       "comments": 4,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": null,
+      "blurbDraft": "A retry loop is the villain here, and it's the right villain: nothing runs up a bill faster than code that keeps politely asking again. Collecting other people's scars before you earn your own is the cheapest research available.",
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
@@ -513,7 +513,7 @@
       "comments": 0,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": "The entire post is the title typed twice, which is either a submission error or the most honest possible demonstration of the last 10%. Two points, zero comments, in a subreddit that presumably has some experience with this: nobody wanted to be the one to answer \"why is a vibe coded project stuck at 80-90%?\"",
+      "blurbDraft": "That 80-90% number keeps showing up with unnerving consistency, which suggests it isn't a plateau so much as the point where the remaining work stops being describable in a prompt. Asking why is at least an improvement on generating another feature nobody can debug.",
       "surfacedBy": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?"
     },
     {
@@ -526,7 +526,7 @@
       "comments": 0,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": null,
+      "blurbDraft": "A product manager for SaaS startups is the one saying nobody runs the numbers before the AI feature ships. That is the part worth sitting with: the person in the room where it gets approved has watched the cost question simply not come up.",
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
@@ -539,7 +539,7 @@
       "comments": 2,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": null,
+      "blurbDraft": "Whiplash is the real find here: the same employers who ordered staff to use AI for everything are now metering it. A \"full 180\" that fast means nobody priced the enthusiasm phase, and the invoice showed up before the workflow did.",
       "surfacedBy": "What do people say about unexpected costs, token spend or API bills from AI coding tools?"
     },
     {
@@ -552,7 +552,7 @@
       "comments": 0,
       "subreddit": "vibecoding",
       "underseen": false,
-      "blurbDraft": null,
+      "blurbDraft": "Framing the whole genre as a choice between artisanal-teapot snobbery and \"I used to run Bitcoin scams\" testimonial is unkind and also accurate. The question underneath is boringly reasonable: show one of these that somebody was still patching in month twelve.",
       "surfacedBy": "Why do people say they abandoned, rewrote or gave up on a vibe coded project?"
     },
     {
@@ -706,5 +706,5 @@
       "verifiedNote": null
     }
   ],
-  "generatedAt": "2026-08-19T23:19:59.718Z"
+  "generatedAt": "2026-08-20T01:19:59.750Z"
 }

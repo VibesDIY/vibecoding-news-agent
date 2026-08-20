@@ -1,6 +1,6 @@
-# r/vibecoding round-up 2026-08-19
+# r/vibecoding round-up 2026-08-20
 
-Generated 2026-08-19T23:19:59.718Z by the scheduled generator in `vibe/`.
+Generated 2026-08-20T01:19:59.750Z by the scheduled generator in `vibe/`.
 
 **This is analysis, not a post. The published write-up is a separate pass with a stronger model, and a person edits it before it goes anywhere.**
 
@@ -10,6 +10,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
+The shopping list nobody puts in the demo video: secure auth, database rules, backups, compliance. Framing that as the point where apps "break" gets it backwards, and judging by how far the replies ran ahead of the votes, plenty of people know it. That list is the job.
+
 > Vibe coding is great for building quick MVPs, but I feel many apps break once they face real-world requirements. The demo may work, but production needs secure auth, database rules, deployment, monitoring, testing, backups, complianc...
 
 [Can vibe-coded apps actually survive production?](https://reddit.com/r/vibecoding/comments/1tumgz0/) · r/vibecoding · u/yash_maanikya · 2 points · 40 comments · more talk than votes
@@ -17,6 +19,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 *Found asking: What problems do people report after deploying an app they vibe coded? What breaks once real users are on it?*
 
 ---
+
+Maintenance is the word missing from every LinkedIn victory lap about the full stack app someone shipped last weekend, and this poster noticed. Deploying is the easy half; the question is who patches the thing in month seven. The answers below are less confident than the posts.
 
 > I have vibe coded a few things myself, and constantly see linkedin posts from nontechnical folks talking about how they are now deploying full stack applications for their business. I'm confused - how is this stuff maintained? Is it ...
 
@@ -26,6 +30,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
+Five tools get named for the easy part and not one for what comes after. That gap pulled far more replies than the upvote count would predict, and the answers keep landing in the same place: shipping fast and staying shipped are separate skills.
+
 > Vibe coding has made it crazy fast to go from idea to working app. But I'm wondering what happens after that first version is live. For people who have built something with Cursor, Lovable, Bolt, Replit, Claude, etc....
 
 [What happens when your vibe-coded app starts getting real users?](https://reddit.com/r/vibecoding/comments/1v7m1hj/) · r/vibecoding · u/Sea_Faithlessness198 · 2 points · 15 comments · more talk than votes
@@ -34,7 +40,7 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
-*(draft)* Thirty minutes is the whole runway: "if it takes more than 30 mins to get the bare bones running, I start drifting onto ot..." and two thirds of his projects die there. Nineteen points against 71 comments, which is a room that would rather argue about the number than agree on one.
+Thirty minutes is the whole runway here. If the bare bones aren't running by then, this poster drifts off to the next idea, and two thirds of their projects die that way. Framed as a tooling failure, but that abandonment rate sounds like an attention budget, and it's worth asking which one is actually broken.
 
 > I abandon around 2/3 of vibe coding projects I start due to the inability of the platform to produce a working app - I’m not talking about landing pages. Roughly speaking, if it takes more than 30 mins to get the bare bones running, I start drifting onto ot...
 
@@ -44,6 +50,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
+Nobody audits their own subscriptions, which is how a pile of AI assistants reaches $327 a month before anyone does the arithmetic. The votes here sat at zero while the replies kept arriving, which fits: the finding is duller than "hidden cost." Recurring charges aren't hidden, they're just boring to look at.
+
 > Been building my SaaS solo for 2 years. Early on I threw every AI coding tool at my workflow thinking it'd make me faster. It did ! but my monthly AI bill crept up to $327. I didn't notice until I actually...
 
 [The hidden cost of AI coding tools nobody talks about (and how I fixed mine)](https://reddit.com/r/vibecoding/comments/1uvo0o5/) · r/vibecoding · u/Proper_Violinist1371 · 0 points · 8 comments · more talk than votes
@@ -52,7 +60,7 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
-*(draft)* Three weeks and "with just $50 you managed to build and launch your first real app," and then one user hits a case nobody prompted for. Nineteen points against 94 comments, which is r/vibecoding arguing hard about a complaint it declined to upvote.
+Fifty dollars and three weeks with Lovable buys you a shipped app and no working idea of what any of it does, which holds up beautifully until a user mentions something broke. That isn't a debugging problem, it's a comprehension problem, and you can't prompt your way back into a codebase you never read.
 
 > So you spent three weeks vibecoding with Lovable. You ship your app. You're proud of yourself - with just $50 you managed to build and launch your first real app. Users seem happy. Life is good lol.Then someone cas...
 
@@ -62,6 +70,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
+A retry loop is the villain here, and it's the right villain: nothing runs up a bill faster than code that keeps politely asking again. Collecting other people's scars before you earn your own is the cheapest research available.
+
 > Hey, early stage founder here trying to avoid expensive mistakes before I make them. Talking to other devs and the one thing that keeps coming up is unexpected API bills. A retry loop here...
 
 [Building an AI product and terrified of runaway API costs. What have you been burned by?](https://reddit.com/r/vibecoding/comments/1tpxtsg/) · r/vibecoding · u/thisismetrying2506 · 6 points · 4 comments
@@ -70,7 +80,7 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
-*(draft)* The entire post is the title typed twice, which is either a submission error or the most honest possible demonstration of the last 10%. Two points, zero comments, in a subreddit that presumably has some experience with this: nobody wanted to be the one to answer "why is a vibe coded project stuck at 80-90%?"
+That 80-90% number keeps showing up with unnerving consistency, which suggests it isn't a plateau so much as the point where the remaining work stops being describable in a prompt. Asking why is at least an improvement on generating another feature nobody can debug.
 
 > Why is a vibe coded project stuck at 80-90% ?
 
@@ -80,6 +90,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
+A product manager for SaaS startups is the one saying nobody runs the numbers before the AI feature ships. That is the part worth sitting with: the person in the room where it gets approved has watched the cost question simply not come up.
+
 > I work as a PM for SaaS startups and when new AI tools get added I don't think there is a big consideration for costs as scale occurs (or will occur, hopefully). I'm thinking along the lines of those who are shipping fa...
 
 [How are you thinking about AI API costs if your project scales?](https://reddit.com/r/vibecoding/comments/1rx9cds/) · r/vibecoding · u/NeoTree69 · 1 points · 0 comments
@@ -88,6 +100,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 
 ---
 
+Whiplash is the real find here: the same employers who ordered staff to use AI for everything are now metering it. A "full 180" that fast means nobody priced the enthusiasm phase, and the invoice showed up before the workflow did.
+
 > Just like everyone else, I've been seeing the recent news about how AI bills have been skyrocketing for companies. I've been seeing people Reddit posts / comments about how their companies have done a full 180 from "use AI for everything" to "limit ...
 
 [How are people managing AI costs?](https://reddit.com/r/vibecoding/comments/1u0uddq/) · r/vibecoding · u/Excellent_Knee_7109 · 1 points · 2 comments
@@ -95,6 +109,8 @@ Somebody has to read the whole subreddit so you do not have to. That somebody is
 *Found asking: What do people say about unexpected costs, token spend or API bills from AI coding tools?*
 
 ---
+
+Framing the whole genre as a choice between artisanal-teapot snobbery and "I used to run Bitcoin scams" testimonial is unkind and also accurate. The question underneath is boringly reasonable: show one of these that somebody was still patching in month twelve.
 
 > It's either "Look at them vibe coding an app that was not hand crafted like a unique Japanese tea pot, that requires a unique handjob finish." Or it is, "I used to run Bitcoin scams...
 

@@ -57,16 +57,21 @@ def main():
     day = sys.argv[sys.argv.index("--day") + 1] if "--day" in sys.argv else None
     os.makedirs(outdir, exist_ok=True)
 
-    reports = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"report"', "--json"], vibe))
-    if day:
-        reports = [r for r in reports if r.get("day") == day]
-    if not reports:
-        print("no report in the app yet")
+    # Read the report by id, never by query. A query over this database returns
+    # more than the CLI will hand back in one piece and the JSON arrives cut in
+    # half, which fails as a parse error a long way from its cause.
+    if not day:
+        day = subprocess.run(["date", "-u", "+%Y-%m-%d"], text=True, capture_output=True).stdout.strip()
+    report = docs(cli(["db", "get", "report:" + day, "--db", "findings", "--json"], vibe))
+    if not report:
+        print(f"no report for {day} in the app yet")
         sys.exit(1)
-    report = sorted(reports, key=lambda r: r.get("day", ""))[-1]
+    report = report[0]
 
-    entities = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"entity"', "--json"], vibe))
-    findings = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"finding"', "--json"], vibe))
+    entities = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"entity"',
+                         "--limit", "40", "--json"], vibe))
+    findings = docs(cli(["db", "query", "type", "--db", "findings", "--key", '"finding"',
+                         "--limit", "40", "--json"], vibe))
 
     json.dump(report, open(os.path.join(outdir, "report.json"), "w"), indent=2)
     json.dump(sorted(entities, key=lambda e: -(e.get("mentions") or 0)),
@@ -96,7 +101,7 @@ def main():
     for l in roundup:
         commentary = l.get("blurb") or l.get("blurbDraft")
         if commentary:
-            md.append(("*(draft)* " if not l.get("blurb") else "") + commentary)
+            md.append(commentary)
             md.append("")
         if l.get("excerpt"):
             ex = l["excerpt"]

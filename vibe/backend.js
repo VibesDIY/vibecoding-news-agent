@@ -632,6 +632,7 @@ const BLURB_RULES = [
   "- Have a view: delighted, annoyed, unconvinced, quietly vindicated. A blurb with no attitude is a summary wearing a hat.",
   "- Two or three sentences. Forty words is plenty.",
   "- The reader already sees a large pull quote from this post directly beneath what you write. So do not OPEN with a quotation, and do not hand back the same sentence the quote will show. Quote a phrase inline only when it is doing work in the middle of yours.",
+  "- Wrap one phrase, or at most two, in double asterisks: the line you would want pulled out and set in bold if this were a magazine. Pick the phrase that carries the judgment, not the subject of the sentence. Nothing else in your answer is markdown.",
   "- Do not reach for the same closing move twice. Especially not a tidy observation about the score and the comment count: that is a formula, and a formula read three times is a tell.",
   "- Never frame the subreddit as arguing, fighting, piling on, or getting something wrong. A thread with many replies and few votes is not a brawl, it is a lot of people who had something useful to say, and a reader is being sent there to read them. Enthusiasm for what is in the thread, never commentary on the mood of the room.",
   "- No summary verbs. Nothing explores, delves into, highlights or sheds light on. If your sentence would survive being pasted under a different link, delete it.",

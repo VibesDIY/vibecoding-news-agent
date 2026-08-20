@@ -145,6 +145,18 @@ function Plate({ l }) {
   );
 }
 
+// The commentary arrives with one or two phrases wrapped in asterisks, the
+// way a person marks a pull line while writing. Nothing else about the text is
+// markdown, so this splits on that one pattern rather than pulling in a parser.
+function Emphasised({ text }) {
+  const parts = String(text || "").split(/\*\*(.+?)\*\*/g);
+  return (
+    <>
+      {parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}
+    </>
+  );
+}
+
 function LinkRow({ l }) {
   const commentary = l.blurb || l.blurbDraft;
   return (
@@ -157,7 +169,11 @@ function LinkRow({ l }) {
         <h2 style={{ margin: "0 0 8px", fontSize: 27, lineHeight: 1.2, letterSpacing: "-0.01em" }}>{l.headline}</h2>
       ) : null}
 
-      {commentary ? <p style={{ margin: 0, fontSize: 19, lineHeight: 1.55 }}>{commentary}</p> : null}
+      {commentary ? (
+        <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6 }}>
+          <Emphasised text={commentary} />
+        </p>
+      ) : null}
 
       {l.excerpt ? (
         <blockquote

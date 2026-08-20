@@ -102,6 +102,8 @@ def main():
         if l.get("headline"):
             md.append("### " + l["headline"])
             md.append("")
+        # The commentary carries its own double-asterisk emphasis, which is
+        # already markdown, so it passes through untouched here.
         commentary = l.get("blurb") or l.get("blurbDraft")
         if commentary:
             md.append(commentary)
